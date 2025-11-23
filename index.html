@@ -342,43 +342,97 @@
         </div>
       </div>
 
-      <!-- Mobile Calculator Wizard -->
+      <!-- Mobile Calculator Wizard - ПРЕМИУМ ПЕРЕРАБОТАННАЯ ВЕРСИЯ -->
       <div class="calculator-mobile" id="calculatorMobile">
-        <div class="mobile-wizard">
-          <div class="mobile-price-bar">
-            <span class="mobile-price-label">Стоимость:</span>
-            <span class="mobile-price-value" id="mobilePriceValue">0 ₽</span>
-          </div>
-          <div class="mobile-wizard-steps">
-            <div class="mobile-step active" data-step="1">
-              <h3>Выберите класс автомобиля</h3>
-              <div class="mobile-class-options" id="mobileClassOptions"></div>
+        <div class="mobile-wizard-new">
+          <!-- Шаг 1: Выбор марки -->
+          <div class="mobile-wizard-step active" data-step="1">
+            <h3 class="mobile-step-title">Выберите марку автомобиля</h3>
+            <div class="mobile-search-box">
+              <input type="text" id="mobileBrandSearch" placeholder="Поиск марки..." autocomplete="off" />
             </div>
-            <div class="mobile-step" data-step="2">
-              <h3>Выберите марку</h3>
-              <div class="mobile-search-container">
-                <input type="text" id="mobileModelSearch" placeholder="Поиск марки..." tabindex="0" />
+            <div class="mobile-chips-scroll" id="mobileBrandsChips">
+              <!-- Горизонтальные чипсы марок будут здесь -->
+            </div>
+          </div>
+
+          <!-- Шаг 2: Выбор модели -->
+          <div class="mobile-wizard-step" data-step="2">
+            <h3 class="mobile-step-title">Выберите модель</h3>
+            <div class="mobile-selected-brand" id="mobileSelectedBrand"></div>
+            <div class="mobile-class-badge" id="mobileClassBadge" style="display: none;">
+              <span class="badge-label">Класс:</span>
+              <span class="badge-value" id="mobileClassName"></span>
+            </div>
+            <div class="mobile-chips-scroll" id="mobileModelsChips">
+              <!-- Горизонтальные чипсы моделей будут здесь -->
+            </div>
+          </div>
+
+          <!-- Шаг 3: Выбор услуги -->
+          <div class="mobile-wizard-step" data-step="3">
+            <h3 class="mobile-step-title">Выберите услугу</h3>
+            <div class="mobile-selected-car" id="mobileSelectedCar"></div>
+            
+            <!-- Пакеты услуг -->
+            <div class="mobile-packages-section" id="mobilePackagesSection">
+              <h4 class="mobile-section-subtitle">Пакеты услуг</h4>
+              <div class="mobile-packages-grid" id="mobilePackagesGrid">
+                <!-- Пакеты будут здесь -->
               </div>
-              <div class="mobile-brands-list" id="mobileBrandsList"></div>
             </div>
-            <div class="mobile-step" data-step="3">
-              <h3>Выберите модель</h3>
-              <div class="mobile-models-list" id="mobileModelsList"></div>
-            </div>
-            <div class="mobile-step" data-step="4">
-              <h3>Выберите зоны оклейки</h3>
-              <div class="mobile-zones-container" id="mobileZonesContainer"></div>
+
+            <!-- Или зоны вручную -->
+            <div class="mobile-zones-section" id="mobileZonesSection">
+              <h4 class="mobile-section-subtitle">Выбрать зоны вручную</h4>
+              <div class="mobile-zones-list" id="mobileZonesList">
+                <!-- Зоны будут здесь -->
+              </div>
             </div>
           </div>
-          <div class="mobile-wizard-nav">
-            <button class="mobile-nav-btn mobile-nav-prev" id="mobilePrevBtn" tabindex="0">Назад</button>
-            <div class="mobile-steps-indicator">
-              <span class="mobile-step-dot active" data-step="1"></span>
-              <span class="mobile-step-dot" data-step="2"></span>
-              <span class="mobile-step-dot" data-step="3"></span>
-              <span class="mobile-step-dot" data-step="4"></span>
+
+          <!-- Шаг 4: Итог -->
+          <div class="mobile-wizard-step" data-step="4">
+            <h3 class="mobile-step-title">Проверьте данные</h3>
+            <div class="mobile-summary-card">
+              <div class="mobile-summary-item">
+                <span class="summary-label">Марка:</span>
+                <span class="summary-value" id="summaryBrand">—</span>
+              </div>
+              <div class="mobile-summary-item">
+                <span class="summary-label">Модель:</span>
+                <span class="summary-value" id="summaryModel">—</span>
+              </div>
+              <div class="mobile-summary-item">
+                <span class="summary-label">Класс:</span>
+                <span class="summary-value" id="summaryClass">—</span>
+              </div>
+              <div class="mobile-summary-item">
+                <span class="summary-label">Услуга:</span>
+                <span class="summary-value" id="summaryService">—</span>
+              </div>
+              <div class="mobile-summary-total">
+                <span class="summary-label">Итого:</span>
+                <span class="summary-value-total" id="summaryTotal">0 ₽</span>
+              </div>
             </div>
-            <button class="mobile-nav-btn mobile-nav-next" id="mobileNextBtn" tabindex="0">Далее</button>
+            <button class="mobile-order-btn" id="mobileOrderBtn">
+              Записаться на оклейку
+            </button>
+          </div>
+
+          <!-- Фиксированная нижняя панель -->
+          <div class="mobile-wizard-footer">
+            <button class="mobile-footer-btn mobile-footer-prev" id="mobileFooterPrev" style="display: none;">
+              Назад
+            </button>
+            <div class="mobile-footer-total">
+              <span class="footer-total-label">ИТОГО:</span>
+              <span class="footer-total-value" id="mobileFooterTotal">0 ₽</span>
+            </div>
+            <button class="mobile-footer-btn mobile-footer-next" id="mobileFooterNext" style="display: none;">
+              Далее
+            </button>
           </div>
         </div>
       </div>
@@ -1226,17 +1280,942 @@
       videoPlayBtn.onclick = handleVideoClick;
     };
 
+    // ============================================
+    // НОВЫЙ ПРЕМИУМ МОБИЛЬНЫЙ КАЛЬКУЛЯТОР
+    // ============================================
+    const initMobileCalculator = () => {
+      if (!window.calculator) {
+        setTimeout(initMobileCalculator, 100);
+        return;
+      }
+
+      const wizard = document.querySelector('.mobile-wizard-new');
+      if (!wizard) return; // Старая версия - пропускаем
+
+      const steps = wizard.querySelectorAll('.mobile-wizard-step');
+      let currentStep = 1;
+      const totalSteps = 4;
+
+      // Элементы управления
+      const footerPrev = document.getElementById('mobileFooterPrev');
+      const footerNext = document.getElementById('mobileFooterNext');
+      const footerTotal = document.getElementById('mobileFooterTotal');
+      const orderBtn = document.getElementById('mobileOrderBtn');
+
+      // Функция показа шага с анимацией
+      const showStep = (stepNum, direction = 'next') => {
+        steps.forEach((step, index) => {
+          const stepNumber = parseInt(step.dataset.step);
+          step.classList.remove('active', 'prev', 'next');
+          
+          if (stepNumber === stepNum) {
+            step.classList.add('active', direction);
+            setTimeout(() => step.classList.remove('prev', 'next'), 300);
+          }
+        });
+
+        // Управление кнопками
+        if (footerPrev) {
+          footerPrev.style.display = stepNum === 1 ? 'none' : 'flex';
+        }
+        if (footerNext) {
+          footerNext.style.display = stepNum === totalSteps ? 'none' : 'flex';
+        }
+        if (orderBtn) {
+          orderBtn.style.display = stepNum === totalSteps ? 'block' : 'none';
+        }
+
+        // Инициализация шага
+        initStep(stepNum);
+        updateTotalPrice();
+      };
+
+      // Инициализация конкретного шага
+      const initStep = (stepNum) => {
+        switch(stepNum) {
+          case 1: initStep1(); break;
+          case 2: initStep2(); break;
+          case 3: initStep3(); break;
+          case 4: initStep4(); break;
+        }
+      };
+
+      // Шаг 1: Выбор марки (горизонтальные чипсы)
+      const initStep1 = () => {
+        const chipsContainer = document.getElementById('mobileBrandsChips');
+        const searchInput = document.getElementById('mobileBrandSearch');
+        if (!chipsContainer || !window.calculator) return;
+
+        let searchQuery = '';
+
+        const renderBrands = () => {
+          let brands = window.calculator.getAllBrands();
+          
+          if (searchQuery) {
+            brands = brands.filter(b => 
+              b.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+          }
+
+          chipsContainer.innerHTML = brands.map(brand => `
+            <button class="mobile-chip ${window.calculator.selectedBrand === brand ? 'active' : ''}" 
+                    data-brand="${brand}">
+              ${brand}
+            </button>
+          `).join('');
+
+          // Обработчики клика
+          chipsContainer.querySelectorAll('.mobile-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+              const brand = chip.dataset.brand;
+              window.calculator.selectedBrand = brand;
+              window.calculator.selectedModel = null;
+              window.calculator.selectedZones.clear();
+              
+              // Обновляем активный чип
+              chipsContainer.querySelectorAll('.mobile-chip').forEach(c => c.classList.remove('active'));
+              chip.classList.add('active');
+              
+              updateTotalPrice();
+              
+              // Автоматический переход на шаг 2
+              setTimeout(() => {
+                currentStep = 2;
+                showStep(2, 'next');
+              }, 300);
+            });
+          });
+        };
+
+        renderBrands();
+
+        // Поиск с debounce
+        if (searchInput) {
+          let searchTimeout;
+          searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchQuery = e.target.value;
+            searchTimeout = setTimeout(renderBrands, 300);
+          });
+        }
+      };
+
+      // Шаг 2: Выбор модели (горизонтальные чипсы)
+      const initStep2 = () => {
+        const chipsContainer = document.getElementById('mobileModelsChips');
+        const selectedBrandEl = document.getElementById('mobileSelectedBrand');
+        const classBadge = document.getElementById('mobileClassBadge');
+        const classNameEl = document.getElementById('mobileClassName');
+        
+        if (!chipsContainer || !window.calculator || !window.calculator.selectedBrand) {
+          // Если нет бренда, возвращаемся на шаг 1
+          currentStep = 1;
+          showStep(1);
+          return;
+        }
+
+        // Показываем выбранный бренд
+        if (selectedBrandEl) {
+          selectedBrandEl.textContent = window.calculator.selectedBrand;
+        }
+
+        const models = window.calculator.getAllModelsForBrand(window.calculator.selectedBrand);
+        
+        chipsContainer.innerHTML = models.map(model => `
+          <button class="mobile-chip ${window.calculator.selectedModel === model ? 'active' : ''}" 
+                  data-model="${model}">
+            ${model}
+          </button>
+        `).join('');
+
+        // Обработчики клика
+        chipsContainer.querySelectorAll('.mobile-chip').forEach(chip => {
+          chip.addEventListener('click', () => {
+            const model = chip.dataset.model;
+            window.calculator.selectModel(window.calculator.selectedBrand, model);
+            window.calculator.selectedZones.clear();
+            
+            // Обновляем активный чип
+            chipsContainer.querySelectorAll('.mobile-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            
+            // Показываем класс
+            if (classBadge && classNameEl && window.calculator.selectedClass) {
+              const classNames = {
+                'small': 'Малый класс',
+                'business': 'Бизнес класс / Кроссоверы',
+                'suv-lux': 'Внедорожники / Люкс',
+                'pickup': 'Большие пикапы',
+                'bus': 'Автобусы / Минивэны'
+              };
+              classNameEl.textContent = classNames[window.calculator.selectedClass] || window.calculator.selectedClass;
+              classBadge.style.display = 'flex';
+            }
+            
+            updateTotalPrice();
+            
+            // Автоматический переход на шаг 3
+            setTimeout(() => {
+              currentStep = 3;
+              showStep(3, 'next');
+            }, 300);
+          });
+        });
+      };
+
+      // Шаг 3: Выбор услуги (пакеты или зоны)
+      const initStep3 = () => {
+        const packagesSection = document.getElementById('mobilePackagesSection');
+        const packagesGrid = document.getElementById('mobilePackagesGrid');
+        const zonesSection = document.getElementById('mobileZonesSection');
+        const zonesList = document.getElementById('mobileZonesList');
+        const selectedCarEl = document.getElementById('mobileSelectedCar');
+        
+        if (!window.calculator || !window.calculator.selectedClass) {
+          currentStep = 1;
+          showStep(1);
+          return;
+        }
+
+        // Показываем выбранный автомобиль
+        if (selectedCarEl) {
+          const brand = window.calculator.selectedBrand || '';
+          const model = window.calculator.selectedModel || '';
+          selectedCarEl.textContent = `${brand} ${model}`.trim() || 'Не выбран';
+        }
+
+        const classToUse = window.calculator.selectedClass;
+        const zonesData = window.calculator.zonesDatabase[classToUse];
+        
+        if (!zonesData) return;
+
+        // Рендерим пакеты
+        if (packagesGrid && zonesData['Пакеты услуг']) {
+          packagesGrid.innerHTML = zonesData['Пакеты услуг'].map(pkg => {
+            const isSelected = window.calculator.selectedZones.has(pkg.id);
+            return `
+              <div class="mobile-package-card ${isSelected ? 'active' : ''}" data-package="${pkg.id}">
+                <div class="mobile-package-name">${pkg.name}</div>
+                <div class="mobile-package-price">${pkg.price.toLocaleString('ru-RU')} ₽</div>
+              </div>
+            `;
+          }).join('');
+
+          // Обработчики пакетов
+          packagesGrid.querySelectorAll('.mobile-package-card').forEach(card => {
+            card.addEventListener('click', () => {
+              const packageId = card.dataset.package;
+              
+              // Очищаем все выбранные зоны
+              window.calculator.selectedZones.clear();
+              window.calculator.selectedZones.add(packageId);
+              
+              // Обновляем визуальное состояние
+              packagesGrid.querySelectorAll('.mobile-package-card').forEach(c => c.classList.remove('active'));
+              card.classList.add('active');
+              
+              // Скрываем зоны, показываем только пакеты
+              if (zonesSection) zonesSection.style.display = 'none';
+              
+              updateTotalPrice();
+              
+              // Автоматический переход на шаг 4
+              setTimeout(() => {
+                currentStep = 4;
+                showStep(4, 'next');
+              }, 300);
+            });
+          });
+        }
+
+        // Рендерим зоны
+        if (zonesList) {
+          let zonesHtml = '';
+          Object.entries(zonesData).forEach(([category, zones]) => {
+            if (category === 'Пакеты услуг' || !Array.isArray(zones)) return;
+            
+            zones.forEach(zone => {
+              if (zone.type === 'package') return;
+              const isSelected = window.calculator.selectedZones.has(zone.id);
+              zonesHtml += `
+                <label class="mobile-zone-item-new ${isSelected ? 'active' : ''}">
+                  <input type="checkbox" value="${zone.id}" ${isSelected ? 'checked' : ''}>
+                  <span class="mobile-zone-name">${zone.name}</span>
+                  <span class="mobile-zone-price-new">${zone.price.toLocaleString('ru-RU')} ₽</span>
+                </label>
+              `;
+            });
+          });
+          
+          zonesList.innerHTML = zonesHtml;
+
+          // Обработчики зон
+          zonesList.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+              const zoneId = e.target.value;
+              const item = e.target.closest('.mobile-zone-item-new');
+              
+              // Если выбрана зона, снимаем пакеты
+              if (e.target.checked) {
+                // Удаляем все пакеты
+                if (zonesData['Пакеты услуг']) {
+                  zonesData['Пакеты услуг'].forEach(pkg => {
+                    window.calculator.selectedZones.delete(pkg.id);
+                  });
+                }
+                if (packagesGrid) {
+                  packagesGrid.querySelectorAll('.mobile-package-card').forEach(c => c.classList.remove('active'));
+                }
+                
+                window.calculator.selectedZones.add(zoneId);
+                item?.classList.add('active');
+              } else {
+                window.calculator.selectedZones.delete(zoneId);
+                item?.classList.remove('active');
+              }
+              
+              updateTotalPrice();
+              
+              // Показываем зоны
+              if (zonesSection) zonesSection.style.display = 'block';
+            });
+          });
+        }
+      };
+
+      // Шаг 4: Итог
+      const initStep4 = () => {
+        const summaryBrand = document.getElementById('summaryBrand');
+        const summaryModel = document.getElementById('summaryModel');
+        const summaryClass = document.getElementById('summaryClass');
+        const summaryService = document.getElementById('summaryService');
+        const summaryTotal = document.getElementById('summaryTotal');
+        
+        if (!window.calculator) return;
+
+        // Заполняем итоговую информацию
+        if (summaryBrand) {
+          summaryBrand.textContent = window.calculator.selectedBrand || '—';
+        }
+        if (summaryModel) {
+          summaryModel.textContent = window.calculator.selectedModel || '—';
+        }
+        if (summaryClass && window.calculator.selectedClass) {
+          const classNames = {
+            'small': 'Малый класс',
+            'business': 'Бизнес класс / Кроссоверы',
+            'suv-lux': 'Внедорожники / Люкс',
+            'pickup': 'Большие пикапы',
+            'bus': 'Автобусы / Минивэны'
+          };
+          summaryClass.textContent = classNames[window.calculator.selectedClass] || window.calculator.selectedClass;
+        }
+        
+        // Определяем выбранную услугу
+        if (summaryService) {
+          const classToUse = window.calculator.selectedClass;
+          const zonesData = window.calculator.zonesDatabase[classToUse];
+          let serviceText = '—';
+          
+          if (zonesData && zonesData['Пакеты услуг']) {
+            const selectedPackage = zonesData['Пакеты услуг'].find(pkg => 
+              window.calculator.selectedZones.has(pkg.id)
+            );
+            if (selectedPackage) {
+              serviceText = selectedPackage.name;
+            } else {
+              // Перечисляем выбранные зоны
+              const allZones = Object.values(zonesData).flat();
+              const selectedZonesNames = Array.from(window.calculator.selectedZones)
+                .map(zoneId => {
+                  const zone = allZones.find(z => z.id === zoneId);
+                  return zone ? zone.name : null;
+                })
+                .filter(Boolean);
+              serviceText = selectedZonesNames.length > 0 
+                ? selectedZonesNames.join(', ') 
+                : '—';
+            }
+          }
+          summaryService.textContent = serviceText;
+        }
+        
+        updateTotalPrice();
+        if (summaryTotal) {
+          summaryTotal.textContent = footerTotal?.textContent || '0 ₽';
+        }
+      };
+
+      // Обновление итоговой цены
+      const updateTotalPrice = () => {
+        if (!window.calculator || !footerTotal) return;
+
+        let total = 0;
+        const classToUse = window.calculator.selectedClass;
+        
+        if (!classToUse) {
+          footerTotal.textContent = '0 ₽';
+          return;
+        }
+
+        const zonesData = window.calculator.zonesDatabase[classToUse];
+        if (!zonesData) {
+          footerTotal.textContent = '0 ₽';
+          return;
+        }
+
+        const allZones = Object.values(zonesData).flat();
+        const packages = zonesData['Пакеты услуг'] || [];
+        
+        // Проверяем пакеты
+        let hasPackage = false;
+        packages.forEach(pkg => {
+          if (window.calculator.selectedZones.has(pkg.id)) {
+            total = pkg.price;
+            hasPackage = true;
+          }
+        });
+
+        // Если нет пакета, считаем зоны
+        if (!hasPackage) {
+          window.calculator.selectedZones.forEach(zoneId => {
+            const zone = allZones.find(z => z.id === zoneId);
+            if (zone && zone.type !== 'package') {
+              total += zone.price;
+            }
+          });
+        }
+
+        footerTotal.textContent = `${total.toLocaleString('ru-RU')} ₽`;
+      };
+
+      // Навигация
+      if (footerPrev) {
+        footerPrev.addEventListener('click', () => {
+          if (currentStep > 1) {
+            currentStep--;
+            showStep(currentStep, 'prev');
+          }
+        });
+      }
+
+      if (footerNext) {
+        footerNext.addEventListener('click', () => {
+          // Проверяем возможность перехода
+          let canProceed = false;
+          
+          switch(currentStep) {
+            case 1:
+              canProceed = !!window.calculator.selectedBrand;
+              break;
+            case 2:
+              canProceed = !!window.calculator.selectedModel;
+              break;
+            case 3:
+              canProceed = window.calculator.selectedZones.size > 0;
+              break;
+            case 4:
+              canProceed = true; // Итог - всегда можно
+              break;
+          }
+
+          if (canProceed && currentStep < totalSteps) {
+            currentStep++;
+            showStep(currentStep, 'next');
+          }
+        });
+      }
+
+      // Кнопка заказа
+      if (orderBtn) {
+        orderBtn.addEventListener('click', () => {
+          const orderBtnDesktop = document.getElementById('orderBtn');
+          if (orderBtnDesktop) {
+            orderBtnDesktop.click();
+          }
+        });
+      }
+
+      // Инициализация при открытии калькулятора
+      const calculatorSection = document.getElementById('calculator');
+      if (calculatorSection) {
+        const observer = new MutationObserver(() => {
+          if (calculatorSection.classList.contains('active')) {
+            currentStep = 1;
+            showStep(1);
+            // Сбрасываем выбор при открытии
+            if (window.calculator) {
+              window.calculator.selectedBrand = null;
+              window.calculator.selectedModel = null;
+              window.calculator.selectedClass = null;
+              window.calculator.selectedZones.clear();
+            }
+          }
+        });
+        
+        observer.observe(calculatorSection, {
+          attributes: true,
+          attributeFilter: ['class']
+        });
+      }
+
+      // Начальная инициализация
+      showStep(1);
+    };
+
     // Initialize when DOM is ready
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => {
         handleCalculatorToggle();
         handleApplicationModal();
         handleVideoPlay();
+        setTimeout(initMobileCalculator, 500);
       });
     } else {
       handleCalculatorToggle();
       handleApplicationModal();
       handleVideoPlay();
+      setTimeout(initMobileCalculator, 500);
+    }
+  </script>
+  <!-- Application Modal - используем существующее orderModal -->
+
+  </body>
+</html>
+          if (index + 1 === step) {
+            s.classList.add('active');
+          } else {
+            s.classList.remove('active');
+          }
+        });
+
+        mobileStepDots.forEach((dot, index) => {
+          if (index + 1 === step) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+
+        // Показываем/скрываем кнопки навигации
+        if (mobilePrevBtn) {
+          mobilePrevBtn.style.display = step === 1 ? 'none' : 'block';
+        }
+
+        if (mobileNextBtn) {
+          if (step === totalMobileSteps) {
+            mobileNextBtn.textContent = 'Завершить';
+          } else {
+            mobileNextBtn.textContent = 'Далее';
+          }
+        }
+
+        // Инициализируем шаг
+        initMobileStep(step);
+      };
+
+      // Инициализация конкретного шага
+      const initMobileStep = (step) => {
+        switch(step) {
+          case 1:
+            initMobileStep1();
+            break;
+          case 2:
+            initMobileStep2();
+            break;
+          case 3:
+            initMobileStep3();
+            break;
+          case 4:
+            initMobileStep4();
+            break;
+        }
+        updateMobilePrice();
+      };
+
+      // Шаг 1: Выбор класса автомобиля
+      const initMobileStep1 = () => {
+        const container = document.getElementById('mobileClassOptions');
+        if (!container || !window.calculator) return;
+
+        const classes = [
+          { id: 'small', name: 'Малый класс' },
+          { id: 'business', name: 'Бизнес класс / Кроссоверы' },
+          { id: 'suv-lux', name: 'Внедорожники / Люкс' },
+          { id: 'pickup', name: 'Большие пикапы' },
+          { id: 'bus', name: 'Автобусы / Минивэны' }
+        ];
+
+        container.innerHTML = classes.map(cls => `
+          <button class="mobile-class-btn ${window.calculator.selectedClass === cls.id ? 'active' : ''}" 
+                  data-class="${cls.id}" 
+                  tabindex="0">
+            ${cls.name}
+          </button>
+        `).join('');
+
+        container.querySelectorAll('.mobile-class-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const classId = e.currentTarget.dataset.class;
+            window.calculator.selectedClass = classId;
+            // Сбрасываем выбор бренда и модели при смене класса
+            window.calculator.selectedBrand = null;
+            window.calculator.selectedModel = null;
+            window.calculator.selectedZones.clear();
+            container.querySelectorAll('.mobile-class-btn').forEach(b => b.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            updateMobilePrice();
+          });
+        });
+      };
+
+      // Шаг 2: Выбор марки
+      const initMobileStep2 = () => {
+        const container = document.getElementById('mobileBrandsList');
+        const searchInput = document.getElementById('mobileModelSearch');
+        if (!container || !window.calculator) return;
+
+        let searchQuery = '';
+        
+        const renderBrands = () => {
+          let brands = window.calculator.getAllBrands();
+          
+          if (searchQuery) {
+            brands = brands.filter(b => 
+              b.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+          }
+
+          container.innerHTML = brands.map(brand => `
+            <button class="mobile-brand-btn ${window.calculator.selectedBrand === brand ? 'active' : ''}" 
+                    data-brand="${brand}" 
+                    tabindex="0">
+              ${brand}
+            </button>
+          `).join('');
+
+        container.querySelectorAll('.mobile-brand-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const brand = e.currentTarget.dataset.brand;
+            window.calculator.selectedBrand = brand;
+            window.calculator.selectedModel = null;
+            window.calculator.selectedZones.clear(); // Сбрасываем зоны при смене бренда
+            container.querySelectorAll('.mobile-brand-btn').forEach(b => b.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            updateMobilePrice(); // Обновляем цену
+          });
+        });
+        };
+
+        renderBrands();
+
+        if (searchInput) {
+          searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderBrands();
+          });
+        }
+      };
+
+      // Шаг 3: Выбор модели
+      const initMobileStep3 = () => {
+        const container = document.getElementById('mobileModelsList');
+        if (!container || !window.calculator || !window.calculator.selectedBrand) return;
+
+        const models = window.calculator.getAllModelsForBrand(window.calculator.selectedBrand);
+
+        container.innerHTML = models.map(model => `
+          <button class="mobile-model-btn ${window.calculator.selectedModel === model ? 'active' : ''}" 
+                  data-model="${model}" 
+                  tabindex="0">
+            ${model}
+          </button>
+        `).join('');
+
+        container.querySelectorAll('.mobile-model-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const model = e.currentTarget.dataset.model;
+            window.calculator.selectModel(window.calculator.selectedBrand, model);
+            window.calculator.selectedZones.clear(); // Сбрасываем зоны при смене модели
+            container.querySelectorAll('.mobile-model-btn').forEach(b => b.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            updateMobilePrice(); // Обновляем цену
+          });
+        });
+      };
+
+      // Шаг 4: Выбор зон
+      const initMobileStep4 = () => {
+        const container = document.getElementById('mobileZonesContainer');
+        if (!container || !window.calculator || !window.calculator.selectedClass) return;
+
+        const classToUse = window.calculator.selectedClass;
+        const zonesData = window.calculator.zonesDatabase[classToUse];
+        
+        if (!zonesData) return;
+
+        let html = '';
+        
+        // Пакеты услуг
+        if (zonesData['Пакеты услуг']) {
+          html += '<div class="mobile-zones-category"><h4>Пакеты услуг</h4>';
+          zonesData['Пакеты услуг'].forEach(pkg => {
+            const isSelected = window.calculator.selectedZones.has(pkg.id);
+            html += `
+              <label class="mobile-zone-item ${isSelected ? 'active' : ''}">
+                <input type="radio" name="mobile-package" value="${pkg.id}" ${isSelected ? 'checked' : ''}>
+                <span>${pkg.name}</span>
+                <span class="mobile-zone-price">${pkg.price.toLocaleString('ru-RU')} ₽</span>
+              </label>
+            `;
+          });
+          html += '</div>';
+        }
+
+        // Отдельные зоны
+        Object.entries(zonesData).forEach(([category, zones]) => {
+          if (category === 'Пакеты услуг' || !Array.isArray(zones)) return;
+          
+          html += `<div class="mobile-zones-category"><h4>${category}</h4>`;
+          zones.forEach(zone => {
+            if (zone.type === 'package') return;
+            const isSelected = window.calculator.selectedZones.has(zone.id);
+            html += `
+              <label class="mobile-zone-item ${isSelected ? 'active' : ''}">
+                <input type="checkbox" name="mobile-zone" value="${zone.id}" ${isSelected ? 'checked' : ''}>
+                <span>${zone.name}</span>
+                <span class="mobile-zone-price">${zone.price.toLocaleString('ru-RU')} ₽</span>
+              </label>
+            `;
+          });
+          html += '</div>';
+        });
+
+        container.innerHTML = html;
+
+        // Обработчики выбора
+        container.querySelectorAll('input[type="radio"][name="mobile-package"]').forEach(radio => {
+          radio.addEventListener('change', (e) => {
+            if (e.target.checked) {
+              // Очищаем все выбранные зоны и пакеты
+              window.calculator.selectedZones.clear();
+              window.calculator.selectedZones.add(e.target.value);
+              
+              // Снимаем все чекбоксы зон
+              container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+                cb.closest('.mobile-zone-item')?.classList.remove('active');
+              });
+              
+              // Обновляем визуальное состояние радио-кнопок
+              container.querySelectorAll('input[type="radio"]').forEach(r => {
+                const item = r.closest('.mobile-zone-item');
+                if (r === e.target) {
+                  item?.classList.add('active');
+                } else {
+                  item?.classList.remove('active');
+                }
+              });
+              
+              updateMobilePrice();
+            }
+          });
+        });
+
+        container.querySelectorAll('input[type="checkbox"][name="mobile-zone"]').forEach(checkbox => {
+          checkbox.addEventListener('change', (e) => {
+            const zoneId = e.target.value;
+            
+            // Если выбрана зона, снимаем все пакеты
+            if (e.target.checked) {
+              container.querySelectorAll('input[type="radio"][name="mobile-package"]').forEach(radio => {
+                radio.checked = false;
+                radio.closest('.mobile-zone-item')?.classList.remove('active');
+              });
+              
+              // Удаляем все пакеты из selectedZones
+              const packages = zonesData['Пакеты услуг'] || [];
+              packages.forEach(pkg => {
+                window.calculator.selectedZones.delete(pkg.id);
+              });
+              
+              window.calculator.selectedZones.add(zoneId);
+            } else {
+              window.calculator.selectedZones.delete(zoneId);
+            }
+            
+            // Обновляем визуальное состояние
+            const item = e.target.closest('.mobile-zone-item');
+            if (item) {
+              if (e.target.checked) {
+                item.classList.add('active');
+              } else {
+                item.classList.remove('active');
+              }
+            }
+            
+            updateMobilePrice();
+          });
+        });
+      };
+
+      // Обновление цены с анимацией
+      const updateMobilePrice = () => {
+        if (!window.calculator) return;
+        const priceEl = document.getElementById('mobilePriceValue');
+        if (!priceEl) return;
+
+        let total = 0;
+        const classToUse = window.calculator.selectedClass;
+        
+        if (!classToUse) {
+          animatePriceChange(priceEl, 0);
+          return;
+        }
+
+        const zonesData = window.calculator.zonesDatabase[classToUse];
+        if (!zonesData) {
+          animatePriceChange(priceEl, 0);
+          return;
+        }
+
+        // Считаем общую стоимость
+        const allZones = Object.values(zonesData).flat();
+        
+        // Проверяем, есть ли выбранный пакет
+        const packages = zonesData['Пакеты услуг'] || [];
+        let hasPackage = false;
+        
+        packages.forEach(pkg => {
+          if (window.calculator.selectedZones.has(pkg.id)) {
+            total = pkg.price;
+            hasPackage = true;
+          }
+        });
+
+        // Если пакет не выбран, считаем отдельные зоны
+        if (!hasPackage) {
+          window.calculator.selectedZones.forEach(zoneId => {
+            const zone = allZones.find(z => z.id === zoneId);
+            if (zone && zone.type !== 'package') {
+              total += zone.price;
+            }
+          });
+        }
+
+        animatePriceChange(priceEl, total);
+      };
+
+      // Анимация изменения цены
+      const animatePriceChange = (element, newValue) => {
+        const currentValue = parseInt(element.textContent.replace(/\s/g, '').replace('₽', '')) || 0;
+        
+        if (currentValue === newValue) return;
+
+        // Анимация изменения
+        element.style.transform = 'scale(1.1)';
+        element.style.transition = 'transform 0.2s ease';
+        
+        setTimeout(() => {
+          element.textContent = `${newValue.toLocaleString('ru-RU')} ₽`;
+          element.style.transform = 'scale(1)';
+        }, 200);
+      };
+
+      // Кнопка "Далее"
+      if (mobileNextBtn) {
+        mobileNextBtn.addEventListener('click', () => {
+          if (currentMobileStep === totalMobileSteps) {
+            // Завершить - открыть форму заказа
+            const orderBtn = document.getElementById('orderBtn');
+            if (orderBtn) {
+              orderBtn.click();
+            }
+          } else {
+            // Проверка перед переходом
+            let canProceed = false;
+            let errorMessage = '';
+            
+            switch(currentMobileStep) {
+              case 1:
+                canProceed = !!window.calculator.selectedClass;
+                errorMessage = 'Пожалуйста, выберите класс автомобиля';
+                break;
+              case 2:
+                canProceed = !!window.calculator.selectedBrand;
+                errorMessage = 'Пожалуйста, выберите марку автомобиля';
+                break;
+              case 3:
+                canProceed = !!window.calculator.selectedModel;
+                errorMessage = 'Пожалуйста, выберите модель автомобиля';
+                break;
+              case 4:
+                canProceed = window.calculator.selectedZones.size > 0;
+                errorMessage = 'Пожалуйста, выберите хотя бы одну зону оклейки';
+                break;
+            }
+
+            if (canProceed) {
+              currentMobileStep++;
+              showMobileStep(currentMobileStep);
+              updateMobilePrice(); // Обновляем цену при переходе
+            } else {
+              // Показываем визуальную обратную связь вместо alert
+              const currentStepEl = mobileSteps[currentMobileStep - 1];
+              if (currentStepEl) {
+                currentStepEl.style.animation = 'shake 0.5s ease';
+                setTimeout(() => {
+                  currentStepEl.style.animation = '';
+                }, 500);
+              }
+            }
+          }
+        });
+      }
+
+      // Кнопка "Назад"
+      if (mobilePrevBtn) {
+        mobilePrevBtn.addEventListener('click', () => {
+          if (currentMobileStep > 1) {
+            currentMobileStep--;
+            showMobileStep(currentMobileStep);
+          }
+        });
+      }
+
+      // Инициализация при открытии калькулятора
+      const calculatorSection = document.getElementById('calculator');
+      if (calculatorSection) {
+        const observer = new MutationObserver(() => {
+          if (calculatorSection.classList.contains('active')) {
+            currentMobileStep = 1;
+            showMobileStep(1);
+          }
+        });
+        
+        observer.observe(calculatorSection, {
+          attributes: true,
+          attributeFilter: ['class']
+        });
+      }
+
+      // Начальная инициализация
+      showMobileStep(1);
+    };
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        handleCalculatorToggle();
+        handleApplicationModal();
+        handleVideoPlay();
+        setTimeout(initMobileCalculator, 500);
+      });
+    } else {
+      handleCalculatorToggle();
+      handleApplicationModal();
+      handleVideoPlay();
+      setTimeout(initMobileCalculator, 500);
     }
   </script>
   <!-- Application Modal - используем существующее orderModal -->
