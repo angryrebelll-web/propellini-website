@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PROPELLINI – Премиальная оклейка автомобилей защитной пленкой</title>
+  <meta name="description" content="Профессиональная оклейка автомобилей антигравийной пленкой в Москве. Премиум качество, гарантия, лучшие материалы." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500&family=Unbounded:wght@400;500;600;700;800;900&display=swap&subset=cyrillic,latin" rel="stylesheet">
+  <link rel="stylesheet" href="src/styles/fonts.css" />
+  <link rel="stylesheet" href="src/styles/main.css" />
+  <link rel="stylesheet" href="src/styles/responsive-bg.css" />
+  <link rel="stylesheet" href="src/styles/animations.css" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+  <div class="noise-layer"></div>
+  
+  <!-- Navigation -->
+  <nav class="main-nav" id="mainNav">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <img src="public/logo/icon-black.png" alt="Propellini" class="nav-logo-icon" />
+        <span class="nav-logo-text">PROPELLINI</span>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Меню" tabindex="0">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#hero" tabindex="0">Главная</a></li>
+        <li><a href="#benefits" tabindex="0">Преимущества</a></li>
+        <li><a href="#about" tabindex="0">О нас</a></li>
+        <li><a href="#services" tabindex="0">Услуги</a></li>
+        <li><a href="#" id="calculatorNavBtn" tabindex="0">Калькулятор</a></li>
+        <li><a href="#films" tabindex="0">Пленки</a></li>
+        <li><a href="#process" tabindex="0">Процесс</a></li>
+        <li><a href="#portfolio" tabindex="0">Портфолио</a></li>
+        <li><a href="#reviews" tabindex="0">Отзывы</a></li>
+        <li><a href="#contacts" tabindex="0">Контакты</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 1. HERO SECTION -->
+  <section class="hero hero-section responsive-bg premium-bg-overlay premium-processed parallax-image" id="hero" data-bg-desktop="/public/images/hero/hero-desktop.jpg" data-bg-mobile="/public/images/hero/hero-mobile.jpg">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Оклейка<br>автомобиля<br>защитной пленкой</h1>
+      <div class="hero-promo">
+        <p class="hero-promo-text">Скидка 50% на броню лобового<br>стекла при полной оклейке кузова</p>
+        <a href="#contacts" class="btn btn-primary discount-open-btn" tabindex="0">Получить скидку</a>
+      </div>
+      <div class="hero-pricing">
+        <p class="hero-pricing-item">Оклейка зон риска от <strong>25 000 ₽</strong></p>
+        <p class="hero-pricing-item">Оклейка кузова целиком от <strong>180 000 ₽</strong></p>
+      </div>
+      <div class="hero-cta">
+        <a href="#" class="btn btn-primary calculator-open-btn" id="heroCalculatorBtn" tabindex="0">Рассчитать стоимость</a>
+        <a href="#portfolio" class="btn btn-secondary" tabindex="0">Наши работы</a>
+      </div>
+      <div class="hero-contacts">
+        <a href="tel:+79919361489" class="hero-phone">+7(991)936-14-89</a>
+        <a href="mailto:info@proppelini.ru" class="hero-email">info@proppelini.ru</a>
+        <p class="hero-address">Москва, ул. Авиационная, 79 к. 1</p>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator">
+      <span>Прокрутите вниз</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- 2. UTP / BENEFITS SECTION -->
+  <section class="benefits" id="benefits">
+    <div class="container">
+      <h2 class="section-title">Почему выбирают PROPELLINI</h2>
+      <div class="benefits-grid">
+        <div class="benefit-card-glass" data-animate="fade-up">
+          <div class="benefit-glass-content">
+            <h3 class="benefit-glass-title">Премиум материалы</h3>
+            <p class="benefit-glass-text">Только сертифицированные пленки мировых брендов</p>
+          </div>
+        </div>
+        <div class="benefit-card-glass" data-animate="fade-up">
+          <div class="benefit-glass-content">
+            <h3 class="benefit-glass-title">Гарантия качества</h3>
+            <p class="benefit-glass-text">Официальная гарантия на все виды работ</p>
+          </div>
+        </div>
+        <div class="benefit-card-glass" data-animate="fade-up">
+          <div class="benefit-glass-content">
+            <h3 class="benefit-glass-title">Опытные мастера</h3>
+            <p class="benefit-glass-text">Команда профессионалов с многолетним опытом</p>
+          </div>
+        </div>
+        <div class="benefit-card-glass" data-animate="fade-up">
+          <div class="benefit-glass-content">
+            <h3 class="benefit-glass-title">Современное оборудование</h3>
+            <p class="benefit-glass-text">Используем передовые технологии и инструменты</p>
+          </div>
+        </div>
+        <div class="benefit-card-glass" data-animate="fade-up">
+          <div class="benefit-glass-content">
+            <h3 class="benefit-glass-title">Быстрые сроки</h3>
+            <p class="benefit-glass-text">Выполняем работы в оговоренные сроки</p>
+          </div>
+        </div>
+        <div class="benefit-card-glass" data-animate="fade-up">
+          <div class="benefit-glass-content">
+            <h3 class="benefit-glass-title">Индивидуальный подход</h3>
+            <p class="benefit-glass-text">Учитываем все пожелания клиента</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ABOUT PROPELLINI SECTION -->
+  <section class="about" id="about">
+    <div class="about-background about-section responsive-bg premium-bg-overlay-strong premium-processed" data-bg-desktop="/public/images/about/about-desktop.jpg" data-bg-mobile="/public/images/about/about-mobile.jpg">
+      <div class="about-overlay"></div>
+    </div>
+    <div class="container">
+      <div class="about-content" data-animate="slide-left">
+        <h2 class="section-title">О PROPELLINI</h2>
+        <p class="about-text">Премиальная студия оклейки автомобилей защитной пленкой в Москве. Профессиональная защита кузова с использованием лучших материалов и технологий. Многолетний опыт работы с премиальными автомобилями.</p>
+      </div>
+      
+      <!-- Achievement Cards -->
+      <div class="about-achievements">
+        <div class="achievement-card" data-animate="fade-up">
+          <div class="achievement-number">12+</div>
+          <div class="achievement-label">лет опыта в оклейке защитной пленкой</div>
+        </div>
+        <div class="achievement-card" data-animate="fade-up">
+          <div class="achievement-number">300+</div>
+          <div class="achievement-label">автомобилей оклеиваем ежегодно</div>
+        </div>
+        <div class="achievement-card" data-animate="fade-up">
+          <div class="achievement-number">10</div>
+          <div class="achievement-label">лет гарантии на пленку премиум-класса</div>
+        </div>
+        <div class="achievement-card" data-animate="fade-up">
+          <div class="achievement-number">100%</div>
+          <div class="achievement-label">сертифицированные мастера с обучением</div>
+        </div>
+      </div>
+
+      <!-- Promo Block -->
+      <div class="about-promo" data-animate="fade-up">
+        <div class="promo-content">
+          <h3 class="promo-title">Скидка 50% на броню лобового стекла</h3>
+          <p class="promo-subtitle">при полной оклейке кузова</p>
+          <a href="#contacts" class="btn btn-primary promo-btn discount-open-btn" tabindex="0">Получить скидку</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SERVICE PACKAGES SECTION -->
+  <section class="services" id="services">
+    <div class="container">
+      <h2 class="section-title">Пакеты услуг</h2>
+      <div class="services-grid">
+        <div class="service-card" data-animate="fade-up">
+          <div class="service-badge">Базовый</div>
+          <h3>Зоны риска</h3>
+          <p>Защита наиболее уязвимых элементов кузова</p>
+          <ul class="service-features">
+            <li>Капот</li>
+            <li>Бамперы</li>
+            <li>Зеркала</li>
+            <li>Пороги</li>
+          </ul>
+          <a href="#" class="btn btn-primary calculator-open-btn" tabindex="0">Рассчитать</a>
+        </div>
+        <div class="service-card service-card-featured" data-animate="fade-up">
+          <div class="service-badge">Премиум</div>
+          <h3>Полная оклейка</h3>
+          <p>Комплексная защита всего кузова автомобиля</p>
+          <ul class="service-features">
+            <li>Все элементы кузова</li>
+            <li>Премиум материалы</li>
+            <li>Гарантия 5 лет</li>
+            <li>Бесплатная диагностика</li>
+          </ul>
+          <a href="#" class="btn btn-primary calculator-open-btn" tabindex="0">Рассчитать</a>
+        </div>
+        <div class="service-card" data-animate="fade-up">
+          <div class="service-badge">Люкс</div>
+          <h3>Премиум пакет</h3>
+          <p>Максимальная защита с дополнительными услугами</p>
+          <ul class="service-features">
+            <li>Полная оклейка</li>
+            <li>Керамическое покрытие</li>
+            <li>Гарантия 7 лет</li>
+            <li>Пожизненная поддержка</li>
+          </ul>
+          <a href="#" class="btn btn-primary calculator-open-btn" tabindex="0">Рассчитать</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. CALCULATOR SECTION -->
+  <section class="calculator-section" id="calculator">
+    <button class="calculator-close-btn" id="calculatorCloseBtn" aria-label="Закрыть калькулятор" tabindex="0">&times;</button>
+    <div class="container">
+      <h2 class="section-title">Калькулятор стоимости</h2>
+      <p class="section-subtitle">Выберите автомобиль и зоны оклейки для расчета стоимости</p>
+      
+      <!-- Desktop Calculator -->
+      <div class="calculator-desktop" id="calculatorDesktop">
+        <div class="calculator">
+          <header class="calculator-header">
+            <div class="address"><strong>Москва, ул. Пришвина, вл2А</strong></div>
+            <h3>PROPELLINI</h3>
+            <p class="subtitle">Калькулятор оклейки антигравийной пленкой</p>
+          </header>
+
+          <div class="calculator-content">
+            <aside class="left-column">
+              <section class="car-class-selection card">
+                <h2>Выбрать тип авто</h2>
+                <div class="class-options" id="classOptions">
+                  <button class="class-option active" data-class="small" tabindex="0"><span class="thumb"></span><div class="class-info"><h3>Малый класс</h3></div></button>
+                  <button class="class-option" data-class="business" tabindex="0"><span class="thumb"></span><div class="class-info"><h3>Бизнес класс / Кроссоверы</h3></div></button>
+                  <button class="class-option" data-class="suv-lux" tabindex="0"><span class="thumb"></span><div class="class-info"><h3>Внедорожники / Люкс</h3></div></button>
+                  <button class="class-option" data-class="pickup" tabindex="0"><span class="thumb"></span><div class="class-info"><h3>Большие пикапы</h3></div></button>
+                  <button class="class-option" data-class="bus" tabindex="0"><span class="thumb"></span><div class="class-info"><h3>Автобусы / Минивэны</h3></div></button>
+                </div>
+              </section>
+
+              <section class="model-selection card">
+                <h2>Выбор марки и модели</h2>
+                <div class="search-container">
+                  <input type="text" id="modelSearch" placeholder="Начните вводить марку или модель…" tabindex="0" />
+                  <div class="dropdown" id="modelDropdown"></div>
+                </div>
+                <div class="brands-chips-container">
+                  <h3 class="chips-title">Выберите марку:</h3>
+                  <div class="chips-wrapper" id="brandChips"></div>
+                </div>
+                <div class="models-chips-container">
+                  <h3 class="chips-title">Выберите модель:</h3>
+                  <div class="chips-wrapper" id="modelChips"></div>
+                </div>
+                <div class="selected-model" id="selectedModelInfo" style="display:none;">
+                  <span id="modelName"></span>
+                  <span class="model-class" id="modelClass"></span>
+                </div>
+              </section>
+
+              <section class="contacts-section card">
+                <h3>Заказать звонок</h3>
+                <div class="phone-number">8 (968) 811-66-88</div>
+                <p class="phone-subtitle">По всем вопросам</p>
+              </section>
+            </aside>
+
+            <section class="right-column">
+              <section class="zones-selection card" id="zonesSelection">
+                <h2>Выбрать область оклейки</h2>
+                <div class="quick-buttons">
+                  <button id="riskZonesBtn" class="quick-btn" tabindex="0">Оклейка зон риска</button>
+                  <button id="fullWrapBtn" class="quick-btn" tabindex="0">Полная оклейка кузова</button>
+                  <button id="clearZonesBtn" class="quick-btn" tabindex="0">Сбросить</button>
+                </div>
+                <div class="car-zones-visual" id="car3dContainer">
+                  <div id="car3dCanvas"></div>
+                  <div class="car-3d-hint">
+                    <span>🖱️ Вращать | 🔍 Зум</span>
+                  </div>
+                </div>
+                <div id="carSvgFallback" style="display: none;">
+                  <svg viewBox="0 0 400 450" width="100%" height="auto">
+                    <g id="interactive-zones"></g>
+                  </svg>
+                </div>
+              </section>
+
+              <section class="total-section card">
+                <div class="total-header"><h2>Итоговая стоимость</h2></div>
+                <div class="total-details">
+                  <div class="total-info">
+                    <span id="totalZones">0 зон</span>
+                    <span id="carClassInfo">Класс не выбран</span>
+                  </div>
+                  <div class="total-price"><span class="total-amount" id="totalAmount">0 ₽</span></div>
+                </div>
+                <button class="order-btn" id="orderBtn" tabindex="0">Записаться на оклейку</button>
+                
+                <!-- Application Form inside Calculator -->
+                <div class="calculator-application-form" id="calculatorApplicationForm" style="display: none;">
+                  <div class="application-form-header">
+                    <h3>Записаться на оклейку</h3>
+                    <button type="button" class="application-form-close" id="calculatorFormClose" aria-label="Закрыть">&times;</button>
+                  </div>
+                  <form id="calculatorOrderForm" class="calculator-order-form">
+                    <div class="form-group">
+                      <label for="calcOrderName">Ваше имя *</label>
+                      <input type="text" id="calcOrderName" name="name" required placeholder="Введите ваше имя" tabindex="0" />
+                    </div>
+                    <div class="form-group">
+                      <label for="calcOrderPhone">Телефон *</label>
+                      <input type="tel" id="calcOrderPhone" name="phone" required placeholder="+7 (___) ___-__-__" tabindex="0" />
+                    </div>
+                    <div class="form-group">
+                      <label for="calcOrderEmail">Email</label>
+                      <input type="email" id="calcOrderEmail" name="email" placeholder="email@example.com" tabindex="0" />
+                    </div>
+                    <div class="form-group">
+                      <label for="calcOrderCar">Автомобиль</label>
+                      <input type="text" id="calcOrderCar" name="car" readonly placeholder="Не выбран" tabindex="0" />
+                    </div>
+                    <div class="form-group">
+                      <label for="calcOrderZones">Выбранные зоны</label>
+                      <textarea id="calcOrderZones" name="zones" readonly rows="2" placeholder="Не выбраны" tabindex="0"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="calcOrderTotal">Итоговая стоимость</label>
+                      <input type="text" id="calcOrderTotal" name="total" readonly placeholder="0 ₽" tabindex="0" />
+                    </div>
+                    <div class="form-group">
+                      <label for="calcOrderComment">Комментарий</label>
+                      <textarea id="calcOrderComment" name="comment" rows="3" placeholder="Дополнительная информация" tabindex="0"></textarea>
+                    </div>
+                    <div class="form-actions">
+                      <button type="button" class="btn btn-outline" id="calcOrderCancel" tabindex="0">Отмена</button>
+                      <button type="submit" class="btn btn-primary" tabindex="0">Отправить заявку</button>
+                    </div>
+                  </form>
+                </div>
+              </section>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Calculator Wizard -->
+      <div class="calculator-mobile" id="calculatorMobile">
+        <div class="mobile-wizard">
+          <div class="mobile-price-bar">
+            <span class="mobile-price-label">Стоимость:</span>
+            <span class="mobile-price-value" id="mobilePriceValue">0 ₽</span>
+          </div>
+          <div class="mobile-wizard-steps">
+            <div class="mobile-step active" data-step="1">
+              <h3>Выберите класс автомобиля</h3>
+              <div class="mobile-class-options" id="mobileClassOptions"></div>
+            </div>
+            <div class="mobile-step" data-step="2">
+              <h3>Выберите марку</h3>
+              <div class="mobile-search-container">
+                <input type="text" id="mobileModelSearch" placeholder="Поиск марки..." tabindex="0" />
+              </div>
+              <div class="mobile-brands-list" id="mobileBrandsList"></div>
+            </div>
+            <div class="mobile-step" data-step="3">
+              <h3>Выберите модель</h3>
+              <div class="mobile-models-list" id="mobileModelsList"></div>
+            </div>
+            <div class="mobile-step" data-step="4">
+              <h3>Выберите зоны оклейки</h3>
+              <div class="mobile-zones-container" id="mobileZonesContainer"></div>
+            </div>
+          </div>
+          <div class="mobile-wizard-nav">
+            <button class="mobile-nav-btn mobile-nav-prev" id="mobilePrevBtn" tabindex="0">Назад</button>
+            <div class="mobile-steps-indicator">
+              <span class="mobile-step-dot active" data-step="1"></span>
+              <span class="mobile-step-dot" data-step="2"></span>
+              <span class="mobile-step-dot" data-step="3"></span>
+              <span class="mobile-step-dot" data-step="4"></span>
+            </div>
+            <button class="mobile-nav-btn mobile-nav-next" id="mobileNextBtn" tabindex="0">Далее</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. FILMS SECTION -->
+  <section class="films" id="films">
+    <div class="films-background premium-bg-overlay-strong" data-speed="0.3">
+      <div class="films-overlay"></div>
+    </div>
+    <div class="container">
+      <h2 class="section-title">Премиальные пленки</h2>
+      <p class="section-subtitle">Защита и стиль в одном решении</p>
+      <p class="films-description">Доступны различные варианты пленок, чтобы вы могли выбрать оптимальную:</p>
+      
+      <div class="films-glass-container">
+        <div class="films-glass-track" id="filmsGlassTrack">
+          <div class="film-glass-item" data-film="quantum">
+            <span class="film-glass-text">QUANTUM</span>
+          </div>
+          <div class="film-glass-item" data-film="llumar">
+            <span class="film-glass-text">LLUMAR</span>
+          </div>
+          <div class="film-glass-item" data-film="krytex">
+            <span class="film-glass-text">Krytex</span>
+          </div>
+          <div class="film-glass-item" data-film="monoppf">
+            <span class="film-glass-text">MONOPPF</span>
+          </div>
+          <div class="film-glass-item" data-film="stek">
+            <span class="film-glass-text">STEK</span>
+          </div>
+          <div class="film-glass-item" data-film="formulaone">
+            <span class="film-glass-text">Formula one</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="films-benefits">
+        <p class="films-benefits-text">Выбор качественных пленок для оклейки – это первый шаг к улучшению внешнего вида вашего автомобиля и его защиты. Каждая из представленных пленок обладает уникальными характеристиками:</p>
+        <div class="films-benefits-grid">
+          <div class="films-benefit-item">
+            <span class="films-benefit-icon">✓</span>
+            <span>Защита от УФ-лучей</span>
+          </div>
+          <div class="films-benefit-item">
+            <span class="films-benefit-icon">✓</span>
+            <span>Терморегуляция</span>
+          </div>
+          <div class="films-benefit-item">
+            <span class="films-benefit-icon">✓</span>
+            <span>Антибликовая защита</span>
+          </div>
+          <div class="films-benefit-item">
+            <span class="films-benefit-icon">✓</span>
+            <span>Эстетика и стиль</span>
+          </div>
+          <div class="films-benefit-item">
+            <span class="films-benefit-icon">✓</span>
+            <span>Прочность</span>
+          </div>
+          <div class="films-benefit-item">
+            <span class="films-benefit-icon">✓</span>
+            <span>Матовые и глянцевые текстуры</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. PROCESS SECTION -->
+  <section class="process" id="process">
+    <div class="container">
+      <h2 class="section-title">Процесс работы</h2>
+      <div class="process-steps-compact">
+        <div class="process-step-compact" data-animate="fade-up">
+          <div class="process-number-compact">01</div>
+          <div class="process-content-compact">
+            <h3>Консультация</h3>
+            <p>Обсуждение потребностей и выбор решения</p>
+          </div>
+        </div>
+        <div class="process-step-compact" data-animate="fade-up">
+          <div class="process-number-compact">02</div>
+          <div class="process-content-compact">
+            <h3>Осмотр</h3>
+            <p>Оценка состояния кузова</p>
+          </div>
+        </div>
+        <div class="process-step-compact" data-animate="fade-up">
+          <div class="process-number-compact">03</div>
+          <div class="process-content-compact">
+            <h3>Подготовка</h3>
+            <p>Мойка и обезжиривание</p>
+          </div>
+        </div>
+        <div class="process-step-compact" data-animate="fade-up">
+          <div class="process-number-compact">04</div>
+          <div class="process-content-compact">
+            <h3>Оклейка</h3>
+            <p>Установка защитной пленки</p>
+          </div>
+        </div>
+        <div class="process-step-compact" data-animate="fade-up">
+          <div class="process-number-compact">05</div>
+          <div class="process-content-compact">
+            <h3>Контроль</h3>
+            <p>Проверка качества</p>
+          </div>
+        </div>
+        <div class="process-step-compact" data-animate="fade-up">
+          <div class="process-number-compact">06</div>
+          <div class="process-content-compact">
+            <h3>Выдача</h3>
+            <p>Передача с документами</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. PORTFOLIO / GALLERY SECTION -->
+  <section class="portfolio" id="portfolio">
+    <div class="container">
+      <h2 class="section-title">Наши работы</h2>
+      <div class="portfolio-gallery" id="portfolioGallery">
+        <div class="portfolio-item tilt-3d">
+          <img src="https://i.pinimg.com/736x/1c/9c/9a/1c9c9aff8afe692321467ca5f1d97f32.jpg" alt="Работа 1" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        </div>
+        <div class="portfolio-item tilt-3d">
+          <img src="https://i.pinimg.com/1200x/5e/4c/e7/5e4ce70476d2dd1567d432680cc4462a.jpg" alt="Работа 2" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        </div>
+        <div class="portfolio-item tilt-3d">
+          <img src="https://i.pinimg.com/736x/7c/c5/dd/7cc5ddc8d2833edc1ad6f3510c7df3d6.jpg" alt="Работа 3" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        </div>
+        <div class="portfolio-item tilt-3d">
+          <img src="https://i.pinimg.com/736x/72/96/1b/72961bc9ff271e5c385c60aa58e22c4b.jpg" alt="Работа 4" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        </div>
+        <div class="portfolio-item tilt-3d">
+          <img src="https://i.pinimg.com/736x/bb/92/82/bb9282a24a432e16a8362c5c62c8c2f8.jpg" alt="Работа 5" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        </div>
+        <div class="portfolio-item tilt-3d">
+          <img src="https://i.pinimg.com/736x/92/20/03/9220033bd92d57ab5a371f0bead58dbb.jpg" alt="Работа 6" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        </div>
+        <div class="portfolio-item tilt-3d">
+          <img src="https://i.pinimg.com/736x/8c/c1/23/8cc12382dd904e89e24dfd9216f8180b.jpg" alt="Работа 7" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        </div>
+        <div class="portfolio-item tilt-3d">
+          <img src="https://i.pinimg.com/736x/40/98/39/409839f150de67d23e274ebea1369bab.jpg" alt="Работа 8" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. TEASER VIDEO SECTION -->
+  <section class="video-section" id="video">
+    <!-- Desktop video - воспроизводится по кнопке -->
+    <div class="video-background video-desktop">
+      <video id="desktopVideo" muted loop playsinline class="premium-processed" preload="metadata">
+        <source src="./public/images/video/teaser-desktop.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <!-- Mobile video - играет постоянно на фоне -->
+    <div class="video-background video-mobile">
+      <video autoplay muted loop playsinline class="premium-processed">
+        <source src="./public/images/video/teaser-mobile.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="video-overlay premium-bg-overlay" id="videoOverlay"></div>
+    <div class="video-content" id="videoContent">
+      <h2 class="section-title">Профессионализм в деталях</h2>
+      <p class="video-description">Посмотрите, как мы работаем</p>
+      <button class="btn btn-primary video-play-btn" id="videoPlayBtn" tabindex="0" onclick="event.stopPropagation();">Смотреть видео</button>
+    </div>
+  </section>
+
+  <!-- 10. REVIEWS SECTION -->
+  <section class="reviews" id="reviews">
+    <div class="container">
+      <h2 class="section-title">Отзывы клиентов</h2>
+      <div class="reviews-slider" id="reviewsSlider">
+        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Оклеивали полностью кузов защитной пленкой. Работа выполнена на высшем уровне, без единого пузыря. Мастера очень внимательные, все объяснили по процессу. Автомобиль выглядит как новый!"</p>
+          <div class="review-author">
+            <strong>Александр М.</strong>
+            <span>BMW X5</span>
+          </div>
+          <div class="review-link-hint">Читать на Яндекс →</div>
+        </a>
+        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Обратился в Propellini по рекомендации. Не пожалел ни секунды! Качество материалов отличное, установка идеальная. Прошло уже полгода - пленка как новая, никаких дефектов."</p>
+          <div class="review-author">
+            <strong>Дмитрий К.</strong>
+            <span>Mercedes-Benz S-Class</span>
+          </div>
+          <div class="review-link-hint">Читать на Яндекс →</div>
+        </a>
+        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Премиум сервис! От консультации до готового результата - все на высоте. Использовали пленку Quantum, результат превзошел ожидания. Студия чистая, оборудование современное. Рекомендую!"</p>
+          <div class="review-author">
+            <strong>Игорь В.</strong>
+            <span>Audi Q7</span>
+          </div>
+          <div class="review-link-hint">Читать на Яндекс →</div>
+        </a>
+        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Оклеивали капот и передние крылья. Работали аккуратно, все детали защитили. Пленка LLUMAR установлена безупречно. Цена соответствует качеству. Обязательно вернусь для полной оклейки."</p>
+          <div class="review-author">
+            <strong>Сергей П.</strong>
+            <span>Porsche 911</span>
+          </div>
+          <div class="review-link-hint">Читать на Яндекс →</div>
+        </a>
+        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Лучшая студия в Москве! Мастера с большим опытом, работают только с премиум материалами. Оклеили полностью кузов, результат просто потрясающий. Гарантия 10 лет - это говорит о качестве!"</p>
+          <div class="review-author">
+            <strong>Михаил Р.</strong>
+            <span>Range Rover</span>
+          </div>
+          <div class="review-link-hint">Читать на Яндекс →</div>
+        </a>
+        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Оклеивали защитной пленкой весь кузов. Процесс занял 3 дня, но результат того стоил. Никаких подрезов, все идеально. Пленка STEK премиум качества. Спасибо команде Propellini!"</p>
+          <div class="review-author">
+            <strong>Владимир С.</strong>
+            <span>Lexus LX</span>
+          </div>
+          <div class="review-link-hint">Читать на Яндекс →</div>
+        </a>
+        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Заезжал на оклейку машины защитной пленкой. Оказанной услугой остался доволен, ребята профессионалы своего дела. Работа выполнена качественно, все детали на месте. Буду заезжать к ним еще, рекомендую!"</p>
+          <div class="review-author">
+            <strong>Сергей А.</strong>
+            <span>BMW 5 Series</span>
+          </div>
+          <div class="review-link-hint">Читать на Яндекс →</div>
+        </a>
+        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Отличная работа! Оклеили зоны риска на новом автомобиле. Мастера внимательные, все объяснили, показали материалы. Пленка установлена идеально, без единого дефекта. Цены адекватные, качество на высоте!"</p>
+          <div class="review-author">
+            <strong>Андрей Г.</strong>
+            <span>Mercedes-Benz GLE</span>
+          </div>
+          <div class="review-link-hint">Читать на Яндекс →</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. OUR STUDIO SECTION -->
+  <section class="studio studio-section-bg responsive-bg premium-bg-overlay premium-processed parallax-image" id="studio" data-speed="0.25" data-bg-desktop="/public/images/studio/studio-1.jpg" data-bg-mobile="/public/images/studio/studio-1.jpg">
+    <div class="studio-overlay"></div>
+    <div class="studio-haze"></div>
+    <div class="container">
+      <div class="studio-content" data-animate="fade-up">
+        <h2 class="section-title">Наша студия</h2>
+        <p class="studio-description">Современное оборудование, просторные боксы, идеальные условия для работы с премиальными автомобилями. PROPELLINI — это не просто сервис, это место, где ваш автомобиль получает премиум-защиту.</p>
+        <div class="studio-gallery">
+          <div class="studio-gallery-item">
+            <div class="studio-gallery-image">
+              <img src="https://propellini.ru/wp-content/uploads/2025/09/image_19_.webp" alt="Студия Propellini" loading="lazy" />
+            </div>
+            <div class="studio-gallery-text">
+              <h5>Просторные боксы</h5>
+              <p>Достаточно места для комфортной работы</p>
+            </div>
+          </div>
+          <div class="studio-gallery-item">
+            <div class="studio-gallery-image">
+              <img src="https://propellini.ru/wp-content/uploads/2025/09/5a7627dc3f7e0cf22e40e354b42f9b253f529b88.png" alt="Студия Propellini" loading="lazy" />
+            </div>
+            <div class="studio-gallery-text">
+              <h5>Современное оборудование</h5>
+              <p>Используем только лучшее</p>
+            </div>
+          </div>
+          <div class="studio-gallery-item">
+            <div class="studio-gallery-image">
+              <img src="https://propellini.ru/wp-content/uploads/2025/09/image2-1.png" alt="Студия Propellini" loading="lazy" />
+            </div>
+            <div class="studio-gallery-text">
+              <h5>Идеальные условия</h5>
+              <p>Контроль температуры и влажности</p>
+            </div>
+          </div>
+          <div class="studio-gallery-item">
+            <div class="studio-gallery-image">
+              <img src="https://propellini.ru/wp-content/uploads/2025/09/image_20_.webp" alt="Студия Propellini" loading="lazy" />
+            </div>
+            <div class="studio-gallery-text">
+              <h5>Профессиональные мастера</h5>
+              <p>Опытная команда специалистов</p>
+            </div>
+          </div>
+          <div class="studio-gallery-item">
+            <div class="studio-gallery-image">
+              <img src="https://avatars.mds.yandex.net/get-altay/15437010/2a00000196c526a897764629a6cd0fea968a/XXXL" alt="Студия Propellini" loading="lazy" />
+            </div>
+            <div class="studio-gallery-text">
+              <h5>Премиум материалы</h5>
+              <p>Только сертифицированные пленки</p>
+            </div>
+          </div>
+          <div class="studio-gallery-item">
+            <div class="studio-gallery-image">
+              <img src="https://avatars.mds.yandex.net/get-altay/15081387/2a000001964a643d402c03031ca76c33fd2e/XXXL" alt="Студия Propellini" loading="lazy" />
+            </div>
+            <div class="studio-gallery-text">
+              <h5>Гарантия качества</h5>
+              <p>Официальная гарантия на все работы</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. CONTACTS SECTION -->
+  <section class="contacts" id="contacts">
+    <div class="container">
+      <div class="contacts-header">
+        <h2 class="section-title">Контакты</h2>
+        <p class="section-subtitle">Нет нерешаемых задач, есть разные подходы к их решению.</p>
+        <p class="contacts-description">Вы можете оставить заявку по форме обратной связи или связаться с нами любым другим удобным способом.</p>
+      </div>
+      
+      <div class="contacts-grid">
+        <div class="contacts-info">
+          <h3 class="contacts-info-title">Центр оклейки защитной пленкой</h3>
+          <div class="contacts-brand">Propellini</div>
+          <div class="contacts-details">
+            <div class="contact-detail-item">
+              <strong>Адрес:</strong><br>
+              Москва, ул. Авиационная, 79 к. 1
+            </div>
+            <div class="contact-detail-item">
+              <strong>Режим работы:</strong><br>
+              пн-вс: с 8:00 до 23:00
+            </div>
+            <div class="contact-detail-item">
+              <strong>Телефон:</strong><br>
+              <a href="tel:+79919361489" class="contact-phone">+7 (991) 936-14-89</a>
+            </div>
+            <div class="contacts-social">
+              <a href="https://t.me/propellini_detailing" target="_blank" rel="noopener noreferrer" class="social-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.13-.31-1.09-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                </svg>
+                Telegram
+              </a>
+              <a href="https://vk.com/propellini" target="_blank" rel="noopener noreferrer" class="social-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12.785 16.241s.336-.041.51-.25c.158-.192.153-.554.153-.554s-.023-1.526.687-1.754c.703-.221 1.604.981 2.562 1.416.724.329 1.274.256 1.274.256l2.559-.038s1.334-.085.7-1.139c-.052-.083-.373-.8-1.916-2.263-1.62-1.534-1.404-1.285.55-3.94.378-.516 1.059-1.354 1.059-1.354s.596-1.129.321-1.631c-.306-.568-.902-.619-.902-.619l-2.476.015s-.549.016-.896.344c-.182.176-.297.439-.297.439s-.534 1.422-1.24 2.633c-1.493 2.493-2.092 2.625-2.336 2.478-.569-.347-.427-1.394-.427-2.139 0-2.325.356-3.297-.695-3.547-.348-.084-.604-.14-1.496-.149-1.143-.012-2.106.004-2.654.28-.377.19-.668.614-.492.638.22.03.718.133.981.483.345.46.332 1.492.332 1.492s.198 2.93-.462 3.289c-.453.247-1.078-.257-2.423-2.633-.688-1.189-1.208-2.5-1.208-2.5s-.1-.32-.279-.492c-.216-.208-.517-.274-.517-.274l-2.345.015s-.78.035-1.067.335c-.257.267-.02.824-.02.824s3.293 7.743 7.014 11.656c3.415 3.607 7.307 3.367 7.307 3.367h1.741z"/>
+                </svg>
+                ВКонтакте
+              </a>
+              <a href="https://wa.me/79686648888" target="_blank" rel="noopener noreferrer" class="social-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                </svg>
+                WhatsApp: +7 968 664-88-88
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="contacts-form">
+          <form id="contactForm" class="contact-form">
+            <div class="form-group">
+              <input type="text" id="contactName" name="name" required placeholder="Ваше имя *" tabindex="0" />
+            </div>
+            <div class="form-group">
+              <input type="tel" id="contactPhone" name="phone" required placeholder="Ваш телефон *" tabindex="0" />
+            </div>
+            <div class="form-group">
+              <textarea id="contactMessage" name="message" rows="5" placeholder="Сообщение (необязательно)" tabindex="0"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" tabindex="0">Отправить</button>
+            <p class="form-privacy">Нажимая кнопку "отправить", вы соглашаетесь с политикой конфиденциальности.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12.5. MAP SECTION -->
+  <section class="map-section" id="map">
+    <div class="container">
+      <div class="map-container-full">
+        <iframe 
+          src="https://yandex.ru/map-widget/v1/?ll=37.5173,55.8020&z=16&pt=37.5173,55.8020,pm2rdm&l=map" 
+          width="100%" 
+          height="100%" 
+          frameborder="0" 
+          allowfullscreen="true" 
+          style="border:0; border-radius: 16px;"
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="public/logo/icon-black.png" alt="Propellini" class="footer-logo-icon" />
+          <span class="footer-logo-text">PROPELLINI</span>
+        </div>
+        <nav class="footer-nav">
+          <a href="#services" tabindex="0">Услуги</a>
+          <a href="#reviews" tabindex="0">Отзывы</a>
+          <a href="#portfolio" tabindex="0">Портфолио</a>
+          <a href="#contacts" tabindex="0">Контакты</a>
+        </nav>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram" tabindex="0">Instagram</a>
+          <a href="#" aria-label="Telegram" tabindex="0">Telegram</a>
+          <a href="#" aria-label="WhatsApp" tabindex="0">WhatsApp</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© Propellini, 2025. Все права защищены.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Order Modal -->
+  <div id="orderModal" class="order-modal" style="display: none;">
+    <div class="order-modal-overlay" id="orderModalOverlay"></div>
+    <div class="order-modal-content">
+      <button class="order-modal-close" id="orderModalClose" aria-label="Закрыть" tabindex="0">&times;</button>
+      <h2>Записаться на оклейку</h2>
+      <form id="orderForm" class="order-form">
+        <div class="order-form-group">
+          <label for="orderName">Ваше имя *</label>
+          <input type="text" id="orderName" name="name" required placeholder="Введите ваше имя" tabindex="0" />
+        </div>
+        <div class="order-form-group">
+          <label for="orderPhone">Телефон *</label>
+          <input type="tel" id="orderPhone" name="phone" required placeholder="+7 (___) ___-__-__" tabindex="0" />
+        </div>
+        <div class="order-form-group">
+          <label for="orderEmail">Email</label>
+          <input type="email" id="orderEmail" name="email" placeholder="email@example.com" tabindex="0" />
+        </div>
+        <div class="order-form-group">
+          <label for="orderCar">Автомобиль</label>
+          <input type="text" id="orderCar" name="car" readonly placeholder="Не выбран" tabindex="0" />
+        </div>
+        <div class="order-form-group">
+          <label for="orderZones">Выбранные зоны</label>
+          <textarea id="orderZones" name="zones" readonly rows="3" placeholder="Не выбраны" tabindex="0"></textarea>
+        </div>
+        <div class="order-form-group">
+          <label for="orderTotal">Итоговая стоимость</label>
+          <input type="text" id="orderTotal" name="total" readonly placeholder="0 ₽" tabindex="0" />
+        </div>
+        <div class="order-form-group">
+          <label for="orderComment">Комментарий</label>
+          <textarea id="orderComment" name="comment" rows="3" placeholder="Дополнительная информация" tabindex="0"></textarea>
+        </div>
+        <div class="order-form-actions">
+          <button type="button" class="order-btn-cancel" id="orderCancel" tabindex="0">Отмена</button>
+          <button type="submit" class="order-btn-submit" tabindex="0">Отправить заявку</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Discount Modal - упрощенная форма для получения скидки -->
+  <div id="discountModal" class="order-modal" style="display: none;">
+    <div class="order-modal-overlay" id="discountModalOverlay"></div>
+    <div class="order-modal-content">
+      <button class="order-modal-close" id="discountModalClose" aria-label="Закрыть" tabindex="0">&times;</button>
+      <h2>Получить скидку</h2>
+      <form id="discountForm" class="order-form">
+        <div class="order-form-group">
+          <label for="discountPhone">Телефон *</label>
+          <input type="tel" id="discountPhone" name="phone" required placeholder="+7 (___) ___-__-__" tabindex="0" />
+        </div>
+        <div class="order-form-group">
+          <label for="discountEmail">Email *</label>
+          <input type="email" id="discountEmail" name="email" required placeholder="email@example.com" tabindex="0" />
+        </div>
+        <div class="order-form-group">
+          <label for="discountMessage">Сообщение</label>
+          <textarea id="discountMessage" name="message" rows="4" placeholder="Ваше сообщение" tabindex="0"></textarea>
+        </div>
+        <div class="order-form-actions">
+          <button type="button" class="order-btn-cancel" id="discountCancel" tabindex="0">Отмена</button>
+          <button type="submit" class="order-btn-submit" tabindex="0">Отправить заявку</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="src/utils/responsive-images.js"></script>
+  <script src="script.js"></script>
+  <script src="animations.js"></script>
+  <script>
+    // Calculator Toggle Functionality
+    const handleCalculatorToggle = () => {
+      const calculatorSection = document.getElementById('calculator');
+      const calculatorNavBtn = document.getElementById('calculatorNavBtn');
+      const calculatorCloseBtn = document.getElementById('calculatorCloseBtn');
+      const body = document.body;
+
+      // Open calculator
+      const openCalculator = (e) => {
+        if (e) e.preventDefault();
+        calculatorSection.classList.add('active');
+        body.style.overflow = 'hidden';
+        calculatorSection.scrollTop = 0;
+      };
+
+      // Close calculator
+      const closeCalculator = (e) => {
+        if (e) e.preventDefault();
+        calculatorSection.classList.remove('active');
+        body.style.overflow = '';
+      };
+
+      // Event listeners
+      if (calculatorNavBtn) {
+        calculatorNavBtn.addEventListener('click', openCalculator);
+      }
+
+      // Hero calculator button
+      const heroCalculatorBtn = document.getElementById('heroCalculatorBtn');
+      if (heroCalculatorBtn) {
+        heroCalculatorBtn.addEventListener('click', openCalculator);
+      }
+
+      // All calculator open buttons
+      const calculatorOpenBtns = document.querySelectorAll('.calculator-open-btn');
+      calculatorOpenBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          openCalculator(e);
+        });
+      });
+
+      if (calculatorCloseBtn) {
+        calculatorCloseBtn.addEventListener('click', closeCalculator);
+      }
+
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && calculatorSection.classList.contains('active')) {
+          closeCalculator();
+        }
+      });
+
+      // Close on click outside
+      calculatorSection.addEventListener('click', (e) => {
+        if (e.target === calculatorSection) {
+          closeCalculator();
+        }
+      });
+    };
+
+    // Application Modal Toggle Functionality
+    const handleApplicationModal = () => {
+      const orderModal = document.getElementById('orderModal');
+      const orderModalOverlay = document.getElementById('orderModalOverlay');
+      const orderModalClose = document.getElementById('orderModalClose');
+      const orderCancel = document.getElementById('orderCancel');
+      const body = document.body;
+
+      // Open application modal
+      const openApplicationModal = (e) => {
+        if (e) e.preventDefault();
+        if (orderModal) {
+          orderModal.style.display = 'flex';
+          body.classList.add('no-scroll');
+          
+          // Заполняем данные из калькулятора, если они есть
+          if (window.calculator) {
+            const totalAmount = document.getElementById('totalAmount');
+            const orderTotal = document.getElementById('orderTotal');
+            const orderCar = document.getElementById('orderCar');
+            const orderZones = document.getElementById('orderZones');
+            
+            if (totalAmount && orderTotal) {
+              orderTotal.value = totalAmount.textContent || '0 ₽';
+            }
+            
+            if (window.calculator.selectedModel && orderCar) {
+              const brand = window.calculator.selectedBrand || '';
+              const model = window.calculator.selectedModel || '';
+              orderCar.value = `${brand} ${model}`.trim();
+            }
+            
+            if (window.calculator.selectedZones && orderZones) {
+              const zones = Array.from(window.calculator.selectedZones).map(zoneId => {
+                const zone = window.calculator.zonesDatabase.find(z => z.id === zoneId);
+                return zone ? zone.name : zoneId;
+              }).join(', ');
+              orderZones.value = zones || 'Не выбраны';
+            }
+          }
+          
+          // Анимация появления
+          gsap.fromTo(orderModal, 
+            { opacity: 0 }, 
+            { opacity: 1, duration: 0.3, ease: 'power2.out' }
+          );
+        }
+      };
+
+      // Close application modal
+      const closeApplicationModal = (e) => {
+        if (e) e.preventDefault();
+        if (orderModal) {
+          gsap.to(orderModal, {
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.out',
+            onComplete: () => {
+              orderModal.style.display = 'none';
+              body.classList.remove('no-scroll');
+            }
+          });
+        }
+      };
+
+      // All application open buttons
+      const applicationOpenBtns = document.querySelectorAll('.application-open-btn');
+      applicationOpenBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          openApplicationModal(e);
+        });
+      });
+
+      // Discount Modal Toggle Functionality
+      const handleDiscountModal = () => {
+        const discountModal = document.getElementById('discountModal');
+        const discountModalOverlay = document.getElementById('discountModalOverlay');
+        const discountModalClose = document.getElementById('discountModalClose');
+        const discountCancel = document.getElementById('discountCancel');
+        const body = document.body;
+
+        // Open discount modal
+        const openDiscountModal = (e) => {
+          if (e) e.preventDefault();
+          if (discountModal) {
+            discountModal.style.display = 'flex';
+            body.classList.add('no-scroll');
+            
+            // Анимация появления
+            gsap.fromTo(discountModal, 
+              { opacity: 0 }, 
+              { opacity: 1, duration: 0.3, ease: 'power2.out' }
+            );
+          }
+        };
+
+        // Close discount modal
+        const closeDiscountModal = (e) => {
+          if (e) e.preventDefault();
+          if (discountModal) {
+            gsap.to(discountModal, {
+              opacity: 0,
+              duration: 0.3,
+              ease: 'power2.out',
+              onComplete: () => {
+                discountModal.style.display = 'none';
+                body.classList.remove('no-scroll');
+              }
+            });
+          }
+        };
+
+        // All discount open buttons
+        const discountOpenBtns = document.querySelectorAll('.discount-open-btn');
+        discountOpenBtns.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openDiscountModal(e);
+          });
+        });
+
+        // Close buttons
+        if (discountModalClose) {
+          discountModalClose.addEventListener('click', closeDiscountModal);
+        }
+        
+        if (discountCancel) {
+          discountCancel.addEventListener('click', closeDiscountModal);
+        }
+
+        if (discountModalOverlay) {
+          discountModalOverlay.addEventListener('click', closeDiscountModal);
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && discountModal && discountModal.style.display === 'flex') {
+            closeDiscountModal();
+          }
+        });
+      };
+
+      // Initialize discount modal
+      handleDiscountModal();
+
+      // Close buttons
+      if (orderModalClose) {
+        orderModalClose.addEventListener('click', closeApplicationModal);
+      }
+      
+      if (orderCancel) {
+        orderCancel.addEventListener('click', closeApplicationModal);
+      }
+
+      if (orderModalOverlay) {
+        orderModalOverlay.addEventListener('click', closeApplicationModal);
+      }
+
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && orderModal && orderModal.style.display === 'flex') {
+          closeApplicationModal();
+        }
+      });
+    };
+
+    // Video Play Button Handler
+    const handleVideoPlay = () => {
+      const videoPlayBtn = document.getElementById('videoPlayBtn');
+      const desktopVideo = document.getElementById('desktopVideo');
+      const videoOverlay = document.getElementById('videoOverlay');
+      const videoContent = document.getElementById('videoContent');
+      
+      if (!videoPlayBtn) {
+        console.error('Кнопка videoPlayBtn не найдена');
+        return;
+      }
+      
+      if (!desktopVideo) {
+        console.error('Видео desktopVideo не найдено');
+        return;
+      }
+      
+      // Проверяем загрузку видео
+      desktopVideo.addEventListener('loadedmetadata', () => {
+        console.log('Видео загружено, готово к воспроизведению');
+      });
+      
+      desktopVideo.addEventListener('error', (e) => {
+        console.error('Ошибка загрузки видео:', e);
+        console.error('Путь к видео:', desktopVideo.querySelector('source')?.src);
+      });
+      
+      // Добавляем обработчик клика на кнопку
+      const handleVideoClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Кнопка нажата, начинаем воспроизведение');
+        
+        // Проверяем, мобильное ли устройство
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+          console.log('Мобильное устройство, видео должно играть на фоне');
+          return;
+        }
+        
+        if (!desktopVideo) {
+          console.error('Видео не найдено');
+          alert('Видео не найдено. Проверьте путь к файлу.');
+          return;
+        }
+        
+        // Проверяем, загружено ли видео
+        if (desktopVideo.readyState < 2) {
+          console.log('Видео еще загружается, ждем...');
+          desktopVideo.addEventListener('loadeddata', () => {
+            playVideo();
+          }, { once: true });
+          desktopVideo.load();
+          return;
+        }
+        
+        playVideo();
+      };
+      
+      const playVideo = () => {
+        // На десктопе: воспроизводим видео, убираем overlay и контент
+        desktopVideo.muted = false; // Включаем звук
+        
+        const playPromise = desktopVideo.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            console.log('Видео воспроизводится');
+            // Скрываем overlay и контент с анимацией
+            if (videoOverlay && videoContent) {
+              if (typeof gsap !== 'undefined') {
+                gsap.to([videoOverlay, videoContent], {
+                  opacity: 0,
+                  duration: 0.5,
+                  ease: 'power2.out',
+                  onComplete: () => {
+                    if (videoOverlay) videoOverlay.style.display = 'none';
+                    if (videoContent) videoContent.style.display = 'none';
+                  }
+                });
+              } else {
+                // Fallback если GSAP не загружен
+                videoOverlay.style.opacity = '0';
+                videoContent.style.opacity = '0';
+                setTimeout(() => {
+                  if (videoOverlay) videoOverlay.style.display = 'none';
+                  if (videoContent) videoContent.style.display = 'none';
+                }, 500);
+              }
+            }
+            
+            // Скрываем кнопку
+            videoPlayBtn.style.display = 'none';
+          }).catch(err => {
+            console.error('Ошибка воспроизведения видео:', err);
+            alert('Не удалось воспроизвести видео: ' + err.message);
+          });
+        }
+      };
+      
+      videoPlayBtn.addEventListener('click', handleVideoClick);
+      
+      // Также добавляем обработчик через onclick для надежности
+      videoPlayBtn.onclick = handleVideoClick;
+    };
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        handleCalculatorToggle();
+        handleApplicationModal();
+        handleVideoPlay();
+      });
+    } else {
+      handleCalculatorToggle();
+      handleApplicationModal();
+      handleVideoPlay();
+    }
+  </script>
+  <!-- Application Modal - используем существующее orderModal -->
+
+  </body>
+</html>

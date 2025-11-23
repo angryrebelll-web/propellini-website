@@ -1,0 +1,235 @@
+/* Premium Animation System - BRABUS/PRIME Level */
+
+/* Parallax Layers */
+.parallax-layer-bg {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.parallax-layer-mid {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.parallax-layer-foreground {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Fade Animations */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+
+.fade-to-black {
+  position: relative;
+}
+
+.fade-to-black::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, rgba(15, 15, 15, 0.95));
+  pointer-events: none;
+}
+
+/* Hover Effects */
+.magnetic-btn {
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.magnetic-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.glow-border {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(22, 132, 145, 0), rgba(22, 132, 145, 0.5), rgba(22, 132, 145, 0));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.glow-border:hover::before {
+  opacity: 1;
+}
+
+.tilt-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.tilt-3d:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) scale(1.02);
+}
+
+/* Scroll Animations */
+.scale-on-scroll {
+  will-change: transform;
+  transform: scale(1);
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scale-on-scroll.scaled {
+  transform: scale(1.05);
+}
+
+.opacity-shift {
+  will-change: opacity;
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.blur-in-out {
+  filter: blur(0px);
+  transition: filter 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.blur-in-out.blurred {
+  filter: blur(4px);
+}
+
+/* Motion Layers */
+.light-streak {
+  position: absolute;
+  width: 2px;
+  height: 200%;
+  background: linear-gradient(to bottom, transparent, rgba(22, 132, 145, 0.3), transparent);
+  animation: streak-move 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes streak-move {
+  0% {
+    transform: translateY(-100%) translateX(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+}
+
+.lens-flare {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(22, 132, 145, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.lens-flare.active {
+  opacity: 1;
+}
+
+/* Anti-AI Visual Texture */
+.noise-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: overlay;
+}
+
+.vignette {
+  position: relative;
+}
+
+.vignette::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.05) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Natural Shadows */
+.natural-shadow {
+  box-shadow: 
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
+}
+
+.natural-shadow-teal {
+  box-shadow: 
+    0 2.8px 2.2px rgba(22, 132, 145, 0.1),
+    0 6.7px 5.3px rgba(22, 132, 145, 0.12),
+    0 12.5px 10px rgba(22, 132, 145, 0.14),
+    0 22.3px 17.9px rgba(22, 132, 145, 0.16),
+    0 41.8px 33.4px rgba(22, 132, 145, 0.18),
+    0 100px 80px rgba(22, 132, 145, 0.2);
+}
+
+/* Smooth Scroll Snap - ОТКЛЮЧЕНО для плавной прокрутки */
+/* .scroll-snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+} */
+
+/* Inertia Scroll */
+.inertia-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Mobile Premium Animations */
+@media (max-width: 768px) {
+  .fade-up {
+    transform: translateY(20px);
+  }
+  
+  .scale-on-scroll.scaled {
+    transform: scale(1.02);
+  }
+  
+  .tilt-3d:hover {
+    transform: none;
+  }
+}
+

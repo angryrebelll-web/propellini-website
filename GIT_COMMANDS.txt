@@ -1,0 +1,34 @@
+ВНИМАНИЕ: Git должен быть установлен!
+
+Выполните эти команды в Git Bash или PowerShell в папке propellini-final:
+
+1. echo "# propellini-website" >> README.md
+
+2. git init
+
+3. git add README.md
+
+4. git commit -m "первый коммит"
+
+5. git branch -M main
+
+6. git remote add origin https://github.com/angryrebelll-web/propellini-website.git
+
+7. git add .
+
+8. git commit -m "Initial commit: полный проект"
+
+9. git push -u origin main
+
+====================================
+
+ИЛИ ЗАПУСТИТЕ: git-upload.bat
+
+====================================
+
+Если Git не установлен:
+1. Скачайте Git: https://git-scm.com/download/win
+2. Установите Git
+3. Перезапустите терминал
+4. Выполните команды выше или запустите git-upload.bat
+
