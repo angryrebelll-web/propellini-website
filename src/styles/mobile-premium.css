@@ -1,0 +1,1111 @@
+/* ============================================
+   PROPELLINI MOBILE-FIRST PREMIUM ADAPTATION
+   Полная адаптация сайта для мобильных устройств
+   ============================================ */
+
+/* ============================================
+   БАЗОВЫЕ МОБИЛЬНЫЕ СТИЛИ
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Убираем горизонтальный скролл */
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Контейнеры */
+  .container {
+    padding: 0 var(--space-md);
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* ============================================
+     НАВИГАЦИЯ - ПРЕМИУМ МОБИЛЬНАЯ
+     ============================================ */
+  
+  .main-nav {
+    height: 70px;
+    padding: 0;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(22, 132, 145, 0.2);
+  }
+
+  .nav-container {
+    padding: var(--space-sm) var(--space-md);
+    height: 70px;
+  }
+
+  .nav-logo {
+    height: 36px;
+    gap: 8px;
+  }
+
+  .nav-logo-icon {
+    height: 28px;
+  }
+
+  .nav-logo-text {
+    font-size: 18px;
+    letter-spacing: 0.15em;
+  }
+
+  .nav-toggle {
+    display: flex;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+  }
+
+  .nav-toggle:hover,
+  .nav-toggle:active {
+    background: rgba(22, 132, 145, 0.1);
+  }
+
+  .nav-toggle span {
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    transition: all 0.3s ease;
+  }
+
+  .nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+  }
+
+  .nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: var(--space-lg) var(--space-md);
+    gap: var(--space-md);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-bottom: 1px solid rgba(22, 132, 145, 0.2);
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-menu.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-menu li {
+    width: 100%;
+  }
+
+  .nav-menu a {
+    display: block;
+    padding: var(--space-md);
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-menu a:hover,
+  .nav-menu a:active {
+    background: rgba(22, 132, 145, 0.15);
+    color: var(--primary);
+    transform: translateX(5px);
+  }
+
+  .nav-menu a::after {
+    display: none;
+  }
+
+  /* ============================================
+     HERO СЕКЦИЯ - ПРЕМИУМ МОБИЛЬНАЯ
+     ============================================ */
+
+  .hero {
+    min-height: 100vh;
+    height: auto;
+    padding: 90px 0 var(--space-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-content {
+    padding: var(--space-lg) var(--space-md);
+    text-align: center;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .hero-title {
+    font-size: clamp(32px, 8vw, 48px);
+    line-height: 1.2;
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-lg);
+    text-align: center;
+    padding: 0 var(--space-sm);
+  }
+
+  .hero-promo {
+    margin-bottom: var(--space-lg);
+    padding: 0 var(--space-sm);
+  }
+
+  .hero-promo-text {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: var(--space-md);
+    text-align: center;
+  }
+
+  .hero-pricing {
+    margin: var(--space-lg) 0;
+    padding: 0 var(--space-sm);
+    text-align: center;
+  }
+
+  .hero-pricing-item {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: var(--space-xs);
+  }
+
+  .hero-pricing-item strong {
+    font-size: 20px;
+    display: block;
+    margin-top: 4px;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+    gap: var(--space-md);
+    margin: var(--space-xl) 0;
+    padding: 0 var(--space-sm);
+    width: 100%;
+  }
+
+  .hero-cta .btn {
+    width: 100%;
+    max-width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    font-size: 16px;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-contacts {
+    margin-top: var(--space-xl);
+    padding: 0 var(--space-sm);
+    text-align: center;
+  }
+
+  .hero-phone {
+    font-size: 22px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: var(--space-sm);
+  }
+
+  .hero-email {
+    font-size: 15px;
+    display: block;
+    margin-bottom: var(--space-xs);
+  }
+
+  .hero-address {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .hero-scroll-indicator {
+    bottom: var(--space-md);
+    font-size: 11px;
+  }
+
+  /* ============================================
+     ЗАГОЛОВКИ СЕКЦИЙ - ИСПРАВЛЕНИЕ
+     ============================================ */
+
+  section[id]:not(.hero):not(.calculator-section) {
+    scroll-margin-top: 90px !important;
+    position: relative;
+  }
+
+  section[id]:not(.hero):not(.calculator-section) .container {
+    padding-top: 40px !important;
+  }
+
+  .section-title {
+    font-size: clamp(32px, 8vw, 42px);
+    line-height: 1.2;
+    margin-bottom: var(--space-md);
+    padding: 0 var(--space-sm);
+    text-align: center;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section-subtitle {
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 0 var(--space-sm);
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ============================================
+     ПРЕИМУЩЕСТВА (BENEFITS)
+     ============================================ */
+
+  .benefits {
+    padding: var(--space-xl) 0;
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+
+  .benefit-card-glass {
+    padding: var(--space-lg);
+    min-height: auto;
+    width: 100%;
+  }
+
+  .benefit-glass-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+    line-height: 1.3;
+  }
+
+  .benefit-glass-text {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ============================================
+     О НАС (ABOUT)
+     ============================================ */
+
+  .about {
+    padding: var(--space-xl) 0;
+    min-height: auto;
+  }
+
+  .about-content {
+    padding: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .about-text {
+    font-size: 16px;
+    line-height: 1.7;
+    padding: 0 var(--space-sm);
+    max-width: 90%;
+    margin: 0 auto;
+  }
+
+  .about-achievements {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    padding: 0 var(--space-sm);
+  }
+
+  .achievement-card {
+    padding: var(--space-lg);
+    text-align: center;
+  }
+
+  .achievement-number {
+    font-size: 40px;
+    margin-bottom: var(--space-sm);
+  }
+
+  .achievement-label {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .about-promo {
+    margin-top: var(--space-xl);
+    padding: 0 var(--space-sm);
+  }
+
+  .promo-content {
+    padding: var(--space-xl) var(--space-lg);
+    text-align: center;
+  }
+
+  .promo-title {
+    font-size: clamp(20px, 5vw, 28px);
+    margin-bottom: var(--space-sm);
+    line-height: 1.3;
+  }
+
+  .promo-subtitle {
+    font-size: 16px;
+    margin-bottom: var(--space-lg);
+    color: var(--text-muted);
+  }
+
+  .promo-btn {
+    width: 100%;
+    max-width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    font-size: 16px;
+    min-height: 52px;
+  }
+
+  /* ============================================
+     УСЛУГИ (SERVICES)
+     ============================================ */
+
+  .services {
+    padding: var(--space-xl) 0;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+    padding: 0 var(--space-sm);
+  }
+
+  .service-card {
+    padding: var(--space-xl);
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+  }
+
+  .service-badge {
+    font-size: 14px;
+    padding: var(--space-xs) var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .service-card h3 {
+    font-size: 24px;
+    margin-bottom: var(--space-md);
+    line-height: 1.3;
+  }
+
+  .service-card p {
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: var(--space-lg);
+  }
+
+  .service-features {
+    margin: var(--space-lg) 0;
+    padding-left: var(--space-md);
+  }
+
+  .service-features li {
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: var(--space-xs);
+  }
+
+  .service-card .btn {
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    font-size: 16px;
+    min-height: 52px;
+    margin-top: var(--space-md);
+  }
+
+  /* ============================================
+     ПЛЕНКИ (FILMS)
+     ============================================ */
+
+  .films {
+    padding: var(--space-xl) 0;
+  }
+
+  .films-description {
+    font-size: 15px;
+    padding: 0 var(--space-sm);
+    max-width: 90%;
+    margin: 0 auto var(--space-md);
+  }
+
+  .films-glass-container {
+    margin: var(--space-lg) 0;
+    padding: 0 var(--space-sm);
+  }
+
+  .films-glass-track {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+    justify-content: center;
+  }
+
+  .film-glass-item {
+    padding: var(--space-sm) var(--space-md);
+    flex: 0 0 auto;
+  }
+
+  .film-glass-text {
+    font-size: clamp(16px, 4vw, 20px);
+  }
+
+  .films-benefits {
+    margin-top: var(--space-lg);
+    padding: 0 var(--space-sm);
+  }
+
+  .films-benefits-text {
+    font-size: 15px;
+    padding: 0 var(--space-sm);
+    max-width: 90%;
+    margin: 0 auto var(--space-md);
+  }
+
+  .films-benefits-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+    padding: 0 var(--space-sm);
+  }
+
+  .films-benefit-item {
+    padding: var(--space-md);
+    font-size: 14px;
+    text-align: center;
+  }
+
+  /* ============================================
+     ПРОЦЕСС (PROCESS)
+     ============================================ */
+
+  .process {
+    padding: var(--space-xl) 0;
+  }
+
+  .process-steps-compact {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+    padding: 0 var(--space-sm);
+  }
+
+  .process-step-compact {
+    padding: var(--space-lg);
+  }
+
+  .process-number-compact {
+    font-size: 40px;
+  }
+
+  .process-content-compact h3 {
+    font-size: 18px;
+    margin-bottom: var(--space-sm);
+  }
+
+  .process-content-compact p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ============================================
+     ПОРТФОЛИО (PORTFOLIO)
+     ============================================ */
+
+  .portfolio {
+    padding: var(--space-xl) 0;
+  }
+
+  .portfolio-gallery {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    margin: var(--space-lg) calc(var(--space-md) * -1) 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) rgba(255, 255, 255, 0.1);
+  }
+
+  .portfolio-gallery::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .portfolio-gallery::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+
+  .portfolio-gallery::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+  }
+
+  .portfolio-item {
+    flex: 0 0 85%;
+    max-width: 85%;
+    scroll-snap-align: start;
+    margin: 0;
+    aspect-ratio: 4/3;
+  }
+
+  .portfolio-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ============================================
+     ОТЗЫВЫ (REVIEWS)
+     ============================================ */
+
+  .reviews {
+    padding: var(--space-xl) 0;
+  }
+
+  .reviews-slider {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+  }
+
+  .review-card {
+    padding: var(--space-lg);
+  }
+
+  .review-stars {
+    font-size: 18px;
+    margin-bottom: var(--space-md);
+  }
+
+  .review-text {
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: var(--space-md);
+  }
+
+  .review-author {
+    font-size: 14px;
+  }
+
+  /* ============================================
+     СТУДИЯ (STUDIO)
+     ============================================ */
+
+  .studio {
+    padding: var(--space-xl) 0;
+    min-height: auto;
+  }
+
+  .studio-content {
+    padding: var(--space-md);
+  }
+
+  .studio-description {
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 0 var(--space-sm);
+    max-width: 90%;
+    margin: var(--space-md) auto var(--space-lg);
+  }
+
+  .studio-gallery {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    margin: var(--space-lg) calc(var(--space-md) * -1) 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) rgba(255, 255, 255, 0.1);
+  }
+
+  .studio-gallery::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .studio-gallery::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+
+  .studio-gallery::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+  }
+
+  .studio-gallery-item {
+    flex: 0 0 85%;
+    max-width: 85%;
+    min-height: 300px;
+    scroll-snap-align: start;
+    margin: 0;
+  }
+
+  .studio-gallery-text {
+    padding: var(--space-md);
+  }
+
+  .studio-gallery-text h5 {
+    font-size: 18px;
+    margin-bottom: var(--space-xs);
+  }
+
+  .studio-gallery-text p {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* ============================================
+     КОНТАКТЫ (CONTACTS)
+     ============================================ */
+
+  .contacts {
+    padding: var(--space-xl) 0;
+  }
+
+  .contacts-header {
+    padding: 0 var(--space-sm);
+    margin-bottom: var(--space-xl);
+  }
+
+  .contacts-description {
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 90%;
+    margin: var(--space-md) auto 0;
+  }
+
+  .contacts-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .contacts-info {
+    padding: var(--space-lg);
+    order: 2;
+  }
+
+  .contacts-info-title {
+    font-size: 20px;
+    margin-bottom: var(--space-md);
+  }
+
+  .contacts-brand {
+    font-size: 24px;
+    margin-bottom: var(--space-lg);
+  }
+
+  .contact-detail-item {
+    margin-bottom: var(--space-md);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .contact-phone {
+    font-size: 20px;
+    font-weight: 700;
+    display: block;
+    margin-top: var(--space-xs);
+  }
+
+  .contacts-social {
+    margin-top: var(--space-lg);
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .social-link {
+    padding: var(--space-md);
+    font-size: 16px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contacts-form {
+    order: 1;
+    padding: var(--space-lg);
+  }
+
+  .contact-form {
+    width: 100%;
+  }
+
+  .contact-form .form-group {
+    margin-bottom: var(--space-md);
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    padding: var(--space-md);
+    font-size: 16px;
+    min-height: 52px;
+    border-radius: 12px;
+  }
+
+  .contact-form textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .contact-form .btn {
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    font-size: 16px;
+    min-height: 52px;
+    margin-top: var(--space-md);
+  }
+
+  .form-privacy {
+    font-size: 12px;
+    margin-top: var(--space-sm);
+    text-align: center;
+  }
+
+  /* ============================================
+     КАРТА (MAP)
+     ============================================ */
+
+  .map-section {
+    padding: var(--space-lg) 0;
+  }
+
+  .map-container-full {
+    height: 400px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 0 var(--space-md);
+  }
+
+  /* ============================================
+     ФУТЕР (FOOTER)
+     ============================================ */
+
+  .footer {
+    padding: var(--space-xl) 0 var(--space-lg);
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: var(--space-xl);
+    text-align: center;
+    padding: 0 var(--space-md);
+  }
+
+  .footer-logo {
+    justify-content: center;
+    margin-bottom: var(--space-md);
+  }
+
+  .footer-nav {
+    flex-direction: column;
+    gap: var(--space-md);
+    margin: var(--space-lg) 0;
+  }
+
+  .footer-nav a {
+    padding: var(--space-sm);
+    font-size: 16px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footer-social {
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .footer-social a {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 14px;
+    min-height: 44px;
+  }
+
+  .footer-bottom {
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    font-size: 13px;
+  }
+
+  /* ============================================
+     КНОПКИ - МОБИЛЬНАЯ ОПТИМИЗАЦИЯ
+     ============================================ */
+
+  .btn {
+    padding: var(--space-md) var(--space-lg);
+    font-size: 16px;
+    min-height: 52px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(22, 132, 145, 0.2);
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+  }
+
+  /* ============================================
+     МОДАЛЬНЫЕ ОКНА
+     ============================================ */
+
+  .order-modal {
+    padding: var(--space-md);
+  }
+
+  .order-modal-content {
+    width: 95%;
+    max-width: 100%;
+    padding: var(--space-lg);
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .order-form-group {
+    margin-bottom: var(--space-md);
+  }
+
+  .order-form-group label {
+    font-size: 14px;
+    margin-bottom: var(--space-xs);
+    display: block;
+  }
+
+  .order-form-group input,
+  .order-form-group textarea {
+    width: 100%;
+    padding: var(--space-md);
+    font-size: 16px;
+    min-height: 52px;
+    border-radius: 12px;
+  }
+
+  .order-form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .order-form-actions {
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+  }
+
+  .order-form-actions .btn {
+    width: 100%;
+  }
+
+  /* ============================================
+     ВИДЕО СЕКЦИЯ
+     ============================================ */
+
+  .video-section {
+    height: 400px;
+    margin-top: 0;
+    padding-top: 90px;
+  }
+
+  .video-content {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .video-content h2 {
+    font-size: clamp(28px, 6vw, 36px);
+    margin-bottom: var(--space-md);
+  }
+
+  .video-play-btn {
+    padding: var(--space-md) var(--space-xl);
+    font-size: 16px;
+    min-height: 52px;
+    margin-top: var(--space-md);
+  }
+
+  /* ============================================
+     ОБЩИЕ ИСПРАВЛЕНИЯ
+     ============================================ */
+
+  /* Убираем все горизонтальные скроллы */
+  * {
+    max-width: 100%;
+  }
+
+  /* Улучшаем читаемость текста */
+  p, li, span {
+    line-height: 1.7;
+  }
+
+  /* Улучшаем отступы */
+  section {
+    padding: var(--space-xl) 0;
+  }
+
+  /* Фиксируем z-index для навигации */
+  .main-nav {
+    z-index: 1000;
+  }
+
+  /* Улучшаем touch-цели */
+  a, button, input, textarea, select {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+
+  /* Убираем hover-эффекты на мобильных */
+  @media (hover: none) {
+    *:hover {
+      transform: none !important;
+    }
+  }
+}
+
+/* ============================================
+   ПЛАНШЕТЫ (768px - 1024px)
+   ============================================ */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding: 0 var(--space-lg);
+    max-width: 100%;
+  }
+
+  .section-title {
+    font-size: clamp(42px, 6vw, 56px);
+  }
+
+  .benefits-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .about-achievements {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .portfolio-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    display: grid;
+    overflow-x: visible;
+  }
+
+  .portfolio-item {
+    max-width: 100%;
+  }
+
+  .studio-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    display: grid;
+    overflow-x: visible;
+  }
+
+  .studio-gallery-item {
+    max-width: 100%;
+  }
+}
+
+/* ============================================
+   МАЛЕНЬКИЕ МОБИЛЬНЫЕ (до 480px)
+   ============================================ */
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 var(--space-sm);
+  }
+
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+
+  .hero-cta .btn {
+    font-size: 15px;
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .benefit-card-glass {
+    padding: var(--space-md);
+  }
+
+  .service-card {
+    padding: var(--space-lg);
+  }
+
+  .achievement-card {
+    padding: var(--space-md);
+  }
+
+  .contacts-info,
+  .contacts-form {
+    padding: var(--space-md);
+  }
+}
+
