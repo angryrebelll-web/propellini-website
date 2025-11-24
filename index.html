@@ -437,8 +437,11 @@
 
             <!-- Или зоны вручную -->
             <div class="mobile-zones-section" id="mobileZonesSection">
-              <h4 class="mobile-section-subtitle">Выбрать зоны вручную</h4>
-              <div class="mobile-zones-list" id="mobileZonesList">
+              <button class="mobile-zones-toggle" id="mobileZonesToggle" type="button">
+                <h4 class="mobile-section-subtitle">Выбрать зоны риска</h4>
+                <span class="mobile-zones-toggle-icon">▼</span>
+              </button>
+              <div class="mobile-zones-list" id="mobileZonesList" style="display: none;">
                 <!-- Зоны будут здесь -->
               </div>
             </div>
@@ -1832,7 +1835,7 @@
               packagesGrid.querySelectorAll('.mobile-package-card').forEach(c => c.classList.remove('active'));
               card.classList.add('active');
               
-              // Обновляем чекбоксы зон - помечаем зоны пакета как выбранные
+              // Обновляем чекбоксы зон - помечаем зоны пакета как выбранные и подсвечиваем их одним цветом
               if (zonesList) {
                 zonesList.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
                   const zoneId = checkbox.value;
@@ -1840,12 +1843,21 @@
                   
                   if (packageZones.includes(zoneId)) {
                     checkbox.checked = true;
-                    item?.classList.add('active');
+                    item?.classList.add('active', 'package-selected');
+                    checkbox.disabled = true;
                   } else {
                     checkbox.checked = false;
-                    item?.classList.remove('active');
+                    item?.classList.remove('active', 'package-selected');
+                    checkbox.disabled = false;
                   }
                 });
+              }
+              
+              // Раскрываем зоны, если они закрыты
+              const zonesToggle = document.getElementById('mobileZonesToggle');
+              const zonesListElement = document.getElementById('mobileZonesList');
+              if (zonesToggle && zonesListElement && zonesListElement.style.display === 'none') {
+                zonesToggle.click();
               }
               
               // Обновляем визуализацию в десктопной версии калькулятора
@@ -1879,9 +1891,12 @@
             zones.forEach(zone => {
               if (zone.type === 'package') return;
               const isSelected = window.calculator.selectedZones.has(zone.id);
+              // Проверяем, является ли зона частью выбранного пакета
+              const isPackageZone = window.calculator.selectedPackage && 
+                window.calculator.getPackageZones(window.calculator.selectedPackage).includes(zone.id);
               zonesHtml += `
-                <label class="mobile-zone-item-new ${isSelected ? 'active' : ''}">
-                  <input type="checkbox" value="${zone.id}" ${isSelected ? 'checked' : ''}>
+                <label class="mobile-zone-item-new ${isSelected ? 'active' : ''} ${isPackageZone ? 'package-selected' : ''}">
+                  <input type="checkbox" value="${zone.id}" ${isSelected ? 'checked' : ''} ${isPackageZone ? 'disabled' : ''}>
                   <span class="mobile-zone-name">${zone.name}</span>
                   <span class="mobile-zone-price-new">${zone.price.toLocaleString('ru-RU')} ₽</span>
                 </label>
