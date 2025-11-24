@@ -219,7 +219,7 @@
     position: relative;
     z-index: 5;
     text-align: left;
-    padding: var(--space-md) var(--space-md) !important;
+    padding: var(--space-md) var(--space-sm) !important;
     max-width: 100% !important;
     margin: 0 auto;
     margin-top: 20px;
@@ -256,7 +256,7 @@
   .hero-banners-wrapper {
     display: flex !important;
     flex-direction: row !important;
-    gap: var(--space-sm) !important;
+    gap: 8px !important;
     align-items: stretch !important;
     margin: 0 !important;
     width: 100% !important;
@@ -271,7 +271,7 @@
     background: rgba(22, 132, 145, 0.15) !important;
     border: 1px solid rgba(22, 132, 145, 0.4) !important;
     border-radius: 12px;
-    padding: var(--space-sm) 6px !important;
+    padding: var(--space-xs) 6px !important;
     text-align: center;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -279,13 +279,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100px !important;
+    min-height: 90px !important;
     box-sizing: border-box !important;
-    width: calc(50% - var(--space-sm) / 2) !important;
-    max-width: calc(50% - var(--space-sm) / 2) !important;
+    width: calc(50% - 4px) !important;
+    max-width: calc(50% - 4px) !important;
     overflow: hidden !important;
-    flex: 0 0 calc(50% - var(--space-sm) / 2) !important;
+    flex: 0 0 calc(50% - 4px) !important;
     min-width: 0 !important;
+    flex-shrink: 0 !important;
   }
 
   .hero-promo-text {
@@ -307,7 +308,7 @@
 
   .hero-gift-banner {
     margin: 0 !important;
-    padding: var(--space-sm) 6px !important;
+    padding: var(--space-xs) 6px !important;
     text-align: center;
     background: linear-gradient(135deg, rgba(255, 193, 7, 0.25) 0%, rgba(255, 152, 0, 0.25) 100%) !important;
     border: 2px solid rgba(255, 193, 7, 0.7) !important;
@@ -322,13 +323,14 @@
     gap: 4px !important;
     position: relative;
     z-index: 10;
-    min-height: 100px !important;
+    min-height: 90px !important;
     box-sizing: border-box !important;
-    width: calc(50% - var(--space-sm) / 2) !important;
-    max-width: calc(50% - var(--space-sm) / 2) !important;
+    width: calc(50% - 4px) !important;
+    max-width: calc(50% - 4px) !important;
     overflow: hidden !important;
-    flex: 0 0 calc(50% - var(--space-sm) / 2) !important;
+    flex: 0 0 calc(50% - 4px) !important;
     min-width: 0 !important;
+    flex-shrink: 0 !important;
   }
 
   .hero-gift-banner::before {
