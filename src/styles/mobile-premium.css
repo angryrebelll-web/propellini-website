@@ -22,6 +22,15 @@
     width: 100%;
   }
 
+  /* Исправление отступов для всех секций */
+  section {
+    padding: var(--space-xl) 0 !important;
+  }
+
+  section .container {
+    padding: 0 var(--space-md) !important;
+  }
+
   /* ============================================
      НАВИГАЦИЯ - ПРЕМИУМ МОБИЛЬНАЯ
      ============================================ */
@@ -608,12 +617,15 @@
 
   .reviews-slider {
     grid-template-columns: 1fr;
-    gap: var(--space-lg);
-    margin-top: var(--space-lg);
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+    padding: 0 var(--space-sm);
+    max-width: 100%;
   }
 
   .review-card {
-    padding: var(--space-lg);
+    padding: var(--space-md);
+    max-width: 100%;
   }
 
   .review-stars {
@@ -728,8 +740,9 @@
   }
 
   .contacts-info {
-    padding: var(--space-lg);
+    padding: var(--space-md);
     order: 2;
+    max-width: 100%;
   }
 
   .contacts-info-title {
@@ -772,11 +785,14 @@
 
   .contacts-form {
     order: 1;
-    padding: var(--space-lg);
+    padding: var(--space-md);
+    max-width: 100%;
   }
 
   .contact-form {
     width: 100%;
+    max-width: 100%;
+    padding: var(--space-md) !important;
   }
 
   .contact-form .form-group {
@@ -918,10 +934,10 @@
   }
 
   .order-modal-content {
-    width: 95%;
-    max-width: 100%;
-    padding: var(--space-lg);
-    max-height: 90vh;
+    width: 90%;
+    max-width: 500px;
+    padding: var(--space-md);
+    max-height: 85vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }

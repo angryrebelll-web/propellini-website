@@ -1279,13 +1279,23 @@
         const isMobile = window.innerWidth <= 768;
         
         if (isMobile) {
-          console.log('Мобильное устройство, видео уже видно');
+          // На мобильных показываем мобильный контейнер
+          const videoMobileContainer = document.getElementById('videoMobileContainer');
+          if (videoMobileContainer) {
+            videoMobileContainer.style.display = 'block';
+            videoMobileContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          // Скрываем overlay и контент
+          if (videoOverlay) videoOverlay.style.display = 'none';
+          if (videoContent) videoContent.style.display = 'none';
+          if (videoPlayBtn) videoPlayBtn.style.display = 'none';
           return;
         }
         
-        // Показываем Rutube iframe
+        // Показываем Rutube iframe для десктопа
         if (videoRutubeContainer) {
           videoRutubeContainer.style.display = 'block';
+          videoRutubeContainer.style.zIndex = '1000';
         }
         
         // Скрываем overlay и контент с анимацией
@@ -1312,13 +1322,19 @@
         }
         
         // Скрываем кнопку
-        videoPlayBtn.style.display = 'none';
+        if (videoPlayBtn) {
+          videoPlayBtn.style.display = 'none';
+        }
       };
       
-      videoPlayBtn.addEventListener('click', handleVideoClick);
+      // Удаляем старые обработчики
+      const newBtn = videoPlayBtn.cloneNode(true);
+      videoPlayBtn.parentNode.replaceChild(newBtn, videoPlayBtn);
+      const btn = newBtn;
       
-      // Также добавляем обработчик через onclick для надежности
-      videoPlayBtn.onclick = handleVideoClick;
+      btn.addEventListener('click', handleVideoClick, true);
+      btn.addEventListener('touchstart', handleVideoClick, { passive: false });
+      btn.onclick = handleVideoClick;
     };
 
     // ============================================
@@ -2189,9 +2205,26 @@
       // Обработчики кликов на изображения
       portfolioItems.forEach((item, index) => {
         item.style.cursor = 'pointer';
-        item.addEventListener('click', () => {
+        
+        // Удаляем старые обработчики
+        const newItem = item.cloneNode(true);
+        item.parentNode.replaceChild(newItem, item);
+        const portfolioItem = newItem;
+        
+        const handleClick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
           openLightbox(index);
-        });
+        };
+        
+        portfolioItem.addEventListener('click', handleClick, true);
+        portfolioItem.addEventListener('touchstart', handleClick, { passive: false });
+        
+        // Также добавляем на изображение внутри
+        const img = portfolioItem.querySelector('img');
+        if (img) {
+          img.style.pointerEvents = 'none';
+        }
       });
       
       // Закрытие

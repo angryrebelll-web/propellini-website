@@ -2563,6 +2563,9 @@ body {
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-sm);
   margin-top: var(--space-lg);
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .review-card {
@@ -2899,6 +2902,9 @@ body {
   gap: var(--space-lg);
   margin-top: var(--space-lg);
   align-items: stretch;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .contacts-info {
@@ -2912,6 +2918,17 @@ body {
   backdrop-filter: blur(10px); /* Меньше blur */
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 20px rgba(22, 132, 145, 0.15); /* Добавлена тень */
+  max-width: 100%;
+}
+
+@media (min-width: 769px) {
+  .contacts-info {
+    max-width: 500px;
+  }
+  
+  .contacts-form {
+    max-width: 500px;
+  }
 }
 
 .contacts-info-title {
@@ -3040,8 +3057,10 @@ body {
   backdrop-filter: blur(10px); /* Меньше blur */
   -webkit-backdrop-filter: blur(10px);
   width: 100%;
-  height: 100%;
-  justify-content: space-between;
+  max-width: 100%;
+  height: auto;
+  min-height: auto;
+  justify-content: flex-start;
   box-shadow: 0 4px 20px rgba(22, 132, 145, 0.15); /* Добавлена тень */
 }
 
@@ -3174,6 +3193,15 @@ body {
   font-size: 14px;
 }
 
+.footer-bottom p {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-roboto);
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 /* Mobile Styles - Premium Mobile-First Design */
 /* Основные мобильные стили перенесены в mobile-premium.css для лучшей организации */
 @media (max-width: 768px) {
@@ -3190,11 +3218,11 @@ body {
   }
 
   .calculator-desktop {
-    display: none;
+    display: block;
   }
 
   .calculator-mobile {
-    display: block;
+    display: none;
   }
 
   .process-steps-compact {
