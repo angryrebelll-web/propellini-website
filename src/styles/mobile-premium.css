@@ -85,6 +85,9 @@
   }
 
   .nav-logo {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
     height: 36px;
     gap: 8px;
   }

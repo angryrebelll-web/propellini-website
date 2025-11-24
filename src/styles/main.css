@@ -142,6 +142,14 @@ body {
   align-items: center;
   gap: 10px;
   height: 40px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.nav-logo:hover {
+  opacity: 0.8;
 }
 
 .nav-logo-icon {
@@ -1539,7 +1547,7 @@ body {
   left: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
-  z-index: 30000 !important;
+  z-index: 99999 !important;
   background: rgba(0, 0, 0, 0.85) !important;
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;

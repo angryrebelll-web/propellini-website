@@ -1989,7 +1989,10 @@ class CarWrappingCalculator {
     form.style.left = '0';
     form.style.right = '0';
     form.style.bottom = '0';
-    form.style.zIndex = '30000';
+    form.style.width = '100%';
+    form.style.height = '100%';
+    form.style.zIndex = '99999';
+    form.style.pointerEvents = 'auto';
     form.style.background = 'rgba(0, 0, 0, 0.85)';
     form.style.backdropFilter = 'blur(10px)';
     form.style.webkitBackdropFilter = 'blur(10px)';
@@ -1998,6 +2001,8 @@ class CarWrappingCalculator {
     form.style.padding = '20px';
     form.style.overflowY = 'auto';
     form.style.margin = '0';
+    form.style.opacity = '1';
+    form.style.visibility = 'visible';
     document.body.style.overflow = 'hidden';
     
     // Добавляем обработчик клика на overlay для закрытия
@@ -2013,7 +2018,31 @@ class CarWrappingCalculator {
     form.removeEventListener('click', handleOverlayClick);
     form.addEventListener('click', handleOverlayClick, true);
     
-    console.log('Форма калькулятора открыта, z-index:', form.style.zIndex || '30000');
+    // Закрытие по Escape
+    const handleEscape = (e) => {
+      if (e.key === 'Escape' && form.classList.contains('active')) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.closeCalculatorApplicationForm();
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    form.dataset.escapeHandler = 'true';
+    
+    // Привязка кнопки закрытия
+    const closeBtn = document.getElementById('calculatorFormClose');
+    if (closeBtn) {
+      const handleClose = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.closeCalculatorApplicationForm();
+      };
+      closeBtn.addEventListener('click', handleClose, true);
+      closeBtn.addEventListener('touchstart', handleClose, { passive: false });
+      closeBtn.onclick = handleClose;
+    }
+    
+    console.log('Форма калькулятора открыта, z-index:', form.style.zIndex || '99999');
   }
   
   // Закрытие формы заявки внутри калькулятора
@@ -2022,6 +2051,8 @@ class CarWrappingCalculator {
     if (form) {
       form.classList.remove('active');
       form.style.display = 'none';
+      form.style.visibility = 'hidden';
+      form.style.opacity = '0';
       form.style.zIndex = '';
       document.body.style.overflow = '';
     }
@@ -2421,6 +2452,8 @@ class CarWrappingCalculator {
           this.renderZones();
           this.updateCarZonesVisual();
           
+          // Обновляем цену сразу и после небольшой задержки
+          this.updateTotal();
           setTimeout(() => {
             this.updateTotal();
           }, 50);
@@ -2479,6 +2512,7 @@ class CarWrappingCalculator {
         this.selectedModel = null;
           if (this.modelSearch) this.modelSearch.value = '';
           if (this.selectedModelInfo) this.selectedModelInfo.style.display = 'none';
+          this.updateTotal();
       });
       };
       
@@ -2557,20 +2591,8 @@ class CarWrappingCalculator {
     });
   }
 
-  // Обновление итоговой стоимости
-  updateTotal() {
-    if (!this.totalAmountEl) {
-      this.totalAmountEl = document.getElementById('totalAmount');
-    }
-    if (!this.totalZonesEl) {
-      this.totalZonesEl = document.getElementById('totalZones');
-    }
-    if (!this.carClassInfoEl) {
-      this.carClassInfoEl = document.getElementById('carClassInfo');
-    }
-    
-    if (!this.totalAmountEl) return;
-    
+  // Вычисление общей стоимости (возвращает число)
+  calculateTotal() {
     let total = 0;
     let hasPackage = false;
     const packageZones = new Set();
@@ -2578,11 +2600,7 @@ class CarWrappingCalculator {
     const classToUse = this.selectedClass || 'small';
     
     if (!this.zonesDatabase || !this.zonesDatabase[classToUse]) {
-      console.warn('База данных зон не найдена для класса:', classToUse);
-      if (this.totalAmountEl) {
-        this.totalAmountEl.textContent = '0 ₽';
-      }
-      return;
+      return 0;
     }
     
     const zonesData = this.zonesDatabase[classToUse];
@@ -2607,7 +2625,7 @@ class CarWrappingCalculator {
         } else if (!packageZones.has(id)) {
           total += zoneData.price;
         }
-        } else {
+      } else {
         const zoneItem = document.querySelector(`.zone-item[data-zone="${id}"]`);
         if (zoneItem) {
           const priceEl = zoneItem.querySelector('.zone-price');
@@ -2618,6 +2636,48 @@ class CarWrappingCalculator {
             }
           }
         }
+      }
+    });
+    
+    return total;
+  }
+
+  // Обновление итоговой стоимости
+  updateTotal() {
+    if (!this.totalAmountEl) {
+      this.totalAmountEl = document.getElementById('totalAmount');
+    }
+    if (!this.totalZonesEl) {
+      this.totalZonesEl = document.getElementById('totalZones');
+    }
+    if (!this.carClassInfoEl) {
+      this.carClassInfoEl = document.getElementById('carClassInfo');
+    }
+    
+    if (!this.totalAmountEl) return;
+    
+    const total = this.calculateTotal();
+    let hasPackage = false;
+    const packageZones = new Set();
+    
+    const classToUse = this.selectedClass || 'small';
+    
+    if (!this.zonesDatabase || !this.zonesDatabase[classToUse]) {
+      console.warn('База данных зон не найдена для класса:', classToUse);
+      if (this.totalAmountEl) {
+        this.totalAmountEl.textContent = '0 ₽';
+      }
+      return;
+    }
+    
+    const zonesData = this.zonesDatabase[classToUse];
+    const allZones = Object.values(zonesData).flat();
+    const packages = zonesData['Пакеты услуг'] || [];
+    
+    // Проверяем наличие пакета
+    this.selectedZones.forEach((id) => {
+      if (packages.some(p => p.id === id)) {
+        hasPackage = true;
       }
     });
     
