@@ -1126,27 +1126,43 @@ class CarWrappingCalculator {
     
     // Добавляем обработчики для клика по label (zone-item)
     this.zonesContainer.querySelectorAll('.zone-item').forEach(item => {
+      // Удаляем старые обработчики через клонирование
+      const newItem = item.cloneNode(true);
+      item.parentNode.replaceChild(newItem, item);
+      const zoneItem = newItem;
+      
       const handleItemClick = (e) => {
-        // Если клик не по input, переключаем checkbox/radio
-        if (e.target.tagName !== 'INPUT') {
-          const input = item.querySelector('input[type="checkbox"], input[type="radio"]');
-          if (input) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            if (input.type === 'checkbox') {
-              input.checked = !input.checked;
-            } else if (input.type === 'radio') {
-              input.checked = true;
-            }
-            
-            input.dispatchEvent(new Event('change', { bubbles: true }));
+        e.stopPropagation();
+        
+        const input = zoneItem.querySelector('input[type="checkbox"], input[type="radio"]');
+        if (!input) return;
+        
+        // Если клик не по самому input, переключаем его
+        if (e.target !== input && e.target.tagName !== 'INPUT') {
+          e.preventDefault();
+          
+          if (input.type === 'checkbox') {
+            input.checked = !input.checked;
+          } else if (input.type === 'radio') {
+            input.checked = true;
           }
+          
+          // Вызываем событие change
+          const changeEvent = new Event('change', { bubbles: true, cancelable: true });
+          input.dispatchEvent(changeEvent);
         }
       };
       
-      item.addEventListener('click', handleItemClick);
-      item.addEventListener('touchstart', handleItemClick, { passive: false });
+      zoneItem.addEventListener('click', handleItemClick, true);
+      zoneItem.addEventListener('touchstart', handleItemClick, { passive: false });
+      
+      // Также добавляем обработчик на сам input
+      const input = zoneItem.querySelector('input[type="checkbox"], input[type="radio"]');
+      if (input) {
+        input.addEventListener('click', (e) => {
+          e.stopPropagation();
+        }, true);
+      }
     });
   }
 
@@ -1798,30 +1814,38 @@ class CarWrappingCalculator {
 
   // Привязка кнопки заказа
   bindOrderButton() {
-    // Ищем кнопку заново, так как она может быть не найдена при первой инициализации
-    this.orderBtn = document.getElementById('orderBtn') || document.querySelector('.order-btn');
+    // Ищем кнопку заново
+    const orderBtn = document.getElementById('orderBtn') || document.querySelector('.order-btn');
     
-    if (this.orderBtn) {
-      // Удаляем старые обработчики, если они есть
-      const newBtn = this.orderBtn.cloneNode(true);
-      this.orderBtn.parentNode.replaceChild(newBtn, this.orderBtn);
-      this.orderBtn = newBtn;
-      
-      const handleOrderClick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        console.log('Кнопка заказа нажата');
-        
-        // Открываем форму внутри калькулятора
-        this.openCalculatorApplicationForm();
-      };
-      
-      this.orderBtn.addEventListener('click', handleOrderClick);
-      this.orderBtn.addEventListener('touchstart', handleOrderClick, { passive: false });
-    } else {
+    if (!orderBtn) {
       console.warn('Кнопка orderBtn не найдена');
+      return;
     }
+    
+    // Сохраняем ссылку
+    this.orderBtn = orderBtn;
+    
+    // Удаляем все существующие обработчики через клонирование
+    const newBtn = orderBtn.cloneNode(true);
+    orderBtn.parentNode.replaceChild(newBtn, orderBtn);
+    this.orderBtn = newBtn;
+    
+    const handleOrderClick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      console.log('Кнопка заказа нажата, открываем форму');
+      
+      // Открываем форму внутри калькулятора
+      this.openCalculatorApplicationForm();
+    };
+    
+    // Добавляем обработчики
+    this.orderBtn.addEventListener('click', handleOrderClick, true);
+    this.orderBtn.addEventListener('touchstart', handleOrderClick, { passive: false });
+    
+    // Также добавляем через onclick для надежности
+    this.orderBtn.onclick = handleOrderClick;
   }
   
   // Открытие формы заявки внутри калькулятора

@@ -19,16 +19,21 @@
   }
   
   .hero-title {
-    text-align: center !important;
-    margin: 0 auto !important;
+    text-align: left !important;
+    margin: 0 !important;
+    margin-top: var(--space-md) !important;
+    margin-bottom: var(--space-xl) !important;
     font-size: clamp(32px, 8vw, 48px) !important;
     line-height: 1.2 !important;
     width: 100% !important;
+    padding: 0 var(--space-md) !important;
   }
   
   .hero-promo {
     text-align: center !important;
     width: 100% !important;
+    margin-top: var(--space-2xl) !important;
+    margin-bottom: var(--space-lg) !important;
   }
   
   .hero-promo-text {

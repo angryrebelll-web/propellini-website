@@ -600,29 +600,41 @@
     <div class="container">
       <h2 class="section-title">Наши работы</h2>
       <div class="portfolio-gallery" id="portfolioGallery">
-        <div class="portfolio-item tilt-3d">
+        <div class="portfolio-item tilt-3d" data-image="https://i.pinimg.com/736x/1c/9c/9a/1c9c9aff8afe692321467ca5f1d97f32.jpg" data-alt="Работа 1">
           <img src="https://i.pinimg.com/736x/1c/9c/9a/1c9c9aff8afe692321467ca5f1d97f32.jpg" alt="Работа 1" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
         </div>
-        <div class="portfolio-item tilt-3d">
+        <div class="portfolio-item tilt-3d" data-image="https://i.pinimg.com/1200x/5e/4c/e7/5e4ce70476d2dd1567d432680cc4462a.jpg" data-alt="Работа 2">
           <img src="https://i.pinimg.com/1200x/5e/4c/e7/5e4ce70476d2dd1567d432680cc4462a.jpg" alt="Работа 2" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
         </div>
-        <div class="portfolio-item tilt-3d">
+        <div class="portfolio-item tilt-3d" data-image="https://i.pinimg.com/736x/7c/c5/dd/7cc5ddc8d2833edc1ad6f3510c7df3d6.jpg" data-alt="Работа 3">
           <img src="https://i.pinimg.com/736x/7c/c5/dd/7cc5ddc8d2833edc1ad6f3510c7df3d6.jpg" alt="Работа 3" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
         </div>
-        <div class="portfolio-item tilt-3d">
+        <div class="portfolio-item tilt-3d" data-image="https://i.pinimg.com/736x/72/96/1b/72961bc9ff271e5c385c60aa58e22c4b.jpg" data-alt="Работа 4">
           <img src="https://i.pinimg.com/736x/72/96/1b/72961bc9ff271e5c385c60aa58e22c4b.jpg" alt="Работа 4" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
         </div>
-        <div class="portfolio-item tilt-3d">
+        <div class="portfolio-item tilt-3d" data-image="https://i.pinimg.com/736x/bb/92/82/bb9282a24a432e16a8362c5c62c8c2f8.jpg" data-alt="Работа 5">
           <img src="https://i.pinimg.com/736x/bb/92/82/bb9282a24a432e16a8362c5c62c8c2f8.jpg" alt="Работа 5" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
         </div>
-        <div class="portfolio-item tilt-3d">
+        <div class="portfolio-item tilt-3d" data-image="https://i.pinimg.com/736x/92/20/03/9220033bd92d57ab5a371f0bead58dbb.jpg" data-alt="Работа 6">
           <img src="https://i.pinimg.com/736x/92/20/03/9220033bd92d57ab5a371f0bead58dbb.jpg" alt="Работа 6" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
         </div>
-        <div class="portfolio-item tilt-3d">
+        <div class="portfolio-item tilt-3d" data-image="https://i.pinimg.com/736x/8c/c1/23/8cc12382dd904e89e24dfd9216f8180b.jpg" data-alt="Работа 7">
           <img src="https://i.pinimg.com/736x/8c/c1/23/8cc12382dd904e89e24dfd9216f8180b.jpg" alt="Работа 7" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
         </div>
-        <div class="portfolio-item tilt-3d">
+        <div class="portfolio-item tilt-3d" data-image="https://i.pinimg.com/736x/40/98/39/409839f150de67d23e274ebea1369bab.jpg" data-alt="Работа 8">
           <img src="https://i.pinimg.com/736x/40/98/39/409839f150de67d23e274ebea1369bab.jpg" alt="Работа 8" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        </div>
+      </div>
+      
+      <!-- Lightbox Modal для галереи -->
+      <div id="portfolioLightbox" class="portfolio-lightbox" style="display: none;">
+        <div class="lightbox-overlay" id="lightboxOverlay"></div>
+        <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">&times;</button>
+        <button class="lightbox-prev" id="lightboxPrev" aria-label="Предыдущее изображение">‹</button>
+        <button class="lightbox-next" id="lightboxNext" aria-label="Следующее изображение">›</button>
+        <div class="lightbox-content">
+          <img id="lightboxImage" src="" alt="" />
+          <div class="lightbox-caption" id="lightboxCaption"></div>
         </div>
       </div>
     </div>
@@ -2066,492 +2078,204 @@
       }
     };
 
+    // Плавная прокрутка для всех якорных ссылок
+    const handleSmoothScroll = () => {
+      // Обработка всех ссылок с якорями
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          const href = this.getAttribute('href');
+          
+          // Пропускаем пустые якоря и якоря для калькулятора
+          if (href === '#' || href === '#calculator' || this.id === 'calculatorNavBtn') {
+            return;
+          }
+          
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            
+            // Закрываем мобильное меню если открыто
+            const navMenu = document.getElementById('navMenu');
+            const navToggle = document.getElementById('navToggle');
+            if (navMenu && navMenu.classList.contains('active')) {
+              navMenu.classList.remove('active');
+              if (navToggle) navToggle.classList.remove('active');
+            }
+            
+            // Вычисляем позицию с учетом фиксированной навигации
+            const navHeight = document.querySelector('.main-nav')?.offsetHeight || 0;
+            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+            
+            // Плавная прокрутка
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    };
+
+    // Lightbox для галереи портфолио
+    const handlePortfolioLightbox = () => {
+      const lightbox = document.getElementById('portfolioLightbox');
+      const lightboxImage = document.getElementById('lightboxImage');
+      const lightboxCaption = document.getElementById('lightboxCaption');
+      const lightboxClose = document.getElementById('lightboxClose');
+      const lightboxOverlay = document.getElementById('lightboxOverlay');
+      const lightboxPrev = document.getElementById('lightboxPrev');
+      const lightboxNext = document.getElementById('lightboxNext');
+      const portfolioItems = document.querySelectorAll('.portfolio-item[data-image]');
+      
+      if (!lightbox || !lightboxImage) return;
+      
+      let currentIndex = 0;
+      const images = Array.from(portfolioItems).map(item => ({
+        src: item.dataset.image,
+        alt: item.dataset.alt || item.querySelector('img')?.alt || ''
+      }));
+      
+      const openLightbox = (index) => {
+        if (index < 0 || index >= images.length) return;
+        
+        currentIndex = index;
+        lightboxImage.src = images[index].src;
+        lightboxImage.alt = images[index].alt;
+        lightboxCaption.textContent = images[index].alt;
+        
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        
+        // Анимация появления
+        if (typeof gsap !== 'undefined') {
+          gsap.fromTo(lightbox, 
+            { opacity: 0 }, 
+            { opacity: 1, duration: 0.3, ease: 'power2.out' }
+          );
+          gsap.fromTo(lightboxImage, 
+            { scale: 0.8, opacity: 0 }, 
+            { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.1 }
+          );
+        }
+      };
+      
+      const closeLightbox = () => {
+        if (typeof gsap !== 'undefined') {
+          gsap.to(lightbox, {
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.out',
+            onComplete: () => {
+              lightbox.style.display = 'none';
+              document.body.style.overflow = '';
+            }
+          });
+        } else {
+          lightbox.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+      };
+      
+      const showNext = () => {
+        const nextIndex = (currentIndex + 1) % images.length;
+        openLightbox(nextIndex);
+      };
+      
+      const showPrev = () => {
+        const prevIndex = (currentIndex - 1 + images.length) % images.length;
+        openLightbox(prevIndex);
+      };
+      
+      // Обработчики кликов на изображения
+      portfolioItems.forEach((item, index) => {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', () => {
+          openLightbox(index);
+        });
+      });
+      
+      // Закрытие
+      if (lightboxClose) {
+        lightboxClose.addEventListener('click', closeLightbox);
+      }
+      if (lightboxOverlay) {
+        lightboxOverlay.addEventListener('click', closeLightbox);
+      }
+      
+      // Навигация
+      if (lightboxNext) {
+        lightboxNext.addEventListener('click', (e) => {
+          e.stopPropagation();
+          showNext();
+        });
+      }
+      if (lightboxPrev) {
+        lightboxPrev.addEventListener('click', (e) => {
+          e.stopPropagation();
+          showPrev();
+        });
+      }
+      
+      // Клавиатурная навигация
+      document.addEventListener('keydown', (e) => {
+        if (lightbox.style.display === 'flex' || lightbox.style.display === '') {
+          if (e.key === 'Escape') {
+            closeLightbox();
+          } else if (e.key === 'ArrowRight') {
+            showNext();
+          } else if (e.key === 'ArrowLeft') {
+            showPrev();
+          }
+        }
+      });
+      
+      // Свайпы для мобильных
+      let touchStartX = 0;
+      let touchEndX = 0;
+      
+      if (lightboxImage) {
+        lightboxImage.addEventListener('touchstart', (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        lightboxImage.addEventListener('touchend', (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          handleSwipe();
+        }, { passive: true });
+      }
+      
+      const handleSwipe = () => {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+          if (diff > 0) {
+            showNext();
+          } else {
+            showPrev();
+          }
+        }
+      };
+    };
+
     // Initialize when DOM is ready
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => {
+        handleSmoothScroll();
         handleCalculatorToggle();
         handleApplicationModal();
         handleVideoPlay();
         handleCalculatorForm();
+        handlePortfolioLightbox();
         setTimeout(initMobileCalculator, 500);
       });
     } else {
+      handleSmoothScroll();
       handleCalculatorToggle();
       handleApplicationModal();
       handleVideoPlay();
       handleCalculatorForm();
-      setTimeout(initMobileCalculator, 500);
-    }
-  </script>
-  <!-- Application Modal - используем существующее orderModal -->
-
-  </body>
-</html>
-          if (index + 1 === step) {
-            s.classList.add('active');
-          } else {
-            s.classList.remove('active');
-          }
-        });
-
-        mobileStepDots.forEach((dot, index) => {
-          if (index + 1 === step) {
-            dot.classList.add('active');
-          } else {
-            dot.classList.remove('active');
-          }
-        });
-
-        // Показываем/скрываем кнопки навигации
-        if (mobilePrevBtn) {
-          mobilePrevBtn.style.display = step === 1 ? 'none' : 'block';
-        }
-
-        if (mobileNextBtn) {
-          if (step === totalMobileSteps) {
-            mobileNextBtn.textContent = 'Завершить';
-          } else {
-            mobileNextBtn.textContent = 'Далее';
-          }
-        }
-
-        // Инициализируем шаг
-        initMobileStep(step);
-      };
-
-      // Инициализация конкретного шага
-      const initMobileStep = (step) => {
-        switch(step) {
-          case 1:
-            initMobileStep1();
-            break;
-          case 2:
-            initMobileStep2();
-            break;
-          case 3:
-            initMobileStep3();
-            break;
-          case 4:
-            initMobileStep4();
-            break;
-        }
-        updateMobilePrice();
-      };
-
-      // Шаг 1: Выбор класса автомобиля
-      const initMobileStep1 = () => {
-        const container = document.getElementById('mobileClassOptions');
-        if (!container || !window.calculator) return;
-
-        const classes = [
-          { id: 'small', name: 'Малый класс' },
-          { id: 'business', name: 'Бизнес класс / Кроссоверы' },
-          { id: 'suv-lux', name: 'Внедорожники / Люкс' },
-          { id: 'pickup', name: 'Большие пикапы' },
-          { id: 'bus', name: 'Автобусы / Минивэны' }
-        ];
-
-        container.innerHTML = classes.map(cls => `
-          <button class="mobile-class-btn ${window.calculator.selectedClass === cls.id ? 'active' : ''}" 
-                  data-class="${cls.id}" 
-                  tabindex="0">
-            ${cls.name}
-          </button>
-        `).join('');
-
-        container.querySelectorAll('.mobile-class-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            const classId = e.currentTarget.dataset.class;
-            window.calculator.selectedClass = classId;
-            // Сбрасываем выбор бренда и модели при смене класса
-            window.calculator.selectedBrand = null;
-            window.calculator.selectedModel = null;
-            window.calculator.selectedZones.clear();
-            container.querySelectorAll('.mobile-class-btn').forEach(b => b.classList.remove('active'));
-            e.currentTarget.classList.add('active');
-            updateMobilePrice();
-          });
-        });
-      };
-
-      // Шаг 2: Выбор марки
-      const initMobileStep2 = () => {
-        const container = document.getElementById('mobileBrandsList');
-        const searchInput = document.getElementById('mobileModelSearch');
-        if (!container || !window.calculator) return;
-
-        let searchQuery = '';
-        
-        const renderBrands = () => {
-          let brands = window.calculator.getAllBrands();
-          
-          if (searchQuery) {
-            brands = brands.filter(b => 
-              b.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-          }
-
-          container.innerHTML = brands.map(brand => `
-            <button class="mobile-brand-btn ${window.calculator.selectedBrand === brand ? 'active' : ''}" 
-                    data-brand="${brand}" 
-                    tabindex="0">
-              ${brand}
-            </button>
-          `).join('');
-
-        container.querySelectorAll('.mobile-brand-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            const brand = e.currentTarget.dataset.brand;
-            window.calculator.selectedBrand = brand;
-            window.calculator.selectedModel = null;
-            window.calculator.selectedZones.clear(); // Сбрасываем зоны при смене бренда
-            container.querySelectorAll('.mobile-brand-btn').forEach(b => b.classList.remove('active'));
-            e.currentTarget.classList.add('active');
-            updateMobilePrice(); // Обновляем цену
-          });
-        });
-        };
-
-        renderBrands();
-
-        if (searchInput) {
-          searchInput.addEventListener('input', (e) => {
-            searchQuery = e.target.value;
-            renderBrands();
-          });
-        }
-      };
-
-      // Шаг 3: Выбор модели
-      const initMobileStep3 = () => {
-        const container = document.getElementById('mobileModelsList');
-        if (!container || !window.calculator || !window.calculator.selectedBrand) return;
-
-        const models = window.calculator.getAllModelsForBrand(window.calculator.selectedBrand);
-
-        container.innerHTML = models.map(model => `
-          <button class="mobile-model-btn ${window.calculator.selectedModel === model ? 'active' : ''}" 
-                  data-model="${model}" 
-                  tabindex="0">
-            ${model}
-          </button>
-        `).join('');
-
-        container.querySelectorAll('.mobile-model-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            const model = e.currentTarget.dataset.model;
-            window.calculator.selectModel(window.calculator.selectedBrand, model);
-            window.calculator.selectedZones.clear(); // Сбрасываем зоны при смене модели
-            container.querySelectorAll('.mobile-model-btn').forEach(b => b.classList.remove('active'));
-            e.currentTarget.classList.add('active');
-            updateMobilePrice(); // Обновляем цену
-          });
-        });
-      };
-
-      // Шаг 4: Выбор зон
-      const initMobileStep4 = () => {
-        const container = document.getElementById('mobileZonesContainer');
-        if (!container || !window.calculator || !window.calculator.selectedClass) return;
-
-        const classToUse = window.calculator.selectedClass;
-        const zonesData = window.calculator.zonesDatabase[classToUse];
-        
-        if (!zonesData) return;
-
-        let html = '';
-        
-        // Пакеты услуг
-        if (zonesData['Пакеты услуг']) {
-          html += '<div class="mobile-zones-category"><h4>Пакеты услуг</h4>';
-          zonesData['Пакеты услуг'].forEach(pkg => {
-            const isSelected = window.calculator.selectedZones.has(pkg.id);
-            html += `
-              <label class="mobile-zone-item ${isSelected ? 'active' : ''}">
-                <input type="radio" name="mobile-package" value="${pkg.id}" ${isSelected ? 'checked' : ''}>
-                <span>${pkg.name}</span>
-                <span class="mobile-zone-price">${pkg.price.toLocaleString('ru-RU')} ₽</span>
-              </label>
-            `;
-          });
-          html += '</div>';
-        }
-
-        // Отдельные зоны
-        Object.entries(zonesData).forEach(([category, zones]) => {
-          if (category === 'Пакеты услуг' || !Array.isArray(zones)) return;
-          
-          html += `<div class="mobile-zones-category"><h4>${category}</h4>`;
-          zones.forEach(zone => {
-            if (zone.type === 'package') return;
-            const isSelected = window.calculator.selectedZones.has(zone.id);
-            html += `
-              <label class="mobile-zone-item ${isSelected ? 'active' : ''}">
-                <input type="checkbox" name="mobile-zone" value="${zone.id}" ${isSelected ? 'checked' : ''}>
-                <span>${zone.name}</span>
-                <span class="mobile-zone-price">${zone.price.toLocaleString('ru-RU')} ₽</span>
-              </label>
-            `;
-          });
-          html += '</div>';
-        });
-
-        container.innerHTML = html;
-
-        // Обработчики выбора
-        container.querySelectorAll('input[type="radio"][name="mobile-package"]').forEach(radio => {
-          radio.addEventListener('change', (e) => {
-            if (e.target.checked) {
-              // Очищаем все выбранные зоны и пакеты
-              window.calculator.selectedZones.clear();
-              window.calculator.selectedZones.add(e.target.value);
-              
-              // Снимаем все чекбоксы зон
-              container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                cb.checked = false;
-                cb.closest('.mobile-zone-item')?.classList.remove('active');
-              });
-              
-              // Обновляем визуальное состояние радио-кнопок
-              container.querySelectorAll('input[type="radio"]').forEach(r => {
-                const item = r.closest('.mobile-zone-item');
-                if (r === e.target) {
-                  item?.classList.add('active');
-                } else {
-                  item?.classList.remove('active');
-                }
-              });
-              
-              updateMobilePrice();
-            }
-          });
-        });
-
-        container.querySelectorAll('input[type="checkbox"][name="mobile-zone"]').forEach(checkbox => {
-          checkbox.addEventListener('change', (e) => {
-            const zoneId = e.target.value;
-            
-            // Если выбрана зона, снимаем все пакеты
-            if (e.target.checked) {
-              container.querySelectorAll('input[type="radio"][name="mobile-package"]').forEach(radio => {
-                radio.checked = false;
-                radio.closest('.mobile-zone-item')?.classList.remove('active');
-              });
-              
-              // Удаляем все пакеты из selectedZones
-              const packages = zonesData['Пакеты услуг'] || [];
-              packages.forEach(pkg => {
-                window.calculator.selectedZones.delete(pkg.id);
-              });
-              
-              window.calculator.selectedZones.add(zoneId);
-            } else {
-              window.calculator.selectedZones.delete(zoneId);
-            }
-            
-            // Обновляем визуальное состояние
-            const item = e.target.closest('.mobile-zone-item');
-            if (item) {
-              if (e.target.checked) {
-                item.classList.add('active');
-              } else {
-                item.classList.remove('active');
-              }
-            }
-            
-            updateMobilePrice();
-          });
-        });
-      };
-
-      // Обновление цены с анимацией
-      const updateMobilePrice = () => {
-        if (!window.calculator) return;
-        const priceEl = document.getElementById('mobilePriceValue');
-        if (!priceEl) return;
-
-        let total = 0;
-        const classToUse = window.calculator.selectedClass;
-        
-        if (!classToUse) {
-          animatePriceChange(priceEl, 0);
-          return;
-        }
-
-        const zonesData = window.calculator.zonesDatabase[classToUse];
-        if (!zonesData) {
-          animatePriceChange(priceEl, 0);
-          return;
-        }
-
-        // Считаем общую стоимость
-        const allZones = Object.values(zonesData).flat();
-        
-        // Проверяем, есть ли выбранный пакет
-        const packages = zonesData['Пакеты услуг'] || [];
-        let hasPackage = false;
-        
-        packages.forEach(pkg => {
-          if (window.calculator.selectedZones.has(pkg.id)) {
-            total = pkg.price;
-            hasPackage = true;
-          }
-        });
-
-        // Если пакет не выбран, считаем отдельные зоны
-        if (!hasPackage) {
-          window.calculator.selectedZones.forEach(zoneId => {
-            const zone = allZones.find(z => z.id === zoneId);
-            if (zone && zone.type !== 'package') {
-              total += zone.price;
-            }
-          });
-        }
-
-        animatePriceChange(priceEl, total);
-      };
-
-      // Анимация изменения цены
-      const animatePriceChange = (element, newValue) => {
-        const currentValue = parseInt(element.textContent.replace(/\s/g, '').replace('₽', '')) || 0;
-        
-        if (currentValue === newValue) return;
-
-        // Анимация изменения
-        element.style.transform = 'scale(1.1)';
-        element.style.transition = 'transform 0.2s ease';
-        
-        setTimeout(() => {
-          element.textContent = `${newValue.toLocaleString('ru-RU')} ₽`;
-          element.style.transform = 'scale(1)';
-        }, 200);
-      };
-
-      // Кнопка "Далее"
-      if (mobileNextBtn) {
-        mobileNextBtn.addEventListener('click', () => {
-          if (currentMobileStep === totalMobileSteps) {
-            // Завершить - открыть форму заказа
-            const orderBtn = document.getElementById('orderBtn');
-            if (orderBtn) {
-              orderBtn.click();
-            }
-          } else {
-            // Проверка перед переходом
-            let canProceed = false;
-            let errorMessage = '';
-            
-            switch(currentMobileStep) {
-              case 1:
-                canProceed = !!window.calculator.selectedClass;
-                errorMessage = 'Пожалуйста, выберите класс автомобиля';
-                break;
-              case 2:
-                canProceed = !!window.calculator.selectedBrand;
-                errorMessage = 'Пожалуйста, выберите марку автомобиля';
-                break;
-              case 3:
-                canProceed = !!window.calculator.selectedModel;
-                errorMessage = 'Пожалуйста, выберите модель автомобиля';
-                break;
-              case 4:
-                canProceed = window.calculator.selectedZones.size > 0;
-                errorMessage = 'Пожалуйста, выберите хотя бы одну зону оклейки';
-                break;
-            }
-
-            if (canProceed) {
-              currentMobileStep++;
-              showMobileStep(currentMobileStep);
-              updateMobilePrice(); // Обновляем цену при переходе
-            } else {
-              // Показываем визуальную обратную связь вместо alert
-              const currentStepEl = mobileSteps[currentMobileStep - 1];
-              if (currentStepEl) {
-                currentStepEl.style.animation = 'shake 0.5s ease';
-                setTimeout(() => {
-                  currentStepEl.style.animation = '';
-                }, 500);
-              }
-            }
-          }
-        });
-      }
-
-      // Кнопка "Назад"
-      if (mobilePrevBtn) {
-        mobilePrevBtn.addEventListener('click', () => {
-          if (currentMobileStep > 1) {
-            currentMobileStep--;
-            showMobileStep(currentMobileStep);
-          }
-        });
-      }
-
-      // Инициализация при открытии калькулятора
-      const calculatorSection = document.getElementById('calculator');
-      if (calculatorSection) {
-        const observer = new MutationObserver(() => {
-          if (calculatorSection.classList.contains('active')) {
-            currentMobileStep = 1;
-            showMobileStep(1);
-          }
-        });
-        
-        observer.observe(calculatorSection, {
-          attributes: true,
-          attributeFilter: ['class']
-        });
-      }
-
-      // Начальная инициализация
-      showMobileStep(1);
-    };
-
-    // Аккордеон для характеристик пленок (мобильная версия)
-    const handleFilmsBenefitsToggle = () => {
-      const toggleBtn = document.getElementById('filmsBenefitsToggle');
-      const benefitsGrid = document.getElementById('filmsBenefitsGrid');
-      
-      if (toggleBtn && benefitsGrid) {
-        toggleBtn.addEventListener('click', () => {
-          toggleBtn.classList.toggle('active');
-          benefitsGrid.classList.toggle('active');
-        });
-      }
-    };
-
-    // Исправление видео для мобильных - Rutube
-    const handleVideoFix = () => {
-      const videoRutubeContainer = document.getElementById('videoRutubeContainer');
-      const videoMobileContainer = document.querySelector('.video-mobile');
-      const videoPlayBtn = document.getElementById('videoPlayBtn');
-      const videoOverlay = document.getElementById('videoOverlay');
-      const videoContent = document.getElementById('videoContent');
-      
-      // Мобильное видео уже работает через Rutube iframe
-      // Ничего дополнительного не требуется
-      
-      // Обработчик для десктопа уже в handleVideoPlay
-      // Эта функция оставлена для совместимости
-    };
-
-    // Initialize when DOM is ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        handleCalculatorToggle();
-        handleApplicationModal();
-        handleVideoPlay();
-        handleFilmsBenefitsToggle();
-        handleVideoFix();
-        setTimeout(initMobileCalculator, 500);
-      });
-    } else {
-      handleCalculatorToggle();
-      handleApplicationModal();
-      handleVideoPlay();
-      handleFilmsBenefitsToggle();
-      handleVideoFix();
+      handlePortfolioLightbox();
       setTimeout(initMobileCalculator, 500);
     }
   </script>

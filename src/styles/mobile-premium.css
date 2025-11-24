@@ -160,7 +160,7 @@
 
   .hero-content {
     padding: var(--space-lg) var(--space-md);
-    text-align: center;
+    text-align: left;
     max-width: 100%;
     width: 100%;
   }
@@ -169,14 +169,18 @@
     font-size: clamp(32px, 8vw, 48px);
     line-height: 1.2;
     margin-top: var(--space-md);
-    margin-bottom: var(--space-lg);
-    text-align: center;
-    padding: 0 var(--space-sm);
+    margin-bottom: var(--space-xl);
+    text-align: left;
+    padding: 0 var(--space-md);
+    width: 100%;
   }
 
   .hero-promo {
+    margin-top: var(--space-2xl);
     margin-bottom: var(--space-lg);
     padding: 0 var(--space-sm);
+    text-align: center;
+    width: 100%;
   }
 
   .hero-promo-text {
