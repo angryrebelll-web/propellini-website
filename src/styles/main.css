@@ -279,6 +279,70 @@ body {
   50% { opacity: 0.8; }
 }
 
+/* Фоновое видео из Pinterest */
+.hero-video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-video-iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.2);
+  border: none;
+  pointer-events: none;
+  opacity: 0.4;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  filter: blur(2px);
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+/* Обеспечиваем, что видео всегда видимо и играет */
+.hero-video-iframe[autoplay] {
+  animation: videoFadeIn 1s ease-in;
+}
+
+@keyframes videoFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.4;
+  }
+}
+
+/* Десктоп версия видео */
+.hero-video-desktop {
+  display: block;
+}
+
+/* Мобильная версия видео */
+.hero-video-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hero-video-desktop {
+    display: none;
+  }
+  
+  .hero-video-mobile {
+    display: block;
+  }
+}
+
 .hero-overlay {
   position: absolute;
   inset: 0;

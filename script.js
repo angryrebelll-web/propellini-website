@@ -3928,4 +3928,76 @@ class CarWrappingCalculator {
 // Инициализация калькулятора
 document.addEventListener('DOMContentLoaded', () => {
   window.calculator = new CarWrappingCalculator();
+  
+  // Управление автовоспроизведением фонового видео
+  initHeroVideo();
 });
+
+// Инициализация фонового видео из Pinterest
+function initHeroVideo() {
+  const desktopVideo = document.getElementById('heroVideoDesktop');
+  const mobileVideo = document.getElementById('heroVideoMobile');
+  
+  // Функция для обеспечения постоянного воспроизведения
+  const ensureVideoPlayback = (iframe) => {
+    if (!iframe) return;
+    
+    // Попытка автоматического воспроизведения при загрузке
+    iframe.addEventListener('load', () => {
+      try {
+        // Попытка отправить сообщение для автовоспроизведения
+        iframe.contentWindow.postMessage({
+          method: 'play',
+          value: true
+        }, '*');
+      } catch (e) {
+        console.log('Video autoplay attempt:', e);
+      }
+    });
+    
+    // Периодическая проверка и перезапуск видео
+    setInterval(() => {
+      try {
+        if (iframe.contentWindow) {
+          iframe.contentWindow.postMessage({
+            method: 'play',
+            value: true
+          }, '*');
+        }
+      } catch (e) {
+        // Игнорируем ошибки CORS
+      }
+    }, 5000);
+  };
+  
+  if (desktopVideo) {
+    ensureVideoPlayback(desktopVideo);
+  }
+  
+  if (mobileVideo) {
+    ensureVideoPlayback(mobileVideo);
+  }
+  
+  // Обработка видимости страницы для возобновления воспроизведения
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      // Возобновить воспроизведение при возврате на страницу
+      if (desktopVideo && window.innerWidth > 768) {
+        try {
+          desktopVideo.contentWindow.postMessage({
+            method: 'play',
+            value: true
+          }, '*');
+        } catch (e) {}
+      }
+      if (mobileVideo && window.innerWidth <= 768) {
+        try {
+          mobileVideo.contentWindow.postMessage({
+            method: 'play',
+            value: true
+          }, '*');
+        } catch (e) {}
+      }
+    }
+  });
+}
