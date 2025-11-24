@@ -58,9 +58,19 @@
         <p class="hero-promo-text">Скидка 50% на броню лобового<br>стекла при полной оклейке кузова</p>
         <a href="#contacts" class="btn btn-primary discount-open-btn" tabindex="0">Получить скидку</a>
       </div>
+      <div class="hero-gift-banner">
+        <div class="hero-gift-icon">🎁</div>
+        <p class="hero-gift-text">При полной оклейке кузова<br><strong>эвакуатор или тонировка в подарок</strong></p>
+      </div>
       <div class="hero-pricing">
-        <p class="hero-pricing-item">Оклейка зон риска от <strong>25 000 ₽</strong></p>
-        <p class="hero-pricing-item">Оклейка кузова целиком от <strong>180 000 ₽</strong></p>
+        <div class="hero-pricing-item">
+          <span class="hero-pricing-label">Оклейка зон риска от</span>
+          <strong class="hero-pricing-value">25 000 ₽</strong>
+        </div>
+        <div class="hero-pricing-item">
+          <span class="hero-pricing-label">Оклейка кузова целиком от</span>
+          <strong class="hero-pricing-value">180 000 ₽</strong>
+        </div>
       </div>
       <div class="hero-cta">
         <a href="#" class="btn btn-primary calculator-open-btn" id="heroCalculatorBtn" tabindex="0">Рассчитать стоимость</a>
@@ -137,20 +147,16 @@
       <!-- Achievement Cards -->
       <div class="about-achievements">
         <div class="achievement-card" data-animate="fade-up">
-          <div class="achievement-number">12+</div>
-          <div class="achievement-label">лет опыта в оклейке защитной пленкой</div>
-        </div>
-        <div class="achievement-card" data-animate="fade-up">
-          <div class="achievement-number">300+</div>
-          <div class="achievement-label">автомобилей оклеиваем ежегодно</div>
+          <div class="achievement-number">7,000+</div>
+          <div class="achievement-label">автомобилей оклеено</div>
         </div>
         <div class="achievement-card" data-animate="fade-up">
           <div class="achievement-number">10</div>
-          <div class="achievement-label">лет гарантии на пленку премиум-класса</div>
+          <div class="achievement-label">лет гарантии на премиум пленку</div>
         </div>
         <div class="achievement-card" data-animate="fade-up">
           <div class="achievement-number">100%</div>
-          <div class="achievement-label">сертифицированные мастера с обучением</div>
+          <div class="achievement-label">сертифицированные мастера</div>
         </div>
       </div>
 
@@ -1463,8 +1469,22 @@
         classSelection.querySelectorAll('.mobile-class-option').forEach(btn => {
           btn.addEventListener('click', () => {
             const classId = btn.dataset.class;
-            window.calculator.selectedClass = classId;
-            window.calculator.selectClass(classId);
+            if (window.calculator) {
+              window.calculator.selectedClass = classId;
+              window.calculator.selectedBrand = null;
+              window.calculator.selectedModel = null;
+              window.calculator.selectedZones.clear();
+              
+              // Обновляем UI для десктопной версии
+              document.querySelectorAll('.class-option').forEach(b => b.classList.remove('active'));
+              const desktopBtn = document.querySelector(`.class-option[data-class="${classId}"]`);
+              if (desktopBtn) desktopBtn.classList.add('active');
+              
+              // Обновляем марки и зоны
+              if (window.calculator.renderBrandChips) window.calculator.renderBrandChips();
+              if (window.calculator.renderZones) window.calculator.renderZones();
+              if (window.calculator.updateTotal) window.calculator.updateTotal();
+            }
             
             // Обновляем активный класс
             classSelection.querySelectorAll('.mobile-class-option').forEach(b => b.classList.remove('active'));
@@ -1889,14 +1909,18 @@
             
             if (window.calculator && window.calculator.selectedZones.size > 0) {
               console.log('Переход на шаг 4');
-              // Автоматический переход на шаг 4 с формой
-              currentStep = 4;
-              showStep(4, 'next');
               
-              // Инициализируем форму после небольшой задержки для плавного перехода
-              setTimeout(() => {
-                initStep4();
-              }, 350);
+              // Открываем форму заявки через калькулятор
+              if (window.calculator.openCalculatorApplicationForm) {
+                window.calculator.openCalculatorApplicationForm();
+              } else {
+                // Если функция недоступна, переходим на шаг 4
+                currentStep = 4;
+                showStep(4, 'next');
+                setTimeout(() => {
+                  initStep4();
+                }, 350);
+              }
             } else {
               console.warn('Нет выбранных зон');
               alert('Пожалуйста, выберите услугу или зону оклейки');
@@ -2702,9 +2726,16 @@
         lightboxImage.alt = images[index].alt || `Портфолио ${index + 1}`;
         lightboxCaption.textContent = images[index].alt || '';
         
+        // Сохраняем позицию скролла перед блокировкой
+        const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+        document.body.style.overflow = 'hidden';
+        document.body.dataset.scrollY = scrollY.toString();
+        
         lightbox.style.display = 'flex';
         lightbox.style.visibility = 'visible';
-        document.body.style.overflow = 'hidden';
         
         // Убеждаемся, что кнопка закрытия видна и работает
         const closeBtn = document.getElementById('lightboxClose') || window.lightboxCloseBtn;
@@ -2767,7 +2798,14 @@
               lightbox.style.display = 'none';
               lightbox.style.visibility = 'hidden';
               lightbox.style.opacity = '0';
+              // Восстанавливаем скролл
+              const scrollY = parseInt(document.body.dataset.scrollY || '0');
+              document.body.style.position = '';
+              document.body.style.top = '';
+              document.body.style.width = '';
               document.body.style.overflow = '';
+              delete document.body.dataset.scrollY;
+              window.scrollTo(0, scrollY);
               // Фокус возвращаем на элемент, который открыл lightbox
               if (document.activeElement && document.activeElement.blur) {
                 document.activeElement.blur();
@@ -2779,7 +2817,14 @@
           lightbox.style.display = 'none';
           lightbox.style.visibility = 'hidden';
           lightbox.style.opacity = '0';
+          // Восстанавливаем скролл
+          const scrollY = parseInt(document.body.dataset.scrollY || '0');
+          document.body.style.position = '';
+          document.body.style.top = '';
+          document.body.style.width = '';
           document.body.style.overflow = '';
+          delete document.body.dataset.scrollY;
+          window.scrollTo(0, scrollY);
           if (document.activeElement && document.activeElement.blur) {
             document.activeElement.blur();
           }

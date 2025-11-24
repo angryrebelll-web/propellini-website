@@ -1307,10 +1307,6 @@ class CarWrappingCalculator {
         this.updateCarZonesVisual();
         this.updateTotal();
       }
-    } else {
-      // Если не пакет - обновляем визуализацию и цену
-      this.updateCarZonesVisual();
-      this.updateTotal();
     }
   }
 
