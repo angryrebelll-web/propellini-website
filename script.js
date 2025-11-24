@@ -1968,18 +1968,44 @@ class CarWrappingCalculator {
       totalInput.value = `${total.toLocaleString('ru-RU')} ₽`;
     }
     
-    // Показываем форму как модальное окно
+    // Перемещаем форму в body для корректного отображения поверх калькулятора
+    if (form.parentElement !== document.body) {
+      document.body.appendChild(form);
+    }
+    
+    // Показываем форму как модальное окно поверх калькулятора
     form.classList.add('active');
     form.style.display = 'flex';
+    form.style.position = 'fixed';
+    form.style.top = '0';
+    form.style.left = '0';
+    form.style.right = '0';
+    form.style.bottom = '0';
+    form.style.zIndex = '30000';
+    form.style.background = 'rgba(0, 0, 0, 0.85)';
+    form.style.backdropFilter = 'blur(10px)';
+    form.style.webkitBackdropFilter = 'blur(10px)';
+    form.style.alignItems = 'center';
+    form.style.justifyContent = 'center';
+    form.style.padding = '20px';
+    form.style.overflowY = 'auto';
+    form.style.margin = '0';
     document.body.style.overflow = 'hidden';
     
     // Добавляем обработчик клика на overlay для закрытия
     const handleOverlayClick = (e) => {
-      if (e.target === form) {
+      // Закрываем при клике на фон (саму форму, но не на содержимое)
+      const formContent = form.querySelector('.calculator-order-form');
+      if (e.target === form && formContent && !formContent.contains(e.target)) {
         this.closeCalculatorApplicationForm();
       }
     };
-    form.addEventListener('click', handleOverlayClick);
+    
+    // Удаляем старые обработчики и добавляем новый
+    form.removeEventListener('click', handleOverlayClick);
+    form.addEventListener('click', handleOverlayClick, true);
+    
+    console.log('Форма калькулятора открыта, z-index:', form.style.zIndex || '30000');
   }
   
   // Закрытие формы заявки внутри калькулятора
@@ -1988,6 +2014,7 @@ class CarWrappingCalculator {
     if (form) {
       form.classList.remove('active');
       form.style.display = 'none';
+      form.style.zIndex = '';
       document.body.style.overflow = '';
     }
   }

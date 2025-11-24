@@ -974,20 +974,20 @@
           <label for="orderEmail">Email</label>
           <input type="email" id="orderEmail" name="email" placeholder="email@example.com" tabindex="0" />
         </div>
-        <div class="order-form-group">
+        <div class="order-form-group" style="display: none;">
           <label for="orderCar">Автомобиль</label>
           <input type="text" id="orderCar" name="car" readonly placeholder="Не выбран" tabindex="0" />
         </div>
-        <div class="order-form-group">
+        <div class="order-form-group" style="display: none;">
           <label for="orderZones">Выбранные зоны</label>
           <textarea id="orderZones" name="zones" readonly rows="3" placeholder="Не выбраны" tabindex="0"></textarea>
         </div>
-        <div class="order-form-group">
+        <div class="order-form-group" style="display: none;">
           <label for="orderTotal">Итоговая стоимость</label>
           <input type="text" id="orderTotal" name="total" readonly placeholder="0 ₽" tabindex="0" />
         </div>
         <div class="order-form-group">
-          <label for="orderComment">Комментарий</label>
+          <label for="orderComment">Сообщение (описание)</label>
           <textarea id="orderComment" name="comment" rows="3" placeholder="Дополнительная информация" tabindex="0"></textarea>
         </div>
         <div class="order-form-actions">
@@ -1064,11 +1064,13 @@
       }
 
       // All calculator open buttons
+      // Кнопки "Рассчитать стоимость" теперь открывают простую форму заявки
       const calculatorOpenBtns = document.querySelectorAll('.calculator-open-btn');
       calculatorOpenBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
-          openCalculator(e);
+          // Открываем простую форму заявки вместо калькулятора
+          openApplicationModal(e);
         });
       });
 
@@ -1106,41 +1108,33 @@
           orderModal.style.display = 'flex';
           body.classList.add('no-scroll');
           
-          // Заполняем данные из калькулятора, если они есть
-          if (window.calculator) {
-            const totalAmount = document.getElementById('totalAmount');
-            const orderTotal = document.getElementById('orderTotal');
-            const orderCar = document.getElementById('orderCar');
-            const orderZones = document.getElementById('orderZones');
-            
-            if (totalAmount && orderTotal) {
-              orderTotal.value = totalAmount.textContent || '0 ₽';
-            }
-            
-            if (window.calculator.selectedModel && orderCar) {
-              const brand = window.calculator.selectedBrand || '';
-              const model = window.calculator.selectedModel || '';
-              orderCar.value = `${brand} ${model}`.trim();
-            }
-            
-            if (window.calculator.selectedZones && orderZones && window.calculator.selectedClass) {
-              const classToUse = window.calculator.selectedClass;
-              const zonesData = window.calculator.zonesDatabase[classToUse];
-              if (zonesData) {
-                const allZones = Object.values(zonesData).flat();
-                const selectedZonesNames = Array.from(window.calculator.selectedZones)
-                  .map(zoneId => {
-                    const zone = allZones.find(z => z.id === zoneId);
-                    return zone ? zone.name : null;
-                  })
-                  .filter(Boolean);
-                orderZones.value = selectedZonesNames.length > 0 
-                  ? selectedZonesNames.join(', ') 
-                  : 'Не выбраны';
-              } else {
-                orderZones.value = 'Не выбраны';
-              }
-            }
+          // Простая форма заявки - очищаем все поля кроме основных
+          const orderName = document.getElementById('orderName');
+          const orderPhone = document.getElementById('orderPhone');
+          const orderEmail = document.getElementById('orderEmail');
+          const orderComment = document.getElementById('orderComment');
+          const orderCar = document.getElementById('orderCar');
+          const orderZones = document.getElementById('orderZones');
+          const orderTotal = document.getElementById('orderTotal');
+          
+          // Очищаем все поля
+          if (orderName) orderName.value = '';
+          if (orderPhone) orderPhone.value = '';
+          if (orderEmail) orderEmail.value = '';
+          if (orderComment) orderComment.value = '';
+          
+          // Скрываем и очищаем поля калькулятора (авто, зоны, стоимость)
+          if (orderCar) {
+            orderCar.value = '';
+            orderCar.parentElement.style.display = 'none';
+          }
+          if (orderZones) {
+            orderZones.value = '';
+            orderZones.parentElement.style.display = 'none';
+          }
+          if (orderTotal) {
+            orderTotal.value = '';
+            orderTotal.parentElement.style.display = 'none';
           }
           
           // Анимация появления
@@ -1216,11 +1210,13 @@
         };
 
         // All discount open buttons
+        // Кнопки "Получить скидку" также открывают простую форму заявки
         const discountOpenBtns = document.querySelectorAll('.discount-open-btn');
         discountOpenBtns.forEach(btn => {
           btn.addEventListener('click', (e) => {
             e.preventDefault();
-            openDiscountModal(e);
+            // Открываем простую форму заявки
+            openApplicationModal(e);
           });
         });
 
@@ -2291,14 +2287,34 @@
           }
           
           // НЕ заполняем данные из калькулятора - это простая форма
-          // Очищаем поля автомобиля и цены, если они есть
+          // Очищаем поля автомобиля и цены, если они есть, и скрываем их
           const orderTotal = document.getElementById('orderTotal');
           const orderCar = document.getElementById('orderCar');
           const orderZones = document.getElementById('orderZones');
+          const orderName = document.getElementById('orderName');
+          const orderPhone = document.getElementById('orderPhone');
+          const orderEmail = document.getElementById('orderEmail');
+          const orderComment = document.getElementById('orderComment');
           
-          if (orderTotal) orderTotal.value = '';
-          if (orderCar) orderCar.value = '';
-          if (orderZones) orderZones.value = '';
+          // Очищаем основные поля
+          if (orderName) orderName.value = '';
+          if (orderPhone) orderPhone.value = '';
+          if (orderEmail) orderEmail.value = '';
+          if (orderComment) orderComment.value = '';
+          
+          // Очищаем и скрываем поля калькулятора
+          if (orderTotal) {
+            orderTotal.value = '';
+            orderTotal.parentElement.style.display = 'none';
+          }
+          if (orderCar) {
+            orderCar.value = '';
+            orderCar.parentElement.style.display = 'none';
+          }
+          if (orderZones) {
+            orderZones.value = '';
+            orderZones.parentElement.style.display = 'none';
+          }
         }
         
         // Блокируем кнопку на 5 секунд
