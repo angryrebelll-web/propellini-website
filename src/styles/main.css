@@ -117,14 +117,14 @@ body {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(15, 15, 15, 0.85);
+  background: rgba(25, 25, 25, 0.95);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(22, 132, 145, 0.1);
+  border-bottom: 1px solid rgba(22, 132, 145, 0.2);
   transition: all var(--transition-base);
 }
 
 .main-nav.scrolled {
-  background: rgba(10, 10, 10, 0.95);
+  background: rgba(30, 30, 30, 0.98);
   box-shadow: var(--shadow-md);
 }
 
@@ -1113,10 +1113,31 @@ body {
     display: block !important;
     position: relative;
     overflow: hidden !important;
+    width: 100%;
+    height: 100%;
   }
   
   .calculator-desktop {
     display: none !important;
+  }
+  
+  .mobile-wizard-new {
+    display: flex !important;
+    width: 100%;
+    height: 100%;
+    min-height: calc(100vh - 100px);
+  }
+  
+  .mobile-wizard-step {
+    display: none;
+    width: 100%;
+    padding: var(--space-md);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .mobile-wizard-step.active {
+    display: block !important;
   }
   
   .mobile-wizard-new {
@@ -1147,7 +1168,7 @@ body {
 .mobile-wizard-step.active {
   display: flex !important;
   flex-direction: column;
-  position: absolute !important;
+  position: relative !important;
   opacity: 1 !important;
   visibility: visible !important;
   z-index: 2 !important;
@@ -2463,7 +2484,7 @@ body {
   left: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  z-index: 10000 !important;
+  z-index: 99999 !important;
   display: none;
   align-items: center;
   justify-content: center;
@@ -2474,6 +2495,7 @@ body {
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: auto !important;
 }
 
 .portfolio-lightbox[style*="flex"],
@@ -2499,7 +2521,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 10001;
+  z-index: 100000;
+  isolation: isolate;
 }
 
 .lightbox-content img {
@@ -2531,7 +2554,7 @@ body {
   font-size: 32px !important;
   font-weight: 300 !important;
   cursor: pointer !important;
-  z-index: 10003 !important;
+  z-index: 100000 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -2569,7 +2592,7 @@ body {
   color: var(--text);
   font-size: 36px;
   cursor: pointer;
-  z-index: 10002;
+  z-index: 100001;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2724,7 +2747,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 15;
+  z-index: 10;
   margin-top: var(--space-xl);
   padding-top: var(--space-xl);
   padding-bottom: var(--space-xl);

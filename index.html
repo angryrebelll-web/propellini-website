@@ -1058,6 +1058,28 @@
         calculatorSection.classList.add('active');
         body.style.overflow = 'hidden';
         calculatorSection.scrollTop = 0;
+        
+        // На мобильных устройствах инициализируем мобильный калькулятор
+        if (window.innerWidth <= 900) {
+          setTimeout(() => {
+            if (window.calculator && window.calculator.isMobile) {
+              const wizard = document.querySelector('.mobile-wizard-new');
+              if (wizard) {
+                // Показываем первый шаг
+                const steps = wizard.querySelectorAll('.mobile-wizard-step');
+                steps.forEach(step => step.classList.remove('active'));
+                const firstStep = wizard.querySelector('.mobile-wizard-step[data-step="0"]');
+                if (firstStep) {
+                  firstStep.classList.add('active');
+                }
+                // Инициализируем калькулятор
+                if (typeof initMobileCalculator === 'function') {
+                  initMobileCalculator();
+                }
+              }
+            }
+          }, 100);
+        }
       };
 
       // Close calculator
@@ -1079,13 +1101,13 @@
       }
 
       // All calculator open buttons
-      // Кнопки "Рассчитать стоимость" теперь открывают простую форму заявки
+      // Кнопки "Рассчитать стоимость" открывают калькулятор
       const calculatorOpenBtns = document.querySelectorAll('.calculator-open-btn');
       calculatorOpenBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
-          // Открываем простую форму заявки вместо калькулятора
-          openApplicationModal(e);
+          // Открываем калькулятор
+          openCalculator(e);
         });
       });
 
@@ -2662,7 +2684,24 @@
           closeBtn.style.visibility = 'visible';
           closeBtn.style.opacity = '1';
           closeBtn.style.zIndex = '10003';
+          closeBtn.style.pointerEvents = 'auto';
+          closeBtn.style.cursor = 'pointer';
         }
+        
+        // Привязываем обработчики кнопки закрытия при каждом открытии
+        setTimeout(() => {
+          bindCloseButton();
+          // Дополнительная проверка и привязка
+          const currentCloseBtn = document.getElementById('lightboxClose');
+          if (currentCloseBtn && window.lightboxCloseBtn) {
+            // Убеждаемся, что кнопка видна и кликабельна
+            currentCloseBtn.style.display = 'flex';
+            currentCloseBtn.style.visibility = 'visible';
+            currentCloseBtn.style.opacity = '1';
+            currentCloseBtn.style.pointerEvents = 'auto';
+            currentCloseBtn.style.cursor = 'pointer';
+          }
+        }, 50);
         
         // Анимация появления
         if (typeof gsap !== 'undefined') {
@@ -2688,6 +2727,7 @@
       };
       
       const closeLightbox = () => {
+        console.log('Закрываем lightbox');
         // Убеждаемся, что светбокс действительно закрыт
         if (typeof gsap !== 'undefined') {
           gsap.to(lightbox, {
@@ -2697,20 +2737,24 @@
             onComplete: () => {
               lightbox.style.display = 'none';
               lightbox.style.visibility = 'hidden';
+              lightbox.style.opacity = '0';
               document.body.style.overflow = '';
               // Фокус возвращаем на элемент, который открыл lightbox
               if (document.activeElement && document.activeElement.blur) {
                 document.activeElement.blur();
               }
+              console.log('Lightbox закрыт через GSAP');
             }
           });
         } else {
           lightbox.style.display = 'none';
           lightbox.style.visibility = 'hidden';
+          lightbox.style.opacity = '0';
           document.body.style.overflow = '';
           if (document.activeElement && document.activeElement.blur) {
             document.activeElement.blur();
           }
+          console.log('Lightbox закрыт без GSAP');
         }
       };
       
@@ -2780,18 +2824,30 @@
           currentCloseBtn.parentNode.replaceChild(newCloseBtn, currentCloseBtn);
           
           // Добавляем обработчики разными способами для максимальной надежности
-          newCloseBtn.addEventListener('click', handleCloseClick, true);
-          newCloseBtn.addEventListener('touchstart', handleCloseClick, { passive: false });
+          const enhancedHandleClose = (e) => {
+            console.log('Клик по кнопке закрытия портфолио');
+            handleCloseClick(e);
+          };
+          
+          newCloseBtn.addEventListener('click', enhancedHandleClose, true);
+          newCloseBtn.addEventListener('touchstart', enhancedHandleClose, { passive: false });
           newCloseBtn.addEventListener('touchend', (e) => {
             e.preventDefault();
-            handleCloseClick(e);
+            enhancedHandleClose(e);
           }, { passive: false });
-          newCloseBtn.onclick = handleCloseClick;
+          newCloseBtn.onclick = enhancedHandleClose;
+          
+          // Добавляем также прямое закрытие при клике на элемент
+          newCloseBtn.style.cursor = 'pointer';
+          newCloseBtn.setAttribute('role', 'button');
+          newCloseBtn.setAttribute('tabindex', '0');
           
           // Сохраняем ссылку для обновления
           window.lightboxCloseBtn = newCloseBtn;
           
-          console.log('Кнопка закрытия lightbox привязана');
+          console.log('Кнопка закрытия lightbox привязана и готова к работе');
+        } else {
+          console.warn('Кнопка закрытия lightbox не найдена!');
         }
       };
       

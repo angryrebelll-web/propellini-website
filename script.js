@@ -1221,8 +1221,9 @@ class CarWrappingCalculator {
           }, 100);
         }
       });
-      // Обновляем визуализацию после выбора пакета
+      // Обновляем визуализацию и цену сразу после выбора пакета
       this.updateCarZonesVisual();
+      this.updateTotal();
     } else if (isPackage && !checkbox.checked) {
       // Удаляем пакет и его зоны
       this.selectedZones.delete(zoneId);
@@ -1280,6 +1281,10 @@ class CarWrappingCalculator {
           // Добавляем выбранную полную оклейку и ставим галочку
           this.selectedZones.add(zoneId);
           checkbox.checked = true;
+          
+          // Обновляем сразу
+          this.updateCarZonesVisual();
+          this.updateTotal();
         } else {
           // Если выбираем обычную зону, снимаем все варианты полной оклейки
           ['full-glossy', 'full-matte', 'full-vinyl'].forEach(fullId => {
@@ -1290,14 +1295,23 @@ class CarWrappingCalculator {
           
           // Добавляем выбранную зону
           this.selectedZones.add(zoneId);
+          
+          // Обновляем сразу
+          this.updateCarZonesVisual();
+          this.updateTotal();
         }
       } else {
         this.selectedZones.delete(zoneId);
+        
+        // Обновляем сразу
+        this.updateCarZonesVisual();
+        this.updateTotal();
       }
+    } else {
+      // Если не пакет - обновляем визуализацию и цену
+      this.updateCarZonesVisual();
+      this.updateTotal();
     }
-
-    this.updateCarZonesVisual();
-    this.updateTotal();
   }
 
   // Получить зоны из пакета
