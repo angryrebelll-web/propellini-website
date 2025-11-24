@@ -3187,16 +3187,28 @@
       
       // Клавиатурная навигация - улучшенная версия
       const handleKeyDown = (e) => {
-        if (lightbox && (lightbox.style.display === 'flex' || lightbox.style.display === 'block' || lightbox.style.display === '')) {
-          if (e.key === 'Escape') {
+        const lightboxElement = document.getElementById('portfolioLightbox');
+        if (!lightboxElement) return;
+        
+        const isOpen = lightboxElement.style.display === 'flex' || 
+                      lightboxElement.style.display === 'block' ||
+                      window.getComputedStyle(lightboxElement).display !== 'none';
+        
+        if (isOpen) {
+          if (e.key === 'Escape' || e.keyCode === 27) {
             e.preventDefault();
             e.stopPropagation();
+            e.stopImmediatePropagation();
+            console.log('Закрываем lightbox через Escape');
             closeLightbox();
-          } else if (e.key === 'ArrowRight') {
+            return false;
+          } else if (e.key === 'ArrowRight' || e.keyCode === 39) {
             e.preventDefault();
+            e.stopPropagation();
             showNext();
-          } else if (e.key === 'ArrowLeft') {
+          } else if (e.key === 'ArrowLeft' || e.keyCode === 37) {
             e.preventDefault();
+            e.stopPropagation();
             showPrev();
           }
         }
@@ -3204,6 +3216,23 @@
       
       // Добавляем обработчик клавиатуры с capture фазой для приоритета
       document.addEventListener('keydown', handleKeyDown, true);
+      
+      // Также добавляем глобальный обработчик для надежности
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' || e.keyCode === 27) {
+          const lightboxEl = document.getElementById('portfolioLightbox');
+          if (lightboxEl) {
+            const isOpen = lightboxEl.style.display === 'flex' || 
+                          lightboxEl.style.display === 'block' ||
+                          window.getComputedStyle(lightboxEl).display !== 'none';
+            if (isOpen) {
+              e.preventDefault();
+              console.log('Закрываем lightbox через глобальный Escape');
+              closeLightbox();
+            }
+          }
+        }
+      });
       
       // Свайпы для мобильных
       let touchStartX = 0;
