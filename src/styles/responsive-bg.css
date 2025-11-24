@@ -69,6 +69,16 @@
   pointer-events: none;
 }
 
+/* Скрываем overlay, когда есть видео */
+.hero-section.responsive-bg:has(.hero-video-background)::before {
+  display: none !important;
+}
+
+/* Скрываем фоновое изображение, когда есть видео */
+.hero-section.responsive-bg:has(.hero-video-background) {
+  background-image: none !important;
+}
+
 .responsive-bg.dark-overlay::before {
   background: rgba(0, 0, 0, 0.6);
 }
