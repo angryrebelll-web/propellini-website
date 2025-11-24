@@ -1815,10 +1815,13 @@ class CarWrappingCalculator {
   // Привязка кнопки заказа
   bindOrderButton() {
     // Ищем кнопку заново
-    const orderBtn = document.getElementById('orderBtn') || document.querySelector('.order-btn');
+    let orderBtn = document.getElementById('orderBtn') || document.querySelector('.order-btn');
     
     if (!orderBtn) {
-      console.warn('Кнопка orderBtn не найдена');
+      console.warn('Кнопка orderBtn не найдена, повторная попытка через 100ms...');
+      setTimeout(() => {
+        this.bindOrderButton();
+      }, 100);
       return;
     }
     
@@ -1828,24 +1831,35 @@ class CarWrappingCalculator {
     // Удаляем все существующие обработчики через клонирование
     const newBtn = orderBtn.cloneNode(true);
     orderBtn.parentNode.replaceChild(newBtn, orderBtn);
-    this.orderBtn = newBtn;
+    orderBtn = newBtn;
+    this.orderBtn = orderBtn;
     
     const handleOrderClick = (e) => {
       e.preventDefault();
       e.stopPropagation();
       
-      console.log('Кнопка заказа нажата, открываем форму');
+      console.log('Кнопка заказа нажата, открываем форму', {
+        selectedBrand: this.selectedBrand,
+        selectedModel: this.selectedModel,
+        selectedZones: Array.from(this.selectedZones || [])
+      });
       
       // Открываем форму внутри калькулятора
       this.openCalculatorApplicationForm();
     };
     
+    // Удаляем старые обработчики
+    orderBtn.removeEventListener('click', handleOrderClick, true);
+    orderBtn.removeEventListener('touchstart', handleOrderClick);
+    
     // Добавляем обработчики
-    this.orderBtn.addEventListener('click', handleOrderClick, true);
-    this.orderBtn.addEventListener('touchstart', handleOrderClick, { passive: false });
+    orderBtn.addEventListener('click', handleOrderClick, true);
+    orderBtn.addEventListener('touchstart', handleOrderClick, { passive: false });
     
     // Также добавляем через onclick для надежности
-    this.orderBtn.onclick = handleOrderClick;
+    orderBtn.onclick = handleOrderClick;
+    
+    console.log('Кнопка orderBtn привязана');
   }
   
   // Открытие формы заявки внутри калькулятора
@@ -1866,10 +1880,19 @@ class CarWrappingCalculator {
     // Автомобиль
     if (carInput) {
       if (this.selectedBrand && this.selectedModel) {
-        carInput.value = `${this.selectedBrand} ${this.selectedModel}`.trim();
+        let carText = `${this.selectedBrand} ${this.selectedModel}`.trim();
+        // Добавляем класс автомобиля, если есть
+        if (this.selectedClass) {
+          const className = this.carDatabase[this.selectedClass]?.name || '';
+          if (className) {
+            carText += ` (${className})`;
+          }
+        }
+        carInput.value = carText;
       } else {
         carInput.value = 'Не выбран';
       }
+      console.log('Заполнено поле автомобиля:', carInput.value);
     }
     
     // Зоны
@@ -1887,11 +1910,13 @@ class CarWrappingCalculator {
           zonesInput.value = selectedZonesNames.length > 0 
             ? selectedZonesNames.join(', ') 
             : 'Не выбраны';
+          console.log('Заполнено поле зон:', zonesInput.value);
         } else {
           zonesInput.value = 'Не выбраны';
         }
       } else {
         zonesInput.value = 'Не выбраны';
+        console.log('Зоны не выбраны');
       }
     }
     
@@ -1902,11 +1927,13 @@ class CarWrappingCalculator {
     }
     
     // Показываем форму - используем несколько способов для надежности
+    form.classList.add('active');
     form.style.display = 'block';
     form.style.visibility = 'visible';
     form.style.opacity = '1';
+    form.style.position = 'relative';
+    form.style.zIndex = '1000';
     form.removeAttribute('hidden');
-    form.classList.add('active');
     form.classList.remove('hidden');
     
     // Убеждаемся, что форма видна
@@ -1914,10 +1941,20 @@ class CarWrappingCalculator {
     
     console.log('Форма должна быть видна, display:', form.style.display, 'classList:', form.classList.toString());
     
-    // Прокручиваем к форме
+    // Прокручиваем к форме с задержкой для надежности
     setTimeout(() => {
-      form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 100);
+      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Дополнительно проверяем видимость
+      const rect = form.getBoundingClientRect();
+      const isVisible = rect.top >= 0 && rect.left >= 0 && 
+                       rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && 
+                       rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+      
+      if (!isVisible) {
+        // Если форма не полностью видна, прокручиваем ещё раз
+        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 200);
   }
   
   // Закрытие формы заявки внутри калькулятора

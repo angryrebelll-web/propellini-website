@@ -1461,6 +1461,64 @@ body {
   box-shadow: 0 4px 20px rgba(22, 132, 145, 0.4);
 }
 
+/* Форма заявки внутри калькулятора (десктоп) */
+.calculator-application-form {
+  display: none;
+  margin-top: var(--space-lg);
+  padding: var(--space-lg);
+  background: rgba(18, 18, 18, 0.95);
+  border: 2px solid var(--primary);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1000;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.calculator-application-form.active {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.application-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid rgba(22, 132, 145, 0.3);
+}
+
+.application-form-header h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.application-form-close {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.application-form-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--primary);
+}
+
 /* Форма заказа в шаге 4 */
 .mobile-order-form-container {
   margin-top: var(--space-xl);
@@ -2450,6 +2508,63 @@ body {
   }
 }
 
+/* Quick Order Button */
+.quick-order-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--text);
+  border: none;
+  font-family: var(--font-montserrat);
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(22, 132, 145, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0;
+  line-height: 1.2;
+}
+
+.quick-order-btn:hover:not(.disabled) {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(22, 132, 145, 0.6);
+}
+
+.quick-order-btn:active:not(.disabled) {
+  transform: scale(0.95);
+}
+
+.quick-order-btn.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: scale(1);
+}
+
+.quick-order-btn span {
+  display: block;
+  padding: 4px;
+  word-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+  .quick-order-btn {
+    width: 56px;
+    height: 56px;
+    font-size: 11px;
+    bottom: 16px;
+    right: 16px;
+  }
+}
+
 /* Video Section */
 .video-section {
   position: relative;
@@ -2911,7 +3026,7 @@ body {
   padding: var(--space-lg);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   background: rgba(25, 25, 25, 0.9); /* Ярче фон */
   border: 1px solid rgba(22, 132, 145, 0.5); /* Ярче бордер */
   border-radius: 16px;
@@ -2935,7 +3050,8 @@ body {
   font-family: var(--font-montserrat);
   font-weight: 100;
   font-size: 24px;
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-xs);
+  margin-top: 0;
   color: var(--text);
   letter-spacing: 0.01em;
   line-height: 1.2;
@@ -2946,7 +3062,8 @@ body {
   font-weight: 400;
   font-size: 18px;
   color: var(--primary);
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
+  margin-top: 0;
   padding-bottom: var(--space-sm);
   border-bottom: 1px solid rgba(22, 132, 145, 0.5); /* Ярче бордер */
   text-shadow: 0 0 10px rgba(22, 132, 145, 0.3); /* Добавлено свечение */
@@ -2955,19 +3072,26 @@ body {
 .contacts-details {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-sm);
   color: var(--text); /* Ярче текст */
   font-family: var(--font-roboto);
   font-size: 15px;
   line-height: 1.6;
-  flex: 1;
-  justify-content: space-between;
+  flex: 0 0 auto;
+  justify-content: flex-start;
   opacity: 0.95; /* Увеличена яркость */
+  margin-top: 0;
+  margin-bottom: var(--space-md);
 }
 
 .contact-detail-item {
   margin: 0;
   padding: 0;
+  order: 0;
+}
+
+.contact-detail-item:first-child {
+  order: 0;
 }
 
 .contact-detail-item strong {

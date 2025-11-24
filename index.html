@@ -397,6 +397,13 @@
                 <!-- Зоны будут здесь -->
               </div>
             </div>
+
+            <!-- Кнопка "Записаться на оклейку" -->
+            <div class="mobile-step-3-actions" style="margin-top: var(--space-xl);">
+              <button type="button" class="mobile-order-btn" id="mobileStep3OrderBtn" style="display: none;">
+                Записаться на оклейку
+              </button>
+            </div>
           </div>
 
           <!-- Шаг 4: Итог и форма заказа -->
@@ -444,6 +451,10 @@
                 <div class="mobile-form-group">
                   <label for="mobileOrderCar">Автомобиль</label>
                   <input type="text" id="mobileOrderCar" name="car" readonly placeholder="Не выбран" />
+                </div>
+                <div class="mobile-form-group">
+                  <label for="mobileOrderServices">Выбранные услуги</label>
+                  <textarea id="mobileOrderServices" name="services" readonly rows="2" placeholder="Не выбраны"></textarea>
                 </div>
                 <div class="mobile-form-group">
                   <label for="mobileOrderTotal">Итоговая стоимость</label>
@@ -932,9 +943,10 @@
           <a href="#contacts" tabindex="0">Контакты</a>
         </nav>
         <div class="footer-social">
-          <a href="#" aria-label="Instagram" tabindex="0">Instagram</a>
-          <a href="#" aria-label="Telegram" tabindex="0">Telegram</a>
-          <a href="#" aria-label="WhatsApp" tabindex="0">WhatsApp</a>
+          <a href="https://www.instagram.com/propellini_detailing" target="_blank" rel="noopener noreferrer" aria-label="Instagram" tabindex="0">Instagram</a>
+          <a href="https://t.me/propellini_detailing" target="_blank" rel="noopener noreferrer" aria-label="Telegram" tabindex="0">Telegram</a>
+          <a href="https://wa.me/79686648888" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" tabindex="0">WhatsApp</a>
+          <a href="https://vk.com/propellini" target="_blank" rel="noopener noreferrer" aria-label="ВКонтакте" tabindex="0">ВКонтакте</a>
         </div>
       </div>
       <div class="footer-bottom">
@@ -1669,11 +1681,13 @@
               
               updateTotalPrice();
               
-              // Автоматический переход на шаг 4
-              setTimeout(() => {
-                currentStep = 4;
-                showStep(4, 'next');
-              }, 300);
+              // Показываем кнопку "Записаться на оклейку"
+              const orderBtn = document.getElementById('mobileStep3OrderBtn');
+              if (orderBtn) {
+                orderBtn.style.display = 'block';
+              }
+              
+              updateTotalPrice();
             });
           });
         }
@@ -1724,11 +1738,31 @@
                 item?.classList.remove('active');
               }
               
+              // Показываем кнопку "Записаться на оклейку" если есть выбранные зоны
+              const orderBtn = document.getElementById('mobileStep3OrderBtn');
+              if (orderBtn) {
+                orderBtn.style.display = window.calculator.selectedZones.size > 0 ? 'block' : 'none';
+              }
+              
               updateTotalPrice();
               
               // Показываем зоны
               if (zonesSection) zonesSection.style.display = 'block';
             });
+          });
+        }
+
+        // Обработчик кнопки "Записаться на оклейку" на шаге 3
+        const orderBtn = document.getElementById('mobileStep3OrderBtn');
+        if (orderBtn) {
+          orderBtn.addEventListener('click', () => {
+            if (window.calculator.selectedZones.size > 0) {
+              // Автоматический переход на шаг 4 с формой
+              setTimeout(() => {
+                currentStep = 4;
+                showStep(4, 'next');
+              }, 300);
+            }
           });
         }
       };
@@ -1797,12 +1831,55 @@
 
         // Заполняем поля формы данными из калькулятора
         const orderCarInput = document.getElementById('mobileOrderCar');
+        const orderServicesInput = document.getElementById('mobileOrderServices');
         const orderTotalInput = document.getElementById('mobileOrderTotal');
         
         if (orderCarInput && window.calculator) {
           const brand = window.calculator.selectedBrand || '';
           const model = window.calculator.selectedModel || '';
-          orderCarInput.value = `${brand} ${model}`.trim() || 'Не выбран';
+          let carText = `${brand} ${model}`.trim() || 'Не выбран';
+          // Добавляем класс если есть
+          if (window.calculator.selectedClass) {
+            const classNames = {
+              'small': 'Малый класс',
+              'business': 'Бизнес класс / Кроссоверы',
+              'suv-lux': 'Внедорожники / Люкс',
+              'pickup': 'Большие пикапы',
+              'bus': 'Автобусы / Минивэны'
+            };
+            const className = classNames[window.calculator.selectedClass] || '';
+            if (className) carText += ` (${className})`;
+          }
+          orderCarInput.value = carText;
+        }
+
+        // Заполняем выбранные услуги
+        if (orderServicesInput && window.calculator) {
+          const classToUse = window.calculator.selectedClass;
+          const zonesData = window.calculator.zonesDatabase[classToUse];
+          let servicesText = '—';
+          
+          if (zonesData && zonesData['Пакеты услуг']) {
+            const selectedPackage = zonesData['Пакеты услуг'].find(pkg => 
+              window.calculator.selectedZones.has(pkg.id)
+            );
+            if (selectedPackage) {
+              servicesText = selectedPackage.name;
+            } else {
+              // Перечисляем выбранные зоны
+              const allZones = Object.values(zonesData).flat();
+              const selectedZonesNames = Array.from(window.calculator.selectedZones)
+                .map(zoneId => {
+                  const zone = allZones.find(z => z.id === zoneId);
+                  return zone ? zone.name : null;
+                })
+                .filter(Boolean);
+              servicesText = selectedZonesNames.length > 0 
+                ? selectedZonesNames.join(', ') 
+                : '—';
+            }
+          }
+          orderServicesInput.value = servicesText;
         }
         
         if (orderTotalInput && summaryTotal) {
@@ -1827,6 +1904,7 @@
               email: document.getElementById('mobileOrderEmail').value,
               car: document.getElementById('mobileOrderCar').value,
               total: document.getElementById('mobileOrderTotal').value,
+              services: document.getElementById('mobileOrderServices')?.value || summaryService?.textContent || '—',
               zones: summaryService?.textContent || '—',
               comment: document.getElementById('mobileOrderComment').value
             };
@@ -2094,6 +2172,167 @@
       }
     };
 
+    // Handle navigation menu toggle
+    const handleNavToggle = () => {
+      const navToggle = document.getElementById('navToggle');
+      const navMenu = document.getElementById('navMenu');
+      const body = document.body;
+
+      if (!navToggle || !navMenu) return;
+
+      const toggleMenu = (e) => {
+        if (e) e.preventDefault();
+        e?.stopPropagation();
+        
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+        
+        if (navMenu.classList.contains('active')) {
+          body.style.overflow = 'hidden';
+        } else {
+          body.style.overflow = '';
+        }
+      };
+
+      navToggle.addEventListener('click', toggleMenu);
+      navToggle.addEventListener('touchstart', toggleMenu, { passive: false });
+      
+      // Закрываем меню при клике вне его
+      document.addEventListener('click', (e) => {
+        if (navMenu.classList.contains('active') && 
+            !navMenu.contains(e.target) && 
+            !navToggle.contains(e.target)) {
+          navMenu.classList.remove('active');
+          navToggle.classList.remove('active');
+          body.style.overflow = '';
+        }
+      });
+
+      // Закрываем меню при клике на ссылку внутри меню
+      navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navMenu.classList.remove('active');
+          navToggle.classList.remove('active');
+          body.style.overflow = '';
+        });
+      });
+    };
+
+    // Quick "Записаться" button with 5-second timer
+    const initQuickOrderButton = () => {
+      // Создаем кнопку, если её еще нет
+      let quickOrderBtn = document.getElementById('quickOrderBtn');
+      
+      if (!quickOrderBtn) {
+        quickOrderBtn = document.createElement('button');
+        quickOrderBtn.id = 'quickOrderBtn';
+        quickOrderBtn.className = 'quick-order-btn';
+        quickOrderBtn.innerHTML = '<span>Записаться</span>';
+        quickOrderBtn.setAttribute('aria-label', 'Быстрая запись');
+        quickOrderBtn.setAttribute('tabindex', '0');
+        document.body.appendChild(quickOrderBtn);
+      }
+
+      let lastClickTime = 0;
+      const COOLDOWN_TIME = 5000; // 5 секунд
+
+      const handleQuickOrder = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const currentTime = Date.now();
+        const timeSinceLastClick = currentTime - lastClickTime;
+
+        if (timeSinceLastClick < COOLDOWN_TIME) {
+          const remainingTime = Math.ceil((COOLDOWN_TIME - timeSinceLastClick) / 1000);
+          const originalText = quickOrderBtn.innerHTML;
+          quickOrderBtn.innerHTML = `<span>Через ${remainingTime}с</span>`;
+          quickOrderBtn.disabled = true;
+          quickOrderBtn.classList.add('disabled');
+          
+          setTimeout(() => {
+            quickOrderBtn.innerHTML = originalText;
+            quickOrderBtn.disabled = false;
+            quickOrderBtn.classList.remove('disabled');
+          }, COOLDOWN_TIME - timeSinceLastClick);
+          
+          return;
+        }
+
+        lastClickTime = currentTime;
+        
+        // Открываем форму заявки
+        const orderModal = document.getElementById('orderModal');
+        if (orderModal) {
+          orderModal.style.display = 'flex';
+          document.body.classList.add('no-scroll');
+          
+          if (typeof gsap !== 'undefined') {
+            gsap.fromTo(orderModal, 
+              { opacity: 0 }, 
+              { opacity: 1, duration: 0.3, ease: 'power2.out' }
+            );
+          }
+          
+          // Заполняем данные из калькулятора, если они есть
+          if (window.calculator) {
+            const orderTotal = document.getElementById('orderTotal');
+            const orderCar = document.getElementById('orderCar');
+            const orderZones = document.getElementById('orderZones');
+            
+            const totalAmount = document.getElementById('totalAmount');
+            if (totalAmount && orderTotal) {
+              orderTotal.value = totalAmount.textContent || '0 ₽';
+            }
+            
+            if (window.calculator.selectedModel && orderCar) {
+              const brand = window.calculator.selectedBrand || '';
+              const model = window.calculator.selectedModel || '';
+              orderCar.value = `${brand} ${model}`.trim();
+            }
+            
+            if (window.calculator.selectedZones && orderZones && window.calculator.selectedClass) {
+              const classToUse = window.calculator.selectedClass;
+              const zonesData = window.calculator.zonesDatabase[classToUse];
+              if (zonesData) {
+                const allZones = Object.values(zonesData).flat();
+                const selectedZonesNames = Array.from(window.calculator.selectedZones)
+                  .map(zoneId => {
+                    const zone = allZones.find(z => z.id === zoneId);
+                    return zone ? zone.name : null;
+                  })
+                  .filter(Boolean);
+                orderZones.value = selectedZonesNames.length > 0 
+                  ? selectedZonesNames.join(', ') 
+                  : 'Не выбраны';
+              }
+            }
+          }
+        }
+        
+        // Блокируем кнопку на 5 секунд
+        const originalText = quickOrderBtn.innerHTML;
+        quickOrderBtn.disabled = true;
+        quickOrderBtn.classList.add('disabled');
+        
+        let countdown = 5;
+        const countdownInterval = setInterval(() => {
+          countdown--;
+          if (countdown > 0) {
+            quickOrderBtn.innerHTML = `<span>Через ${countdown}с</span>`;
+          } else {
+            clearInterval(countdownInterval);
+            quickOrderBtn.innerHTML = originalText;
+            quickOrderBtn.disabled = false;
+            quickOrderBtn.classList.remove('disabled');
+          }
+        }, 1000);
+      };
+
+      quickOrderBtn.addEventListener('click', handleQuickOrder);
+      quickOrderBtn.addEventListener('touchstart', handleQuickOrder, { passive: false });
+    };
+
     // Плавная прокрутка для всех якорных ссылок
     const handleSmoothScroll = () => {
       // Обработка всех ссылок с якорями
@@ -2294,21 +2533,25 @@
     // Initialize when DOM is ready
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => {
+        handleNavToggle();
         handleSmoothScroll();
         handleCalculatorToggle();
         handleApplicationModal();
         handleVideoPlay();
         handleCalculatorForm();
         handlePortfolioLightbox();
+        initQuickOrderButton();
         setTimeout(initMobileCalculator, 500);
       });
     } else {
+      handleNavToggle();
       handleSmoothScroll();
       handleCalculatorToggle();
       handleApplicationModal();
       handleVideoPlay();
       handleCalculatorForm();
       handlePortfolioLightbox();
+      initQuickOrderButton();
       setTimeout(initMobileCalculator, 500);
     }
   </script>
