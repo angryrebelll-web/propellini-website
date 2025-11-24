@@ -322,8 +322,8 @@
                       <input type="text" id="calcOrderCar" name="car" readonly placeholder="Не выбран" tabindex="0" />
                     </div>
                     <div class="form-group">
-                      <label for="calcOrderZones">Выбранные зоны/услуги</label>
-                      <textarea id="calcOrderZones" name="zones" readonly rows="3" placeholder="Не выбраны" tabindex="0"></textarea>
+                      <label for="calcOrderServices">Выбранные услуги</label>
+                      <textarea id="calcOrderServices" name="services" readonly rows="3" placeholder="Не выбраны" tabindex="0"></textarea>
                     </div>
                     <div class="form-group">
                       <label for="calcOrderTotal">Итоговая стоимость</label>
@@ -348,8 +348,16 @@
       <!-- Mobile Calculator Wizard - ПРЕМИУМ ПЕРЕРАБОТАННАЯ ВЕРСИЯ -->
       <div class="calculator-mobile" id="calculatorMobile">
         <div class="mobile-wizard-new">
+          <!-- Шаг 0: Выбор класса автомобиля -->
+          <div class="mobile-wizard-step active" data-step="0">
+            <h3 class="mobile-step-title">Выберите тип авто</h3>
+            <div class="mobile-class-selection" id="mobileClassSelection">
+              <!-- Классы будут здесь -->
+            </div>
+          </div>
+          
           <!-- Шаг 1: Выбор марки -->
-          <div class="mobile-wizard-step active" data-step="1">
+          <div class="mobile-wizard-step" data-step="1">
             <h3 class="mobile-step-title">Выберите марку автомобиля</h3>
             <div class="mobile-search-box">
               <input type="text" id="mobileBrandSearch" placeholder="Поиск марки или выберите ниже..." autocomplete="off" />
@@ -398,9 +406,14 @@
               </div>
             </div>
 
-            <!-- Кнопка "Записаться на оклейку" -->
-            <div class="mobile-step-3-actions" style="margin-top: var(--space-xl);">
-              <button type="button" class="mobile-order-btn" id="mobileStep3OrderBtn" style="display: none;">
+            <!-- Итоговая стоимость и кнопка "Записаться на оклейку" -->
+            <div class="mobile-step-3-total" style="margin-top: var(--space-lg); padding: var(--space-md); background: rgba(22, 132, 145, 0.1); border-radius: 12px; text-align: center;">
+              <div style="font-size: 14px; color: var(--text-muted); margin-bottom: var(--space-xs);">Итоговая стоимость:</div>
+              <div id="mobileStep3Total" style="font-size: 28px; font-weight: 800; color: var(--primary);">0 ₽</div>
+            </div>
+            
+            <div class="mobile-step-3-actions" style="margin-top: var(--space-lg);">
+              <button type="button" class="mobile-order-btn" id="mobileStep3OrderBtn" style="display: none; width: 100%; padding: var(--space-md); font-size: 16px; font-weight: 600;">
                 Записаться на оклейку
               </button>
             </div>
@@ -1358,7 +1371,7 @@
       if (!wizard) return; // Старая версия - пропускаем
 
       const steps = wizard.querySelectorAll('.mobile-wizard-step');
-      let currentStep = 1;
+      let currentStep = 0; // Начинаем с шага 0 (выбор класса)
       const totalSteps = 4;
 
       // Элементы управления
@@ -1380,7 +1393,7 @@
 
         // Управление кнопками
         if (footerPrev) {
-          footerPrev.style.display = stepNum === 1 ? 'none' : 'flex';
+          footerPrev.style.display = stepNum === 0 ? 'none' : 'flex';
         }
         if (footerNext) {
           footerNext.style.display = stepNum === totalSteps ? 'none' : 'flex';
@@ -1394,11 +1407,52 @@
       // Инициализация конкретного шага
       const initStep = (stepNum) => {
         switch(stepNum) {
+          case 0: initStep0(); break;
           case 1: initStep1(); break;
           case 2: initStep2(); break;
           case 3: initStep3(); break;
           case 4: initStep4(); break;
         }
+      };
+      
+      // Шаг 0: Выбор класса автомобиля
+      const initStep0 = () => {
+        const classSelection = document.getElementById('mobileClassSelection');
+        if (!classSelection || !window.calculator) return;
+        
+        const classes = [
+          { id: 'small', name: 'Малый класс' },
+          { id: 'business', name: 'Бизнес класс / Кроссоверы' },
+          { id: 'suv-lux', name: 'Внедорожники / Люкс' },
+          { id: 'pickup', name: 'Большие пикапы' },
+          { id: 'bus', name: 'Автобусы / Минивэны' }
+        ];
+        
+        classSelection.innerHTML = classes.map(cls => `
+          <button class="mobile-class-option ${window.calculator.selectedClass === cls.id ? 'active' : ''}" 
+                  data-class="${cls.id}"
+                  tabindex="0">
+            <span class="mobile-class-name">${cls.name}</span>
+          </button>
+        `).join('');
+        
+        classSelection.querySelectorAll('.mobile-class-option').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const classId = btn.dataset.class;
+            window.calculator.selectedClass = classId;
+            window.calculator.selectClass(classId);
+            
+            // Обновляем активный класс
+            classSelection.querySelectorAll('.mobile-class-option').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Автоматически переходим на шаг 1 (выбор марки)
+            setTimeout(() => {
+              currentStep = 1;
+              showStep(1, 'next');
+            }, 300);
+          });
+        });
       };
 
       // Шаг 1: Выбор марки (горизонтальные чипсы)
@@ -1630,8 +1684,8 @@
         const selectedCarEl = document.getElementById('mobileSelectedCar');
         
         if (!window.calculator || !window.calculator.selectedClass) {
-          currentStep = 1;
-          showStep(1);
+          currentStep = 0;
+          showStep(0);
           return;
         }
 
@@ -1663,17 +1717,44 @@
           packagesGrid.querySelectorAll('.mobile-package-card').forEach(card => {
             card.addEventListener('click', () => {
               const packageId = card.dataset.package;
+              const selectedPackage = zonesData['Пакеты услуг'].find(p => p.id === packageId);
+              
+              if (!selectedPackage || !window.calculator) return;
               
               // Очищаем все выбранные зоны
               window.calculator.selectedZones.clear();
-              window.calculator.selectedZones.add(packageId);
               
-              // Обновляем визуальное состояние
+              // Добавляем пакет
+              window.calculator.selectedZones.add(packageId);
+              window.calculator.selectedPackage = packageId;
+              
+              // Получаем зоны пакета через функцию getPackageZones
+              const packageZones = window.calculator.getPackageZones(packageId);
+              
+              // Добавляем зоны пакета в selectedZones для визуального отображения
+              packageZones.forEach(zoneId => {
+                window.calculator.selectedZones.add(zoneId);
+              });
+              
+              // Обновляем визуальное состояние пакетов
               packagesGrid.querySelectorAll('.mobile-package-card').forEach(c => c.classList.remove('active'));
               card.classList.add('active');
               
-              // Скрываем зоны, показываем только пакеты
-              if (zonesSection) zonesSection.style.display = 'none';
+              // Обновляем чекбоксы зон - помечаем зоны пакета как выбранные
+              if (zonesList) {
+                zonesList.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                  const zoneId = checkbox.value;
+                  const item = checkbox.closest('.mobile-zone-item-new');
+                  
+                  if (packageZones.includes(zoneId)) {
+                    checkbox.checked = true;
+                    item?.classList.add('active');
+                  } else {
+                    checkbox.checked = false;
+                    item?.classList.remove('active');
+                  }
+                });
+              }
               
               updateTotalPrice();
               
@@ -1682,8 +1763,6 @@
               if (orderBtn) {
                 orderBtn.style.display = 'block';
               }
-              
-              updateTotalPrice();
             });
           });
         }
@@ -1749,17 +1828,44 @@
         }
 
         // Обработчик кнопки "Записаться на оклейку" на шаге 3
+        // Удаляем старые обработчики перед добавлением новых
         const orderBtn = document.getElementById('mobileStep3OrderBtn');
         if (orderBtn) {
-          orderBtn.addEventListener('click', () => {
-            if (window.calculator.selectedZones.size > 0) {
+          // Клонируем кнопку для удаления всех старых обработчиков
+          const newOrderBtn = orderBtn.cloneNode(true);
+          orderBtn.parentNode.replaceChild(newOrderBtn, orderBtn);
+          
+          // Добавляем обработчик на клонированную кнопку
+          const handleOrderClick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Кнопка "Записаться на оклейку" нажата');
+            console.log('Выбранные зоны:', Array.from(window.calculator?.selectedZones || []));
+            
+            if (window.calculator && window.calculator.selectedZones.size > 0) {
+              console.log('Переход на шаг 4');
               // Автоматический переход на шаг 4 с формой
+              currentStep = 4;
+              showStep(4, 'next');
+              
+              // Инициализируем форму после небольшой задержки для плавного перехода
               setTimeout(() => {
-                currentStep = 4;
-                showStep(4, 'next');
-              }, 300);
+                initStep4();
+              }, 350);
+            } else {
+              console.warn('Нет выбранных зон');
+              alert('Пожалуйста, выберите услугу или зону оклейки');
             }
-          });
+          };
+          
+          // Добавляем обработчики разными способами для надежности
+          newOrderBtn.addEventListener('click', handleOrderClick, true);
+          newOrderBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            handleOrderClick(e);
+          }, { passive: false });
+          newOrderBtn.onclick = handleOrderClick;
         }
       };
 
@@ -1997,12 +2103,26 @@
         }
 
         footerTotal.textContent = `${total.toLocaleString('ru-RU')} ₽`;
+        
+        // Также обновляем цену на шаге 3, если она там отображается
+        const step3Total = document.getElementById('mobileStep3Total');
+        if (step3Total) {
+          step3Total.textContent = `${total.toLocaleString('ru-RU')} ₽`;
+        }
+        
+        // Показываем кнопку "Записаться на оклейку" если цена больше 0 и мы на шаге 3
+        if (currentStep === 3 && total > 0) {
+          const orderBtn = document.getElementById('mobileStep3OrderBtn');
+          if (orderBtn) {
+            orderBtn.style.display = 'block';
+          }
+        }
       };
 
       // Навигация
       if (footerPrev) {
         footerPrev.addEventListener('click', () => {
-          if (currentStep > 1) {
+          if (currentStep > 0) {
             currentStep--;
             showStep(currentStep, 'prev');
           }
@@ -2015,6 +2135,9 @@
           let canProceed = false;
           
           switch(currentStep) {
+            case 0:
+              canProceed = !!window.calculator.selectedClass;
+              break;
             case 1:
               canProceed = !!window.calculator.selectedBrand;
               break;
@@ -2113,7 +2236,7 @@
             phone: document.getElementById('calcOrderPhone').value,
             email: document.getElementById('calcOrderEmail').value,
             car: document.getElementById('calcOrderCar').value,
-            zones: document.getElementById('calcOrderZones').value,
+            services: document.getElementById('calcOrderServices').value,
             total: document.getElementById('calcOrderTotal').value,
             comment: document.getElementById('calcOrderComment').value
           };
@@ -2222,22 +2345,42 @@
         newLink.addEventListener('click', (e) => {
           e.stopPropagation(); // Останавливаем всплытие
           
-          // Для калькулятора - не закрываем сразу
+          // Для калькулятора - открываем калькулятор и закрываем меню
           if (newLink.id === 'calculatorNavBtn') {
+            e.preventDefault();
+            // Закрываем меню
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            body.style.overflow = '';
+            // Открываем калькулятор
+            setTimeout(() => {
+              const calculatorSection = document.getElementById('calculator');
+              if (calculatorSection) {
+                calculatorSection.classList.add('active');
+                body.style.overflow = 'hidden';
+                calculatorSection.scrollTop = 0;
+              }
+            }, 300);
+            return;
+          }
+          
+          // Для обычных ссылок - закрываем меню после небольшой задержки для плавности
+          const href = newLink.getAttribute('href');
+          if (href && href !== '#' && href.startsWith('#')) {
+            // Не предотвращаем переход, но закрываем меню
             setTimeout(() => {
               navMenu.classList.remove('active');
               navToggle.classList.remove('active');
               body.style.overflow = '';
-            }, 200);
-            return;
+            }, 100);
+          } else {
+            // Для остальных ссылок тоже закрываем меню
+            setTimeout(() => {
+              navMenu.classList.remove('active');
+              navToggle.classList.remove('active');
+              body.style.overflow = '';
+            }, 100);
           }
-          
-          // Для обычных ссылок - даем время на обработку плавной прокрутки
-          setTimeout(() => {
-            navMenu.classList.remove('active');
-            navToggle.classList.remove('active');
-            body.style.overflow = '';
-          }, 500);
         }, false);
         });
       };
@@ -2251,8 +2394,12 @@
         quickOrderBtn = document.createElement('button');
         quickOrderBtn.id = 'quickOrderBtn';
         quickOrderBtn.className = 'quick-order-btn';
-        quickOrderBtn.innerHTML = '<span>Записаться</span>';
-        quickOrderBtn.setAttribute('aria-label', 'Быстрая запись');
+        // SVG иконка конверта вместо текста
+        quickOrderBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`;
+        quickOrderBtn.setAttribute('aria-label', 'Быстрая запись на оклейку');
         quickOrderBtn.setAttribute('tabindex', '0');
         document.body.appendChild(quickOrderBtn);
       }
@@ -2398,11 +2545,21 @@
         
         currentIndex = index;
         lightboxImage.src = images[index].src;
-        lightboxImage.alt = images[index].alt;
-        lightboxCaption.textContent = images[index].alt;
+        lightboxImage.alt = images[index].alt || `Портфолио ${index + 1}`;
+        lightboxCaption.textContent = images[index].alt || '';
         
         lightbox.style.display = 'flex';
+        lightbox.style.visibility = 'visible';
         document.body.style.overflow = 'hidden';
+        
+        // Убеждаемся, что кнопка закрытия видна и работает
+        const closeBtn = document.getElementById('lightboxClose') || window.lightboxCloseBtn;
+        if (closeBtn) {
+          closeBtn.style.display = 'flex';
+          closeBtn.style.visibility = 'visible';
+          closeBtn.style.opacity = '1';
+          closeBtn.style.zIndex = '10003';
+        }
         
         // Анимация появления
         if (typeof gsap !== 'undefined') {
@@ -2414,10 +2571,21 @@
             { scale: 0.8, opacity: 0 }, 
             { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.1 }
           );
+          if (closeBtn) {
+            gsap.fromTo(closeBtn, 
+              { opacity: 0, scale: 0.8 }, 
+              { opacity: 1, scale: 1, duration: 0.3, ease: 'power2.out', delay: 0.2 }
+            );
+          }
+        } else {
+          if (closeBtn) {
+            closeBtn.style.opacity = '1';
+          }
         }
       };
       
       const closeLightbox = () => {
+        // Убеждаемся, что светбокс действительно закрыт
         if (typeof gsap !== 'undefined') {
           gsap.to(lightbox, {
             opacity: 0,
@@ -2425,12 +2593,21 @@
             ease: 'power2.out',
             onComplete: () => {
               lightbox.style.display = 'none';
+              lightbox.style.visibility = 'hidden';
               document.body.style.overflow = '';
+              // Фокус возвращаем на элемент, который открыл lightbox
+              if (document.activeElement && document.activeElement.blur) {
+                document.activeElement.blur();
+              }
             }
           });
         } else {
           lightbox.style.display = 'none';
+          lightbox.style.visibility = 'hidden';
           document.body.style.overflow = '';
+          if (document.activeElement && document.activeElement.blur) {
+            document.activeElement.blur();
+          }
         }
       };
       
@@ -2529,18 +2706,25 @@
         });
       }
       
-      // Клавиатурная навигация
-      document.addEventListener('keydown', (e) => {
-        if (lightbox.style.display === 'flex' || lightbox.style.display === '') {
+      // Клавиатурная навигация - улучшенная версия
+      const handleKeyDown = (e) => {
+        if (lightbox && (lightbox.style.display === 'flex' || lightbox.style.display === 'block' || lightbox.style.display === '')) {
           if (e.key === 'Escape') {
+            e.preventDefault();
+            e.stopPropagation();
             closeLightbox();
           } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
             showNext();
           } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
             showPrev();
           }
         }
-      });
+      };
+      
+      // Добавляем обработчик клавиатуры с capture фазой для приоритета
+      document.addEventListener('keydown', handleKeyDown, true);
       
       // Свайпы для мобильных
       let touchStartX = 0;

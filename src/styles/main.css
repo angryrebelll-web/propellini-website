@@ -1097,7 +1097,24 @@ body {
   height: 100%;
   min-height: calc(100vh - 160px);
   position: relative;
-  overflow: hidden;
+  overflow: hidden !important;
+}
+
+@media (max-width: 768px) {
+  .calculator-mobile {
+    display: block !important;
+    position: relative;
+    overflow: hidden !important;
+  }
+  
+  .calculator-desktop {
+    display: none !important;
+  }
+  
+  .mobile-wizard-new {
+    overflow: hidden !important;
+    max-height: calc(100vh - 120px);
+  }
 }
 
 .mobile-wizard-step {
@@ -1107,20 +1124,25 @@ body {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   animation: slideInRight 0.3s ease-out;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1;
 }
 
 .mobile-wizard-step.active {
   display: flex !important;
   flex-direction: column;
-  position: relative;
-  z-index: 2;
+  position: absolute !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 2 !important;
 }
 
 .mobile-wizard-step.prev {
@@ -2374,7 +2396,8 @@ body {
 /* Portfolio Section */
 .portfolio {
   padding: var(--space-lg) 0;
-  padding-bottom: calc(var(--space-lg) + 350px); /* Еще уменьшено */
+  padding-bottom: var(--space-xl);
+  margin-bottom: var(--space-xl);
   background: var(--bg);
   position: relative;
   z-index: 10;
@@ -2427,17 +2450,29 @@ body {
 
 /* Portfolio Lightbox */
 .portfolio-lightbox {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10000;
-  display: flex;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 10000 !important;
+  display: none;
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.95);
+  overflow: hidden;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.portfolio-lightbox[style*="flex"],
+.portfolio-lightbox[style*="block"] {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .lightbox-overlay {
@@ -2623,9 +2658,20 @@ body {
 }
 
 .quick-order-btn::before {
-  content: '✉';
-  font-size: 24px;
-  line-height: 1;
+  display: none;
+}
+
+.quick-order-btn svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  fill: none;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.quick-order-btn:hover:not(.disabled) svg {
+  transform: scale(1.1);
 }
 
 .quick-order-btn:hover:not(.disabled) {
@@ -2671,8 +2717,9 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 15;
-  margin-top: -100px; /* Уменьшено для более плавного наезда */
-  padding-top: 200px; /* Увеличено для компенсации */
+  margin-top: var(--space-xl);
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
   isolation: isolate;
   transition: transform 0.1s ease-out; /* Плавный переход */
 }

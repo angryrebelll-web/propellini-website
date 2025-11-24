@@ -1896,7 +1896,7 @@ class CarWrappingCalculator {
     
     // Заполняем данные в форму
     const carInput = document.getElementById('calcOrderCar');
-    const zonesInput = document.getElementById('calcOrderZones');
+    const servicesInput = document.getElementById('calcOrderServices');
     const totalInput = document.getElementById('calcOrderTotal');
     
     // Автомобиль
@@ -1917,8 +1917,8 @@ class CarWrappingCalculator {
       console.log('Заполнено поле автомобиля:', carInput.value);
     }
     
-    // Зоны и услуги
-    if (zonesInput) {
+    // Услуги (пакеты и отдельные зоны)
+    if (servicesInput) {
       if (this.selectedZones && this.selectedZones.size > 0 && this.selectedClass) {
         const zonesData = this.zonesDatabase[this.selectedClass];
         if (zonesData) {
@@ -1931,17 +1931,25 @@ class CarWrappingCalculator {
             .filter(id => packages.some(p => p.id === id))
             .map(packageId => {
               const pkg = packages.find(p => p.id === packageId);
-              return pkg ? `Пакет: ${pkg.name}` : null;
+              return pkg ? pkg.name : null;
             })
             .filter(Boolean);
           
           selectedItems.push(...selectedPackages);
           
           // Затем собираем отдельные зоны/услуги (не входящие в выбранные пакеты)
+          const packageZoneIds = new Set();
+          packages.forEach(pkg => {
+            const pkgZones = this.getPackageZones(pkg.id);
+            pkgZones.forEach(zid => packageZoneIds.add(zid));
+          });
+          
           const selectedZonesNames = Array.from(this.selectedZones)
             .map(zoneId => {
               // Пропускаем пакеты - они уже добавлены
               if (packages.some(p => p.id === zoneId)) return null;
+              // Пропускаем зоны, которые входят в выбранные пакеты
+              if (packageZoneIds.has(zoneId)) return null;
               const zone = allZones.find(z => z.id === zoneId);
               return zone ? zone.name : null;
             })
@@ -1949,16 +1957,16 @@ class CarWrappingCalculator {
           
           selectedItems.push(...selectedZonesNames);
           
-          zonesInput.value = selectedItems.length > 0 
+          servicesInput.value = selectedItems.length > 0 
             ? selectedItems.join('\n') 
             : 'Не выбраны';
-          console.log('Заполнено поле зон/услуг:', zonesInput.value);
+          console.log('Заполнено поле услуг:', servicesInput.value);
         } else {
-          zonesInput.value = 'Не выбраны';
+          servicesInput.value = 'Не выбраны';
         }
       } else {
-        zonesInput.value = 'Не выбраны';
-        console.log('Зоны не выбраны');
+        servicesInput.value = 'Не выбраны';
+        console.log('Услуги не выбраны');
       }
     }
     

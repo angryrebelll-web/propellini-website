@@ -52,9 +52,14 @@
     width: 100%;
   }
 
-  /* Исправление отступов для всех секций */
+  /* Исправление отступов для всех секций - уменьшаем для компактности */
   section {
-    padding: var(--space-xl) 0 !important;
+    padding: var(--space-lg) 0 !important;
+  }
+  
+  section .container {
+    padding-left: var(--space-sm) !important;
+    padding-right: var(--space-sm) !important;
   }
 
   section .container {
@@ -321,12 +326,12 @@
   }
 
   .section-title {
-    font-size: clamp(32px, 8vw, 42px);
+    font-size: clamp(28px, 7vw, 36px);
     line-height: 1.2;
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
     padding: 0 var(--space-sm);
     text-align: center;
-    max-width: 90%;
+    max-width: 95%;
     margin-left: auto;
     margin-right: auto;
   }
@@ -351,14 +356,15 @@
   .benefits-grid {
     display: grid !important;
     grid-template-columns: 1fr;
-    gap: var(--space-md);
-    margin-top: var(--space-lg);
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+    padding: 0 var(--space-sm);
     visibility: visible;
     opacity: 1;
   }
 
   .benefit-card-glass {
-    padding: var(--space-lg);
+    padding: var(--space-md);
     min-height: auto;
     width: 100%;
     display: block !important;
@@ -402,12 +408,26 @@
 
   .about-achievements {
     display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: var(--space-md);
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: var(--space-sm);
     padding: 0 var(--space-sm);
     visibility: visible !important;
     opacity: 1 !important;
-    margin-top: var(--space-lg);
+    margin-top: var(--space-md);
+  }
+  
+  .achievement-card {
+    padding: var(--space-md);
+  }
+  
+  .achievement-number {
+    font-size: 32px;
+    margin-bottom: 4px;
+  }
+  
+  .achievement-label {
+    font-size: 12px;
+    line-height: 1.4;
   }
 
   .achievement-card {
@@ -469,21 +489,41 @@
   .services-grid {
     display: grid !important;
     grid-template-columns: 1fr;
-    gap: var(--space-lg);
-    margin-top: var(--space-lg);
+    gap: var(--space-md);
+    margin-top: var(--space-md);
     padding: 0 var(--space-sm);
     visibility: visible;
     opacity: 1;
   }
 
   .service-card {
-    padding: var(--space-xl);
+    padding: var(--space-md);
     width: 100%;
     min-height: auto;
     margin: 0;
     display: block !important;
     visibility: visible;
     opacity: 1;
+  }
+  
+  .service-card h3 {
+    font-size: 20px;
+    margin-bottom: var(--space-sm);
+  }
+  
+  .service-card p {
+    font-size: 14px;
+    margin-bottom: var(--space-sm);
+  }
+  
+  .service-features {
+    margin: var(--space-sm) 0;
+    padding-left: var(--space-md);
+  }
+  
+  .service-features li {
+    font-size: 13px;
+    margin-bottom: 4px;
   }
 
   .service-badge {
@@ -597,11 +637,29 @@
   .process-steps-compact {
     display: grid !important;
     grid-template-columns: 1fr;
-    gap: var(--space-md);
-    margin-top: var(--space-lg);
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
     padding: 0 var(--space-sm);
     visibility: visible;
     opacity: 1;
+  }
+  
+  .process-step-compact {
+    padding: var(--space-md);
+  }
+  
+  .process-number-compact {
+    font-size: 32px;
+  }
+  
+  .process-content-compact h3 {
+    font-size: 16px;
+    margin-bottom: var(--space-xs);
+  }
+  
+  .process-content-compact p {
+    font-size: 13px;
+    line-height: 1.5;
   }
 
   .process-step-compact {
@@ -630,9 +688,14 @@
      ============================================ */
 
   .portfolio {
-    padding: var(--space-xl) 0;
-    margin-bottom: var(--space-2xl);
-    padding-bottom: var(--space-2xl);
+    padding: var(--space-lg) 0;
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-xl);
+  }
+  
+  /* Расстояние между портфолио и видео */
+  .portfolio + .video-section {
+    margin-top: var(--space-xl) !important;
   }
 
   .portfolio-gallery {
@@ -682,7 +745,52 @@
      ============================================ */
 
   .reviews {
-    padding: var(--space-md) 0;
+    padding: var(--space-sm) 0;
+  }
+  
+  /* ============================================
+     LIGHTBOX - МОБИЛЬНАЯ ВЕРСИЯ
+     ============================================ */
+  
+  .lightbox-close {
+    top: 10px !important;
+    right: 10px !important;
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 28px !important;
+    background: rgba(0, 0, 0, 0.9) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    z-index: 10004 !important;
+  }
+  
+  .lightbox-content {
+    max-width: 95vw;
+    max-height: 90vh;
+    padding: 10px;
+  }
+  
+  .lightbox-content img {
+    max-height: 75vh;
+    border-radius: 8px;
+  }
+  
+  .lightbox-prev,
+  .lightbox-next {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+  }
+  
+  .lightbox-prev {
+    left: 10px;
+  }
+  
+  .lightbox-next {
+    right: 10px;
+  }
+  
+  .reviews {
+    padding: var(--space-sm) 0;
   }
 
   .reviews-header {
@@ -692,20 +800,33 @@
 
   .reviews-slider {
     grid-template-columns: 1fr;
-    gap: var(--space-sm);
+    gap: var(--space-xs);
     margin-top: var(--space-sm);
     padding: 0 var(--space-sm);
     max-width: 100%;
-    max-height: 600px;
+    max-height: 400px;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
 
   .review-card {
-    padding: var(--space-sm) var(--space-md);
+    padding: var(--space-sm);
     max-width: 100%;
     margin-bottom: var(--space-xs);
     min-height: auto;
+    font-size: 13px;
+  }
+  
+  .review-card .review-text {
+    font-size: 13px;
+    line-height: 1.5;
+    max-height: 120px;
+    overflow-y: auto;
+  }
+  
+  .review-author {
+    font-size: 12px;
+    margin-top: var(--space-xs);
   }
 
   .review-stars {
@@ -1108,10 +1229,65 @@
      ============================================ */
 
   .video-section {
-    height: 400px;
-    margin-top: var(--space-2xl);
-    padding-top: 90px;
-    margin-bottom: var(--space-xl);
+    height: 350px;
+    margin-top: var(--space-xl) !important;
+    padding-top: 40px;
+    margin-bottom: var(--space-lg);
+    position: relative;
+  }
+  
+  .video-mobile {
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+  
+  .video-rutube-container-mobile {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 350px !important;
+    position: relative !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border-radius: 12px !important;
+  }
+  
+  .video-rutube-container-mobile iframe {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 350px !important;
+    border-radius: 12px !important;
+  }
+  
+  .video-desktop {
+    display: none !important;
+  }
+  
+  .video-overlay {
+    display: none !important;
+  }
+  
+  .video-content {
+    padding: var(--space-md);
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    border-radius: 12px;
+    margin: var(--space-md);
+  }
+  
+  .video-content h2 {
+    font-size: clamp(20px, 4vw, 28px);
+    margin-bottom: var(--space-xs);
+  }
+  
+  .video-play-btn {
+    display: none !important;
   }
 
   .video-content {
