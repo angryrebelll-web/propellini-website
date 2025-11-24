@@ -2466,6 +2466,8 @@ body {
   filter: brightness(0.8);
   transition: all var(--transition-base);
   display: block;
+  min-height: 200px;
+  background: rgba(22, 132, 145, 0.1);
 }
 
 .portfolio-item:hover {

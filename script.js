@@ -1904,10 +1904,18 @@ class CarWrappingCalculator {
     
     console.log('Открываем форму калькулятора');
     
-    // Заполняем данные в форму
+    // Обновляем цену перед открытием формы
+    this.updateTotal();
+    
+    // Заполняем данные в форму (десктопная форма)
     const carInput = document.getElementById('calcOrderCar');
     const servicesInput = document.getElementById('calcOrderServices');
     const totalInput = document.getElementById('calcOrderTotal');
+    
+    // Также заполняем мобильную форму, если она есть
+    const mobileCarInput = document.getElementById('mobileOrderCar');
+    const mobileServicesInput = document.getElementById('mobileOrderServices');
+    const mobileTotalInput = document.getElementById('mobileOrderTotal');
     
     // Автомобиль
     if (carInput) {
@@ -1980,10 +1988,77 @@ class CarWrappingCalculator {
       }
     }
     
-    // Стоимость
+    // Стоимость (десктопная форма)
     if (totalInput) {
       const total = this.calculateTotal();
       totalInput.value = `${total.toLocaleString('ru-RU')} ₽`;
+    }
+    
+    // Заполняем мобильную форму теми же данными
+    if (mobileCarInput) {
+      if (this.selectedBrand && this.selectedModel) {
+        let carText = `${this.selectedBrand} ${this.selectedModel}`.trim();
+        if (this.selectedClass) {
+          const className = this.carDatabase[this.selectedClass]?.name || '';
+          if (className) {
+            carText += ` (${className})`;
+          }
+        }
+        mobileCarInput.value = carText;
+      } else {
+        mobileCarInput.value = 'Не выбран';
+      }
+    }
+    
+    if (mobileServicesInput) {
+      if (this.selectedZones && this.selectedZones.size > 0 && this.selectedClass) {
+        const zonesData = this.zonesDatabase[this.selectedClass];
+        if (zonesData) {
+          const allZones = Object.values(zonesData).flat();
+          const selectedItems = [];
+          
+          const packages = zonesData['Пакеты услуг'] || [];
+          const selectedPackages = Array.from(this.selectedZones)
+            .filter(id => packages.some(p => p.id === id))
+            .map(packageId => {
+              const pkg = packages.find(p => p.id === packageId);
+              return pkg ? pkg.name : null;
+            })
+            .filter(Boolean);
+          
+          selectedItems.push(...selectedPackages);
+          
+          const packageZoneIds = new Set();
+          packages.forEach(pkg => {
+            const pkgZones = this.getPackageZones(pkg.id);
+            pkgZones.forEach(zid => packageZoneIds.add(zid));
+          });
+          
+          const selectedZonesNames = Array.from(this.selectedZones)
+            .map(zoneId => {
+              if (packages.some(p => p.id === zoneId)) return null;
+              if (packageZoneIds.has(zoneId)) return null;
+              const zone = allZones.find(z => z.id === zoneId);
+              return zone ? zone.name : null;
+            })
+            .filter(Boolean);
+          
+          selectedItems.push(...selectedZonesNames);
+          
+          mobileServicesInput.value = selectedItems.length > 0 
+            ? selectedItems.join('\n') 
+            : 'Не выбраны';
+        } else {
+          mobileServicesInput.value = 'Не выбраны';
+        }
+      } else {
+        mobileServicesInput.value = 'Не выбраны';
+      }
+    }
+    
+    if (mobileTotalInput) {
+      const total = this.calculateTotal();
+      mobileTotalInput.value = `${total.toLocaleString('ru-RU')} ₽`;
     }
     
     // Перемещаем форму в body для корректного отображения поверх калькулятора
