@@ -1198,9 +1198,31 @@ class CarWrappingCalculator {
       const packageZones = this.getPackageZones(zoneId);
       packageZones.forEach(pid => {
         this.selectedZones.add(pid);
+        // Ищем чекбокс и отмечаем его
         const cb = document.querySelector(`#zone-${pid}`);
-        if (cb) cb.checked = true;
+        if (cb) {
+          cb.checked = true;
+          // Обновляем визуальное состояние элемента
+          const zoneItem = cb.closest('.zone-item');
+          if (zoneItem) {
+            zoneItem.classList.add('selected');
+          }
+        } else {
+          // Если чекбокс ещё не отрендерен, попробуем через небольшую задержку
+          setTimeout(() => {
+            const delayedCb = document.querySelector(`#zone-${pid}`);
+            if (delayedCb) {
+              delayedCb.checked = true;
+              const zoneItem = delayedCb.closest('.zone-item');
+              if (zoneItem) {
+                zoneItem.classList.add('selected');
+              }
+            }
+          }, 100);
+        }
       });
+      // Обновляем визуализацию после выбора пакета
+      this.updateCarZonesVisual();
     } else if (isPackage && !checkbox.checked) {
       // Удаляем пакет и его зоны
       this.selectedZones.delete(zoneId);
@@ -1895,22 +1917,42 @@ class CarWrappingCalculator {
       console.log('Заполнено поле автомобиля:', carInput.value);
     }
     
-    // Зоны
+    // Зоны и услуги
     if (zonesInput) {
       if (this.selectedZones && this.selectedZones.size > 0 && this.selectedClass) {
         const zonesData = this.zonesDatabase[this.selectedClass];
         if (zonesData) {
           const allZones = Object.values(zonesData).flat();
+          const selectedItems = [];
+          
+          // Сначала собираем пакеты
+          const packages = zonesData['Пакеты услуг'] || [];
+          const selectedPackages = Array.from(this.selectedZones)
+            .filter(id => packages.some(p => p.id === id))
+            .map(packageId => {
+              const pkg = packages.find(p => p.id === packageId);
+              return pkg ? `Пакет: ${pkg.name}` : null;
+            })
+            .filter(Boolean);
+          
+          selectedItems.push(...selectedPackages);
+          
+          // Затем собираем отдельные зоны/услуги (не входящие в выбранные пакеты)
           const selectedZonesNames = Array.from(this.selectedZones)
             .map(zoneId => {
+              // Пропускаем пакеты - они уже добавлены
+              if (packages.some(p => p.id === zoneId)) return null;
               const zone = allZones.find(z => z.id === zoneId);
               return zone ? zone.name : null;
             })
             .filter(Boolean);
-          zonesInput.value = selectedZonesNames.length > 0 
-            ? selectedZonesNames.join(', ') 
+          
+          selectedItems.push(...selectedZonesNames);
+          
+          zonesInput.value = selectedItems.length > 0 
+            ? selectedItems.join('\n') 
             : 'Не выбраны';
-          console.log('Заполнено поле зон:', zonesInput.value);
+          console.log('Заполнено поле зон/услуг:', zonesInput.value);
         } else {
           zonesInput.value = 'Не выбраны';
         }
@@ -1926,42 +1968,27 @@ class CarWrappingCalculator {
       totalInput.value = `${total.toLocaleString('ru-RU')} ₽`;
     }
     
-    // Показываем форму - используем несколько способов для надежности
+    // Показываем форму как модальное окно
     form.classList.add('active');
-    form.style.display = 'block';
-    form.style.visibility = 'visible';
-    form.style.opacity = '1';
-    form.style.position = 'relative';
-    form.style.zIndex = '1000';
-    form.removeAttribute('hidden');
-    form.classList.remove('hidden');
+    form.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
     
-    // Убеждаемся, что форма видна
-    form.setAttribute('aria-hidden', 'false');
-    
-    console.log('Форма должна быть видна, display:', form.style.display, 'classList:', form.classList.toString());
-    
-    // Прокручиваем к форме с задержкой для надежности
-    setTimeout(() => {
-      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      // Дополнительно проверяем видимость
-      const rect = form.getBoundingClientRect();
-      const isVisible = rect.top >= 0 && rect.left >= 0 && 
-                       rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && 
-                       rect.right <= (window.innerWidth || document.documentElement.clientWidth);
-      
-      if (!isVisible) {
-        // Если форма не полностью видна, прокручиваем ещё раз
-        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Добавляем обработчик клика на overlay для закрытия
+    const handleOverlayClick = (e) => {
+      if (e.target === form) {
+        this.closeCalculatorApplicationForm();
       }
-    }, 200);
+    };
+    form.addEventListener('click', handleOverlayClick);
   }
   
   // Закрытие формы заявки внутри калькулятора
   closeCalculatorApplicationForm() {
     const form = document.getElementById('calculatorApplicationForm');
     if (form) {
+      form.classList.remove('active');
       form.style.display = 'none';
+      document.body.style.overflow = '';
     }
   }
   

@@ -300,11 +300,11 @@
                 
                 <!-- Application Form inside Calculator -->
                 <div class="calculator-application-form" id="calculatorApplicationForm" style="display: none;">
+                  <form id="calculatorOrderForm" class="calculator-order-form">
                   <div class="application-form-header">
                     <h3>Записаться на оклейку</h3>
                     <button type="button" class="application-form-close" id="calculatorFormClose" aria-label="Закрыть">&times;</button>
                   </div>
-                  <form id="calculatorOrderForm" class="calculator-order-form">
                     <div class="form-group">
                       <label for="calcOrderName">Ваше имя *</label>
                       <input type="text" id="calcOrderName" name="name" required placeholder="Введите ваше имя" tabindex="0" />
@@ -322,8 +322,8 @@
                       <input type="text" id="calcOrderCar" name="car" readonly placeholder="Не выбран" tabindex="0" />
                     </div>
                     <div class="form-group">
-                      <label for="calcOrderZones">Выбранные зоны</label>
-                      <textarea id="calcOrderZones" name="zones" readonly rows="2" placeholder="Не выбраны" tabindex="0"></textarea>
+                      <label for="calcOrderZones">Выбранные зоны/услуги</label>
+                      <textarea id="calcOrderZones" name="zones" readonly rows="3" placeholder="Не выбраны" tabindex="0"></textarea>
                     </div>
                     <div class="form-group">
                       <label for="calcOrderTotal">Итоговая стоимость</label>
@@ -466,7 +466,7 @@
                 </div>
                 <button type="submit" class="mobile-order-btn" id="mobileOrderSubmitBtn">
                   Отправить заявку
-                </button>
+            </button>
                 <p class="mobile-form-privacy">Нажимая кнопку "Отправить заявку", вы соглашаетесь с политикой конфиденциальности.</p>
               </form>
             </div>
@@ -1335,7 +1335,7 @@
         
         // Скрываем кнопку
         if (videoPlayBtn) {
-          videoPlayBtn.style.display = 'none';
+        videoPlayBtn.style.display = 'none';
         }
       };
       
@@ -1551,28 +1551,28 @@
             }
           });
           modelClickHandlers = [];
-          
-          chipsContainer.innerHTML = models.map(model => `
-            <button class="mobile-chip ${window.calculator.selectedModel === model ? 'active' : ''}" 
+        
+        chipsContainer.innerHTML = models.map(model => `
+          <button class="mobile-chip ${window.calculator.selectedModel === model ? 'active' : ''}" 
                     data-model="${model}"
                     tabindex="0">
-              ${model}
-            </button>
-          `).join('');
+            ${model}
+          </button>
+        `).join('');
 
           // Обработчики клика на чипсы моделей
-          chipsContainer.querySelectorAll('.mobile-chip').forEach(chip => {
+        chipsContainer.querySelectorAll('.mobile-chip').forEach(chip => {
             const handleModelClick = () => {
-              const model = chip.dataset.model;
+            const model = chip.dataset.model;
               
               // Устанавливаем выбранную модель
-              window.calculator.selectModel(window.calculator.selectedBrand, model);
-              window.calculator.selectedZones.clear();
-              
-              // Обновляем активный чип
-              chipsContainer.querySelectorAll('.mobile-chip').forEach(c => c.classList.remove('active'));
-              chip.classList.add('active');
-              
+            window.calculator.selectModel(window.calculator.selectedBrand, model);
+            window.calculator.selectedZones.clear();
+            
+            // Обновляем активный чип
+            chipsContainer.querySelectorAll('.mobile-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            
               // Очищаем поиск
               if (searchInput) {
                 searchInput.value = '';
@@ -1580,25 +1580,25 @@
               }
               
               // Показываем класс автомобиля
-              if (classBadge && classNameEl && window.calculator.selectedClass) {
-                const classNames = {
-                  'small': 'Малый класс',
-                  'business': 'Бизнес класс / Кроссоверы',
-                  'suv-lux': 'Внедорожники / Люкс',
-                  'pickup': 'Большие пикапы',
-                  'bus': 'Автобусы / Минивэны'
-                };
-                classNameEl.textContent = classNames[window.calculator.selectedClass] || window.calculator.selectedClass;
-                classBadge.style.display = 'flex';
-              }
-              
-              updateTotalPrice();
-              
-              // Автоматический переход на шаг 3
-              setTimeout(() => {
-                currentStep = 3;
-                showStep(3, 'next');
-              }, 300);
+            if (classBadge && classNameEl && window.calculator.selectedClass) {
+              const classNames = {
+                'small': 'Малый класс',
+                'business': 'Бизнес класс / Кроссоверы',
+                'suv-lux': 'Внедорожники / Люкс',
+                'pickup': 'Большие пикапы',
+                'bus': 'Автобусы / Минивэны'
+              };
+              classNameEl.textContent = classNames[window.calculator.selectedClass] || window.calculator.selectedClass;
+              classBadge.style.display = 'flex';
+            }
+            
+            updateTotalPrice();
+            
+            // Автоматический переход на шаг 3
+            setTimeout(() => {
+              currentStep = 3;
+              showStep(3, 'next');
+            }, 300);
             };
             
             chip.addEventListener('click', handleModelClick);
@@ -2087,9 +2087,15 @@
       const calculatorFormContainer = document.getElementById('calculatorApplicationForm');
       
       // Закрытие формы
-      const closeCalculatorForm = () => {
+      const closeCalculatorForm = (e) => {
+        if (e) e.preventDefault();
         if (calculatorFormContainer) {
+          calculatorFormContainer.classList.remove('active');
           calculatorFormContainer.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+        if (window.calculator && window.calculator.closeCalculatorApplicationForm) {
+          window.calculator.closeCalculatorApplicationForm();
         }
       };
       
@@ -2198,7 +2204,7 @@
       navToggle.addEventListener('touchstart', toggleMenu, { passive: false });
       
       // Закрываем меню при клике вне его
-      document.addEventListener('click', (e) => {
+      const closeMenuOnOutsideClick = (e) => {
         if (navMenu.classList.contains('active') && 
             !navMenu.contains(e.target) && 
             !navToggle.contains(e.target)) {
@@ -2206,17 +2212,39 @@
           navToggle.classList.remove('active');
           body.style.overflow = '';
         }
-      });
+      };
+      
+      // Используем capture фазу для правильной работы
+      document.addEventListener('click', closeMenuOnOutsideClick, true);
 
-      // Закрываем меню при клике на ссылку внутри меню
+      // Обработчики для ссылок в меню
       navMenu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          navMenu.classList.remove('active');
-          navToggle.classList.remove('active');
-          body.style.overflow = '';
+        // Удаляем старые обработчики если есть
+        const newLink = link.cloneNode(true);
+        link.parentNode.replaceChild(newLink, link);
+        
+        newLink.addEventListener('click', (e) => {
+          e.stopPropagation(); // Останавливаем всплытие
+          
+          // Для калькулятора - не закрываем сразу
+          if (newLink.id === 'calculatorNavBtn') {
+            setTimeout(() => {
+              navMenu.classList.remove('active');
+              navToggle.classList.remove('active');
+              body.style.overflow = '';
+            }, 200);
+            return;
+          }
+          
+          // Для обычных ссылок - даем время на обработку плавной прокрутки
+          setTimeout(() => {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            body.style.overflow = '';
+          }, 500);
+        }, false);
         });
-      });
-    };
+      };
 
     // Quick "Записаться" button with 5-second timer
     const initQuickOrderButton = () => {
@@ -2244,24 +2272,12 @@
         const timeSinceLastClick = currentTime - lastClickTime;
 
         if (timeSinceLastClick < COOLDOWN_TIME) {
-          const remainingTime = Math.ceil((COOLDOWN_TIME - timeSinceLastClick) / 1000);
-          const originalText = quickOrderBtn.innerHTML;
-          quickOrderBtn.innerHTML = `<span>Через ${remainingTime}с</span>`;
-          quickOrderBtn.disabled = true;
-          quickOrderBtn.classList.add('disabled');
-          
-          setTimeout(() => {
-            quickOrderBtn.innerHTML = originalText;
-            quickOrderBtn.disabled = false;
-            quickOrderBtn.classList.remove('disabled');
-          }, COOLDOWN_TIME - timeSinceLastClick);
-          
           return;
         }
 
         lastClickTime = currentTime;
         
-        // Открываем форму заявки
+        // Открываем ПРОСТУЮ форму заявки (без авто и цены)
         const orderModal = document.getElementById('orderModal');
         if (orderModal) {
           orderModal.style.display = 'flex';
@@ -2274,55 +2290,26 @@
             );
           }
           
-          // Заполняем данные из калькулятора, если они есть
-          if (window.calculator) {
-            const orderTotal = document.getElementById('orderTotal');
-            const orderCar = document.getElementById('orderCar');
-            const orderZones = document.getElementById('orderZones');
-            
-            const totalAmount = document.getElementById('totalAmount');
-            if (totalAmount && orderTotal) {
-              orderTotal.value = totalAmount.textContent || '0 ₽';
-            }
-            
-            if (window.calculator.selectedModel && orderCar) {
-              const brand = window.calculator.selectedBrand || '';
-              const model = window.calculator.selectedModel || '';
-              orderCar.value = `${brand} ${model}`.trim();
-            }
-            
-            if (window.calculator.selectedZones && orderZones && window.calculator.selectedClass) {
-              const classToUse = window.calculator.selectedClass;
-              const zonesData = window.calculator.zonesDatabase[classToUse];
-              if (zonesData) {
-                const allZones = Object.values(zonesData).flat();
-                const selectedZonesNames = Array.from(window.calculator.selectedZones)
-                  .map(zoneId => {
-                    const zone = allZones.find(z => z.id === zoneId);
-                    return zone ? zone.name : null;
-                  })
-                  .filter(Boolean);
-                orderZones.value = selectedZonesNames.length > 0 
-                  ? selectedZonesNames.join(', ') 
-                  : 'Не выбраны';
-              }
-            }
-          }
+          // НЕ заполняем данные из калькулятора - это простая форма
+          // Очищаем поля автомобиля и цены, если они есть
+          const orderTotal = document.getElementById('orderTotal');
+          const orderCar = document.getElementById('orderCar');
+          const orderZones = document.getElementById('orderZones');
+          
+          if (orderTotal) orderTotal.value = '';
+          if (orderCar) orderCar.value = '';
+          if (orderZones) orderZones.value = '';
         }
         
         // Блокируем кнопку на 5 секунд
-        const originalText = quickOrderBtn.innerHTML;
         quickOrderBtn.disabled = true;
         quickOrderBtn.classList.add('disabled');
         
         let countdown = 5;
         const countdownInterval = setInterval(() => {
           countdown--;
-          if (countdown > 0) {
-            quickOrderBtn.innerHTML = `<span>Через ${countdown}с</span>`;
-          } else {
+          if (countdown <= 0) {
             clearInterval(countdownInterval);
-            quickOrderBtn.innerHTML = originalText;
             quickOrderBtn.disabled = false;
             quickOrderBtn.classList.remove('disabled');
           }
@@ -2367,9 +2354,9 @@
               behavior: 'smooth'
             });
           }
+          });
         });
-      });
-    };
+      };
 
     // Lightbox для галереи портфолио
     const handlePortfolioLightbox = () => {
@@ -2466,12 +2453,50 @@
         }
       });
       
-      // Закрытие
+      // Закрытие - улучшенная обработка
+      const handleCloseClick = (e) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        closeLightbox();
+      };
+      
       if (lightboxClose) {
-        lightboxClose.addEventListener('click', closeLightbox);
+        // Удаляем старые обработчики через клонирование
+        const newCloseBtn = lightboxClose.cloneNode(true);
+        lightboxClose.parentNode.replaceChild(newCloseBtn, lightboxClose);
+        
+        // Добавляем обработчики
+        newCloseBtn.addEventListener('click', handleCloseClick, true);
+        newCloseBtn.addEventListener('touchstart', handleCloseClick, { passive: false });
+        newCloseBtn.onclick = handleCloseClick;
+        
+        // Сохраняем ссылку для обновления
+        window.lightboxCloseBtn = newCloseBtn;
+        
+        // Переопределяем openLightbox для обновления обработчика
+        const originalOpen = openLightbox;
+        openLightbox = function(index) {
+          originalOpen.call(this, index);
+          // Обновляем обработчик после открытия
+          setTimeout(() => {
+            if (window.lightboxCloseBtn) {
+              window.lightboxCloseBtn.onclick = handleCloseClick;
+            }
+          }, 50);
+        };
       }
+      
       if (lightboxOverlay) {
-        lightboxOverlay.addEventListener('click', closeLightbox);
+        const handleOverlayClose = (e) => {
+          if (e.target === lightboxOverlay || e.target === lightbox) {
+            e.preventDefault();
+            closeLightbox();
+          }
+        };
+        lightboxOverlay.addEventListener('click', handleOverlayClose, true);
+        lightboxOverlay.addEventListener('touchstart', handleOverlayClose, { passive: false });
       }
       
       // Навигация

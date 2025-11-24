@@ -217,12 +217,18 @@
   .hero-promo {
     margin-top: var(--space-lg);
     margin-bottom: var(--space-md);
-    padding: 0 var(--space-sm);
+    padding: var(--space-md) var(--space-lg);
     text-align: center;
     width: 100%;
-    max-width: 90%;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    background: rgba(22, 132, 145, 0.1);
+    border: 1px solid rgba(22, 132, 145, 0.3);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   }
 
   .hero-promo-text {
@@ -343,16 +349,21 @@
   }
 
   .benefits-grid {
-    display: grid;
+    display: grid !important;
     grid-template-columns: 1fr;
     gap: var(--space-md);
     margin-top: var(--space-lg);
+    visibility: visible;
+    opacity: 1;
   }
 
   .benefit-card-glass {
     padding: var(--space-lg);
     min-height: auto;
     width: 100%;
+    display: block !important;
+    visibility: visible;
+    opacity: 1;
   }
 
   .benefit-glass-title {
@@ -390,14 +401,21 @@
   }
 
   .about-achievements {
-    grid-template-columns: 1fr;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
     gap: var(--space-md);
     padding: 0 var(--space-sm);
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin-top: var(--space-lg);
   }
 
   .achievement-card {
     padding: var(--space-lg);
     text-align: center;
+    display: block !important;
+    visibility: visible;
+    opacity: 1;
   }
 
   .achievement-number {
@@ -449,11 +467,13 @@
   }
 
   .services-grid {
-    display: grid;
+    display: grid !important;
     grid-template-columns: 1fr;
     gap: var(--space-lg);
     margin-top: var(--space-lg);
     padding: 0 var(--space-sm);
+    visibility: visible;
+    opacity: 1;
   }
 
   .service-card {
@@ -461,6 +481,9 @@
     width: 100%;
     min-height: auto;
     margin: 0;
+    display: block !important;
+    visibility: visible;
+    opacity: 1;
   }
 
   .service-badge {
@@ -549,9 +572,12 @@
   }
 
   .films-benefits-grid {
-    grid-template-columns: 1fr;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
     gap: var(--space-sm);
     padding: 0 var(--space-sm);
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   .films-benefit-item {
@@ -569,14 +595,20 @@
   }
 
   .process-steps-compact {
+    display: grid !important;
     grid-template-columns: 1fr;
     gap: var(--space-md);
     margin-top: var(--space-lg);
     padding: 0 var(--space-sm);
+    visibility: visible;
+    opacity: 1;
   }
 
   .process-step-compact {
     padding: var(--space-lg);
+    display: block !important;
+    visibility: visible;
+    opacity: 1;
   }
 
   .process-number-compact {
@@ -599,6 +631,8 @@
 
   .portfolio {
     padding: var(--space-xl) 0;
+    margin-bottom: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
   }
 
   .portfolio-gallery {
@@ -662,27 +696,33 @@
     margin-top: var(--space-sm);
     padding: 0 var(--space-sm);
     max-width: 100%;
+    max-height: 600px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .review-card {
     padding: var(--space-sm) var(--space-md);
     max-width: 100%;
-    margin-bottom: 0;
+    margin-bottom: var(--space-xs);
+    min-height: auto;
   }
 
   .review-stars {
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: var(--space-xs);
   }
 
   .review-text {
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: var(--space-sm);
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: var(--space-xs);
+    max-height: 120px;
+    overflow-y: auto;
   }
 
   .review-author {
-    font-size: 13px;
+    font-size: 12px;
     margin-top: var(--space-xs);
   }
 
@@ -892,8 +932,16 @@
     height: 250px;
     border-radius: 12px;
     overflow: hidden;
-    margin: var(--space-md) var(--space-sm) 0;
+    margin: var(--space-md) auto 0;
     max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .map-container-full iframe {
+    margin: 0 auto;
+    display: block;
   }
 
   /* ============================================
@@ -1061,8 +1109,9 @@
 
   .video-section {
     height: 400px;
-    margin-top: 0;
+    margin-top: var(--space-2xl);
     padding-top: 90px;
+    margin-bottom: var(--space-xl);
   }
 
   .video-content {
