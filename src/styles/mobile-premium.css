@@ -911,7 +911,7 @@
   .portfolio-gallery {
     display: flex !important;
     flex-direction: row !important;
-    overflow-x: auto !important;
+    overflow-x: scroll !important;
     overflow-y: hidden !important;
     -webkit-overflow-scrolling: touch !important;
     scroll-snap-type: x mandatory !important;
@@ -920,10 +920,12 @@
     margin: var(--space-lg) calc(var(--space-md) * -1) 0 !important;
     scrollbar-width: thin !important;
     scrollbar-color: var(--primary) rgba(255, 255, 255, 0.1) !important;
-    width: 100% !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
     box-sizing: border-box !important;
     touch-action: pan-x !important;
     overscroll-behavior-x: contain !important;
+    will-change: scroll-position !important;
   }
 
   .portfolio-gallery::-webkit-scrollbar {

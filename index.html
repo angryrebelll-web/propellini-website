@@ -2950,78 +2950,44 @@
       
       const closeLightbox = () => {
         console.log('Закрываем lightbox');
-        // Убеждаемся, что светбокс действительно закрыт
-        if (typeof gsap !== 'undefined') {
-          gsap.to(lightbox, {
-            opacity: 0,
-            duration: 0.3,
-            ease: 'power2.out',
-            onComplete: () => {
-              lightbox.style.display = 'none';
-              lightbox.style.visibility = 'hidden';
-              lightbox.style.opacity = '0';
-              // Восстанавливаем скролл
-              const scrollY = parseInt(document.body.dataset.scrollY || '0');
-              
-              // Восстанавливаем стили для всех версий
-              document.body.style.position = '';
-              document.body.style.top = '';
-              document.body.style.width = '';
-              document.body.style.overflow = '';
-              document.body.style.height = '';
-              document.body.style.touchAction = '';
-              document.documentElement.style.overflow = '';
-              document.documentElement.style.touchAction = '';
-              
-              // Удаляем сохраненную позицию
-              delete document.body.dataset.scrollY;
-              
-              // Восстанавливаем позицию скролла
-        setTimeout(() => {
-                window.scrollTo({
-                  top: scrollY,
-                  behavior: 'instant'
-                });
-              }, 10);
-              // Фокус возвращаем на элемент, который открыл lightbox
-              if (document.activeElement && document.activeElement.blur) {
-                document.activeElement.blur();
-              }
-              console.log('Lightbox закрыт через GSAP');
-            }
-          });
-          } else {
-          lightbox.style.display = 'none';
-          lightbox.style.visibility = 'hidden';
-          lightbox.style.opacity = '0';
-          // Восстанавливаем скролл
-          const scrollY = parseInt(document.body.dataset.scrollY || '0');
-          
-          // Восстанавливаем стили для всех версий
-          document.body.style.position = '';
-          document.body.style.top = '';
-          document.body.style.width = '';
-          document.body.style.overflow = '';
-          document.body.style.height = '';
-          document.body.style.touchAction = '';
-          document.documentElement.style.overflow = '';
-          document.documentElement.style.touchAction = '';
-          
-          // Удаляем сохраненную позицию
-          delete document.body.dataset.scrollY;
-          
-          // Восстанавливаем позицию скролла
-                setTimeout(() => {
+        
+        // Сразу скрываем lightbox
+        lightbox.style.display = 'none';
+        lightbox.style.visibility = 'hidden';
+        lightbox.style.opacity = '0';
+        
+        // Восстанавливаем скролл
+        const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
+        
+        // Восстанавливаем стили для всех версий
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        document.body.style.height = '';
+        document.body.style.touchAction = '';
+        document.documentElement.style.overflow = '';
+        document.documentElement.style.touchAction = '';
+        
+        // Удаляем сохраненную позицию
+        delete document.body.dataset.scrollY;
+        
+        // Восстанавливаем позицию скролла
+        if (scrollY > 0) {
+          setTimeout(() => {
             window.scrollTo({
               top: scrollY,
               behavior: 'instant'
             });
           }, 10);
-          if (document.activeElement && document.activeElement.blur) {
-            document.activeElement.blur();
-          }
-          console.log('Lightbox закрыт без GSAP');
         }
+        
+        // Фокус возвращаем на элемент, который открыл lightbox
+        if (document.activeElement && document.activeElement.blur) {
+          document.activeElement.blur();
+        }
+        
+        console.log('Lightbox закрыт, скролл восстановлен');
       };
       
       const showNext = () => {
@@ -3092,37 +3058,32 @@
           const newCloseBtn = currentCloseBtn.cloneNode(true);
           currentCloseBtn.parentNode.replaceChild(newCloseBtn, currentCloseBtn);
           
-          // Добавляем обработчики разными способами для максимальной надежности
-          const enhancedHandleClose = (e) => {
+          // Простой и надежный обработчик
+          const handleClose = (e) => {
             if (e) {
               e.preventDefault();
               e.stopPropagation();
               e.stopImmediatePropagation();
             }
-            console.log('Клик по кнопке закрытия портфолио');
+            console.log('Закрываем lightbox через кнопку');
             closeLightbox();
             return false;
           };
           
-          // Множественные обработчики для надежности
-          newCloseBtn.addEventListener('click', enhancedHandleClose, true);
-          newCloseBtn.addEventListener('click', enhancedHandleClose, false);
-          newCloseBtn.addEventListener('mousedown', enhancedHandleClose, true);
-          newCloseBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            closeLightbox();
-          }, { passive: false });
-          newCloseBtn.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            closeLightbox();
-          }, { passive: false });
+          // Добавляем основные обработчики
+          newCloseBtn.addEventListener('click', handleClose, true);
+          newCloseBtn.addEventListener('click', handleClose, false);
+          newCloseBtn.addEventListener('mousedown', handleClose, true);
           
-          // Прямой onclick для максимальной совместимости
-          newCloseBtn.onclick = enhancedHandleClose;
+          // Touch обработчики для мобильных
+          newCloseBtn.addEventListener('touchstart', handleClose, { passive: false });
+          newCloseBtn.addEventListener('touchend', handleClose, { passive: false });
+          
+          // Прямой onclick для совместимости
+          newCloseBtn.onclick = handleClose;
+          
+          // Используем data-атрибут для дополнительной надежности
+          newCloseBtn.setAttribute('data-lightbox-close', 'true');
           
           // Добавляем также прямое закрытие при клике на элемент
           newCloseBtn.style.cursor = 'pointer';
@@ -3152,13 +3113,13 @@
       openLightbox = function(index) {
         originalOpen.call(this, index);
         // Обновляем обработчик после открытия с несколькими попытками
-        setTimeout(() => {
+                setTimeout(() => {
           bindCloseButton();
         }, 150);
         // Также привязываем еще раз после анимации
         setTimeout(() => {
           bindCloseButton();
-        }, 500);
+                }, 500);
       };
       
       // Обработка клика на overlay для закрытия

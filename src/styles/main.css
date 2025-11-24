@@ -2603,6 +2603,8 @@ body {
   max-width: 1200px; /* Уменьшено для меньших картинок */
   margin-left: auto;
   margin-right: auto;
+  overflow: visible;
+  width: 100%;
 }
 
 .portfolio-item {
