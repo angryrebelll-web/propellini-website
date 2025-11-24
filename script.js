@@ -1019,7 +1019,9 @@ class CarWrappingCalculator {
     // Убеждаемся что brand chips отображаются после загрузки DOM
     setTimeout(() => {
       this.renderBrandChips();
-    this.updateTotal();
+      this.updateTotal();
+      // Переинициализируем кнопку заказа после загрузки DOM
+      this.bindOrderButton();
     }, 50);
     
     // Дополнительно инициализируем мобильный визард если нужно
@@ -1796,10 +1798,20 @@ class CarWrappingCalculator {
 
   // Привязка кнопки заказа
   bindOrderButton() {
+    // Ищем кнопку заново, так как она может быть не найдена при первой инициализации
+    this.orderBtn = document.getElementById('orderBtn') || document.querySelector('.order-btn');
+    
     if (this.orderBtn) {
+      // Удаляем старые обработчики, если они есть
+      const newBtn = this.orderBtn.cloneNode(true);
+      this.orderBtn.parentNode.replaceChild(newBtn, this.orderBtn);
+      this.orderBtn = newBtn;
+      
       const handleOrderClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
+        
+        console.log('Кнопка заказа нажата');
         
         // Открываем форму внутри калькулятора
         this.openCalculatorApplicationForm();
@@ -1807,6 +1819,8 @@ class CarWrappingCalculator {
       
       this.orderBtn.addEventListener('click', handleOrderClick);
       this.orderBtn.addEventListener('touchstart', handleOrderClick, { passive: false });
+    } else {
+      console.warn('Кнопка orderBtn не найдена');
     }
   }
   
@@ -1817,6 +1831,8 @@ class CarWrappingCalculator {
       console.warn('Форма калькулятора не найдена');
       return;
     }
+    
+    console.log('Открываем форму калькулятора');
     
     // Заполняем данные в форму
     const carInput = document.getElementById('calcOrderCar');
@@ -1861,8 +1877,18 @@ class CarWrappingCalculator {
       totalInput.value = `${total.toLocaleString('ru-RU')} ₽`;
     }
     
-    // Показываем форму
+    // Показываем форму - используем несколько способов для надежности
     form.style.display = 'block';
+    form.style.visibility = 'visible';
+    form.style.opacity = '1';
+    form.removeAttribute('hidden');
+    form.classList.add('active');
+    form.classList.remove('hidden');
+    
+    // Убеждаемся, что форма видна
+    form.setAttribute('aria-hidden', 'false');
+    
+    console.log('Форма должна быть видна, display:', form.style.display, 'classList:', form.classList.toString());
     
     // Прокручиваем к форме
     setTimeout(() => {

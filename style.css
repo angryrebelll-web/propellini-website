@@ -93,6 +93,26 @@ body{margin:0;font-family:-apple-system,BlinkSystemFont,'Segoe UI',Roboto,'Helve
 .order-btn:active{transform:scale(.88) translateY(2px);box-shadow:0 2px 8px rgba(22,132,145,.4),inset 0 4px 12px rgba(0,0,0,.4),inset 0 1px 2px rgba(0,0,0,.5);background:linear-gradient(135deg,rgba(18,109,119,.9),rgba(14,86,95,.85));border-color:rgba(255,255,255,.2)}
 .order-btn:active::before{opacity:0}
 
+/* Calculator Application Form */
+.calculator-application-form{display:none;margin-top:20px;padding:20px;background:rgba(18,18,18,.9);border:2px solid var(--primary);border-radius:16px;backdrop-filter:blur(10px)}
+.calculator-application-form.active{display:block}
+.application-form-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(22,132,145,.3)}
+.application-form-header h3{margin:0;color:var(--text);font-size:20px;font-weight:600}
+.application-form-close{background:none;border:none;color:var(--text);font-size:28px;cursor:pointer;padding:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:.2s}
+.application-form-close:hover{background:rgba(255,255,255,.1);color:var(--primary)}
+.calculator-order-form{display:flex;flex-direction:column;gap:16px}
+.calculator-order-form .form-group{display:flex;flex-direction:column;gap:8px}
+.calculator-order-form label{color:var(--muted);font-size:14px;font-weight:500}
+.calculator-order-form input,.calculator-order-form textarea{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:var(--text);font-size:16px;transition:.2s}
+.calculator-order-form input:focus,.calculator-order-form textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(22,132,145,.2)}
+.calculator-order-form input[readonly],.calculator-order-form textarea[readonly]{background:rgba(22,132,145,.1);border-color:rgba(22,132,145,.3);color:var(--primary);font-weight:600;cursor:default}
+.calculator-order-form .form-actions{display:flex;gap:12px;margin-top:8px}
+.calculator-order-form .btn{flex:1;padding:12px 20px;border-radius:12px;border:1px solid;cursor:pointer;font-weight:600;transition:.2s}
+.calculator-order-form .btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}
+.calculator-order-form .btn-primary:hover{background:var(--primary-light);transform:translateY(-2px)}
+.calculator-order-form .btn-outline{background:transparent;border-color:rgba(255,255,255,.3);color:var(--text)}
+.calculator-order-form .btn-outline:hover{background:rgba(255,255,255,.1);border-color:var(--primary)}
+
 /* Contacts */
 .contacts-section h3{margin:0 0 6px 0}
 .phone-number{font-weight:800;color:#fff}
