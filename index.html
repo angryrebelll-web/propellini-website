@@ -55,9 +55,9 @@
     <div class="hero-content">
       <h1 class="hero-title">Оклейка<br>автомобиля<br>защитной пленкой</h1>
       <div class="hero-banners-wrapper">
-        <div class="hero-promo">
-          <p class="hero-promo-text">Скидка 50% на броню лобового<br>стекла при полной оклейке кузова</p>
-          <a href="#contacts" class="btn btn-primary discount-open-btn" tabindex="0">Получить скидку</a>
+      <div class="hero-promo">
+        <p class="hero-promo-text">Скидка 50% на броню лобового<br>стекла при полной оклейке кузова</p>
+        <a href="#contacts" class="btn btn-primary discount-open-btn" tabindex="0">Получить скидку</a>
         </div>
         <div class="hero-gift-banner">
           <div class="hero-gift-icon">🎁</div>
@@ -1621,7 +1621,7 @@
 
         // Инициализация: показываем все марки
         renderBrands();
-        
+
         // Если марка уже выбрана, сразу рендерим модели (для случая, когда возвращаемся на шаг 1)
         if (window.calculator && window.calculator.selectedBrand) {
           // Не переходим автоматически, но готовим данные
@@ -1666,8 +1666,8 @@
           console.warn('Марка не выбрана, возвращаемся на шаг 1');
           // Если нет бренда, возвращаемся на шаг 1
           setTimeout(() => {
-            currentStep = 1;
-            showStep(1);
+          currentStep = 1;
+          showStep(1);
           }, 100);
           return;
         }
@@ -1724,7 +1724,7 @@
             ${model}
           </button>
         `).join('');
-          
+
           // Если нет моделей, не продолжаем
           if (models.length === 0) return;
 
@@ -2977,7 +2977,7 @@
               delete document.body.dataset.scrollY;
               
               // Восстанавливаем позицию скролла
-              setTimeout(() => {
+        setTimeout(() => {
                 window.scrollTo({
                   top: scrollY,
                   behavior: 'instant'
@@ -2990,7 +2990,7 @@
               console.log('Lightbox закрыт через GSAP');
             }
           });
-        } else {
+          } else {
           lightbox.style.display = 'none';
           lightbox.style.visibility = 'hidden';
           lightbox.style.opacity = '0';
@@ -3011,7 +3011,7 @@
           delete document.body.dataset.scrollY;
           
           // Восстанавливаем позицию скролла
-          setTimeout(() => {
+                setTimeout(() => {
             window.scrollTo({
               top: scrollY,
               behavior: 'instant'
@@ -3067,9 +3067,9 @@
             placeholder.style.cssText = 'width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border-radius: 8px; color: rgba(255,255,255,0.5);';
             if (this.parentNode) {
               this.parentNode.appendChild(placeholder);
-            }
-          });
-        }
+          }
+        });
+      }
       });
       
       // Закрытие - улучшенная обработка
@@ -3077,8 +3077,11 @@
         if (e) {
           e.preventDefault();
           e.stopPropagation();
+          e.stopImmediatePropagation();
         }
+        console.log('Закрываем lightbox через handleCloseClick');
         closeLightbox();
+        return false;
       };
       
       // Функция для привязки обработчиков к кнопке закрытия
@@ -3097,25 +3100,37 @@
               e.stopImmediatePropagation();
             }
             console.log('Клик по кнопке закрытия портфолио');
-            handleCloseClick(e);
+            closeLightbox();
             return false;
           };
           
           // Множественные обработчики для надежности
           newCloseBtn.addEventListener('click', enhancedHandleClose, true);
+          newCloseBtn.addEventListener('click', enhancedHandleClose, false);
           newCloseBtn.addEventListener('mousedown', enhancedHandleClose, true);
-          newCloseBtn.addEventListener('touchstart', enhancedHandleClose, { passive: false });
+          newCloseBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            closeLightbox();
+          }, { passive: false });
           newCloseBtn.addEventListener('touchend', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            enhancedHandleClose(e);
+            e.stopImmediatePropagation();
+            closeLightbox();
           }, { passive: false });
+          
+          // Прямой onclick для максимальной совместимости
           newCloseBtn.onclick = enhancedHandleClose;
           
           // Добавляем также прямое закрытие при клике на элемент
           newCloseBtn.style.cursor = 'pointer';
           newCloseBtn.style.pointerEvents = 'auto';
           newCloseBtn.style.zIndex = '1000001';
+          newCloseBtn.style.display = 'flex';
+          newCloseBtn.style.visibility = 'visible';
+          newCloseBtn.style.opacity = '1';
           newCloseBtn.setAttribute('role', 'button');
           newCloseBtn.setAttribute('tabindex', '0');
           newCloseBtn.setAttribute('aria-label', 'Закрыть');
@@ -3167,13 +3182,27 @@
         if (lightbox) {
           const handleLightboxClose = (e) => {
             // Закрываем если клик на сам lightbox, но не на content или его детей
-            if (e.target === lightbox && !lightboxContent.contains(e.target)) {
-              e.preventDefault();
-              e.stopPropagation();
-              closeLightbox();
+            const lightboxContent = document.querySelector('.lightbox-content');
+            if (e.target === lightbox || (e.target === lightboxOverlay && lightboxOverlay)) {
+              if (!lightboxContent || !lightboxContent.contains(e.target)) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Закрываем lightbox через клик по overlay');
+                closeLightbox();
+              }
             }
           };
           lightbox.addEventListener('click', handleLightboxClose, true);
+          
+          // Также добавляем обработчик на overlay отдельно
+          if (lightboxOverlay) {
+            lightboxOverlay.addEventListener('click', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('Закрываем lightbox через клик по overlay');
+              closeLightbox();
+            }, true);
+          }
         }
       }
       
