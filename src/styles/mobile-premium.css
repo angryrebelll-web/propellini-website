@@ -528,31 +528,32 @@
      ============================================ */
 
   .about {
-    padding: var(--space-xl) 0;
+    padding: var(--space-md) 0 !important;
     min-height: auto;
   }
 
   .about-content {
-    padding: var(--space-md);
-    margin-bottom: var(--space-lg);
+    padding: var(--space-sm) var(--space-md) !important;
+    margin-bottom: var(--space-sm) !important;
   }
 
   .about-text {
-    font-size: 16px;
-    line-height: 1.7;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
     padding: 0 var(--space-sm);
-    max-width: 90%;
-    margin: 0 auto;
+    max-width: 100%;
+    margin: 0 auto var(--space-sm) auto !important;
   }
 
   .about-achievements {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: var(--space-sm) !important;
-    padding: var(--space-md) var(--space-sm) !important;
+    gap: var(--space-xs) !important;
+    padding: var(--space-sm) var(--space-xs) !important;
     visibility: visible !important;
     opacity: 1 !important;
-    margin-top: var(--space-md) !important;
+    margin-top: var(--space-sm) !important;
+    margin-bottom: var(--space-sm) !important;
     justify-items: center;
     align-items: center;
     max-width: 100%;
@@ -563,7 +564,7 @@
   }
   
   .achievement-card {
-    padding: var(--space-sm) var(--space-xs) !important;
+    padding: var(--space-xs) var(--space-xs) !important;
     text-align: center;
     display: flex !important;
     flex-direction: column;
@@ -573,7 +574,7 @@
     opacity: 1 !important;
     width: 100% !important;
     max-width: 100% !important;
-    min-height: 90px !important;
+    min-height: 75px !important;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(22, 132, 145, 0.2);
     border-radius: 12px;
@@ -581,23 +582,23 @@
   }
   
   .achievement-number {
-    font-size: 32px !important;
+    font-size: 28px !important;
     font-weight: 700;
-    margin-bottom: var(--space-xs);
+    margin-bottom: 2px !important;
     line-height: 1;
     color: var(--primary);
   }
   
   .achievement-label {
-    font-size: 11px !important;
-    line-height: 1.3 !important;
+    font-size: 10px !important;
+    line-height: 1.2 !important;
     text-align: center;
     color: var(--text);
-    padding: 0 var(--space-xs);
+    padding: 0;
   }
 
   .about-promo {
-    margin-top: var(--space-xl);
+    margin-top: var(--space-md) !important;
     padding: 0 var(--space-sm);
   }
 
@@ -646,22 +647,27 @@
     opacity: 1 !important;
     -webkit-overflow-scrolling: touch !important;
     scroll-snap-type: x mandatory !important;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary) rgba(255, 255, 255, 0.1);
+    scrollbar-width: thin !important;
+    scrollbar-color: var(--primary) rgba(255, 255, 255, 0.1) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    touch-action: pan-x !important;
+    overscroll-behavior-x: contain !important;
   }
   
   .services-grid::-webkit-scrollbar {
-    height: 6px;
+    height: 6px !important;
+    display: block !important;
   }
   
   .services-grid::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
   }
   
   .services-grid::-webkit-scrollbar-thumb {
-    background: var(--primary);
-    border-radius: 10px;
+    background: var(--primary) !important;
+    border-radius: 10px !important;
   }
 
   .service-card {
@@ -898,31 +904,36 @@
   }
 
   .portfolio-gallery {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    gap: var(--space-md);
-    padding: var(--space-sm) var(--space-md);
-    margin: var(--space-lg) calc(var(--space-md) * -1) 0;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary) rgba(255, 255, 255, 0.1);
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-snap-type: x mandatory !important;
+    gap: var(--space-md) !important;
+    padding: var(--space-sm) var(--space-md) !important;
+    margin: var(--space-lg) calc(var(--space-md) * -1) 0 !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: var(--primary) rgba(255, 255, 255, 0.1) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    touch-action: pan-x !important;
+    overscroll-behavior-x: contain !important;
   }
 
   .portfolio-gallery::-webkit-scrollbar {
-    height: 6px;
+    height: 6px !important;
+    display: block !important;
   }
 
   .portfolio-gallery::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
   }
 
   .portfolio-gallery::-webkit-scrollbar-thumb {
-    background: var(--primary);
-    border-radius: 10px;
+    background: var(--primary) !important;
+    border-radius: 10px !important;
   }
 
   .portfolio-item {
