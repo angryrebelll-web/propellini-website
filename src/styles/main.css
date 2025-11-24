@@ -117,14 +117,14 @@ body {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(25, 25, 25, 0.95);
+  background: rgba(40, 40, 40, 0.98);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(22, 132, 145, 0.2);
+  border-bottom: 1px solid rgba(22, 132, 145, 0.3);
   transition: all var(--transition-base);
 }
 
 .main-nav.scrolled {
-  background: rgba(30, 30, 30, 0.98);
+  background: rgba(45, 45, 45, 0.98);
   box-shadow: var(--shadow-md);
 }
 

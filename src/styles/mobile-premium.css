@@ -73,10 +73,10 @@
   .main-nav {
     height: 70px;
     padding: 0;
-    background: rgba(30, 30, 30, 0.98);
+    background: rgba(45, 45, 45, 0.98);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(22, 132, 145, 0.3);
+    border-bottom: 1px solid rgba(22, 132, 145, 0.4);
   }
 
   .nav-container {
@@ -141,7 +141,7 @@
     top: 70px;
     left: 0;
     right: 0;
-    background: rgba(30, 30, 30, 0.98);
+    background: rgba(45, 45, 45, 0.98);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     flex-direction: column;
