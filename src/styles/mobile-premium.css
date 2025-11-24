@@ -1748,20 +1748,29 @@
     display: none !important;
     width: 100%;
     padding: var(--space-md) var(--space-md) 90px var(--space-md) !important;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    box-sizing: border-box;
-    max-height: calc(100vh - 180px);
+    box-sizing: border-box !important;
+    max-height: calc(100vh - 180px) !important;
   }
   
   .mobile-wizard-step.active {
     display: block !important;
     position: relative;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+  
+  /* Особые стили для шага 3 - убеждаемся, что скролл работает для зон */
+  .mobile-wizard-step[data-step="3"] {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
   }
   
   /* Особые стили для шага 4 - добавляем больше padding-bottom для footer и формы */
