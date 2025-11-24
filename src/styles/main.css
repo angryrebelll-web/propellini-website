@@ -222,12 +222,15 @@ body {
 /* Hero Section */
 .hero {
   position: relative;
-  height: 100vh;
-  min-height: 600px;
+  height: auto;
+  min-height: 500px;
+  max-height: 90vh;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 80px;
+  padding-bottom: var(--space-xl);
   /* scroll-snap-align: start; - отключено */
 }
 
@@ -290,6 +293,7 @@ body {
   padding: var(--space-lg) var(--space-xl);
   max-width: 1200px;
   margin: 0 auto;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
@@ -336,19 +340,77 @@ body {
   line-height: 1.6;
 }
 
+.hero-banners-wrapper {
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
+  margin: var(--space-md) 0 0;
+  flex-wrap: wrap;
+}
+
 .hero-promo {
   background: rgba(22, 132, 145, 0.1);
   border: 1px solid rgba(22, 132, 145, 0.3);
   border-radius: 16px;
-  padding: var(--space-lg) var(--space-xl);
-  margin: var(--space-md) 0 0;
+  padding: var(--space-md) var(--space-lg);
   text-align: center;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  width: 100%;
-  max-width: 600px;
-  margin-left: 0;
+  flex: 1 1 300px;
+  min-width: 280px;
+  max-width: 400px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.hero-gift-banner {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(255, 152, 0, 0.2) 100%);
+  border: 2px solid rgba(255, 193, 7, 0.6);
+  border-radius: 16px;
+  padding: var(--space-md) var(--space-lg);
+  text-align: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 24px rgba(255, 193, 7, 0.3), 0 0 20px rgba(255, 193, 7, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  position: relative;
+  flex: 1 1 300px;
+  min-width: 280px;
+  max-width: 400px;
+}
+
+.hero-gift-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, transparent 50%, rgba(255, 152, 0, 0.1) 100%);
+  border-radius: 16px;
+  z-index: -1;
+}
+
+.hero-gift-icon {
+  font-size: 32px;
+  line-height: 1;
+  margin-bottom: var(--space-xs);
+}
+
+.hero-gift-text {
+  font-family: var(--font-roboto);
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: center;
+  margin: 0;
+  color: var(--text);
+}
+
+.hero-gift-text strong {
+  color: #ffc107;
+  font-weight: 700;
+  font-size: 16px;
+  display: block;
+  margin-top: 4px;
 }
 
 .hero-promo-text {
@@ -1392,9 +1454,10 @@ body {
 }
 
 .mobile-package-card.active {
-  background: linear-gradient(135deg, rgba(22, 132, 145, 0.3) 0%, rgba(22, 132, 145, 0.2) 100%);
+  background: rgba(255, 255, 255, 0.05);
   border-color: var(--primary);
-  box-shadow: 0 4px 20px rgba(22, 132, 145, 0.3);
+  border-width: 3px;
+  box-shadow: 0 0 0 2px rgba(22, 132, 145, 0.3), 0 2px 10px rgba(22, 132, 145, 0.2);
 }
 
 .mobile-package-name {
@@ -1488,16 +1551,21 @@ body {
   background: rgba(255, 255, 255, 0.05);
   border: 2px solid rgba(22, 132, 145, 0.3);
   border-radius: 16px;
-  padding: var(--space-xl);
-  margin-bottom: var(--space-xl);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
 }
 
 .mobile-summary-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--space-md) 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-xs);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .mobile-summary-item:last-child {
@@ -1519,17 +1587,70 @@ body {
 
 .mobile-summary-total {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--space-lg) 0;
-  margin-top: var(--space-md);
-  border-top: 2px solid var(--primary);
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-sm);
+  grid-column: 1 / -1;
+  background: rgba(22, 132, 145, 0.15);
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
 }
 
 .mobile-summary-total .summary-label {
   font-size: 20px;
   font-weight: 700;
   color: var(--text);
+}
+
+/* Desktop Summary Card (для десктопной формы) */
+.desktop-summary-card {
+  background: rgba(22, 132, 145, 0.1);
+  border: 2px solid rgba(22, 132, 145, 0.3);
+  border-radius: 16px;
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+.desktop-summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-sm);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.desktop-summary-total {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-md);
+  grid-column: 1 / -1;
+  background: rgba(22, 132, 145, 0.15);
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.desktop-summary-total .summary-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.desktop-summary-total .summary-value-total {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--primary);
 }
 
 .summary-value-total {
@@ -1589,8 +1710,10 @@ body {
   position: relative !important;
   width: 100%;
   max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
   margin: auto;
-  padding: var(--space-xl);
+  padding: var(--space-lg);
   background: rgba(18, 18, 18, 0.98);
   border: 2px solid var(--primary);
   border-radius: 16px;
@@ -1748,17 +1871,21 @@ body {
 }
 
 .mobile-footer-btn {
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
   background: rgba(22, 132, 145, 0.2);
   border: 2px solid var(--primary);
   border-radius: 12px;
   color: var(--primary);
   font-family: var(--font-montserrat);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  text-align: center;
 }
 
 .mobile-footer-btn:hover {

@@ -204,10 +204,11 @@
   .hero {
     min-height: auto;
     height: auto;
-    padding: 70px 0 var(--space-sm);
+    padding: 100px 0 var(--space-md);
     display: flex;
     align-items: flex-start;
     justify-content: center;
+    max-height: none;
   }
 
   .hero-content {
@@ -217,6 +218,7 @@
     padding: var(--space-lg) var(--space-md);
     max-width: 1200px;
     margin: 0 auto;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     gap: var(--space-sm);
@@ -243,44 +245,62 @@
     line-height: 1.1;
   }
 
+  .hero-banners-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-sm);
+    align-items: flex-start;
+    margin: var(--space-md) 0 0;
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .hero-promo {
     background: rgba(22, 132, 145, 0.1);
     border: 1px solid rgba(22, 132, 145, 0.3);
-    border-radius: 16px;
-    padding: var(--space-lg) var(--space-xl);
-    margin: var(--space-md) 0 0;
+    border-radius: 12px;
+    padding: var(--space-sm) var(--space-md);
     text-align: center;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    width: 100%;
-    max-width: 600px;
+    flex: 0 0 48%;
+    min-width: 48%;
+    max-width: 48%;
   }
 
   .hero-promo-text {
-    font-size: 16px;
-    line-height: 1.5;
-    margin-bottom: var(--space-md);
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: var(--space-xs);
     text-align: center;
     font-weight: 500;
   }
 
+  .hero-promo .btn {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 13px;
+    min-height: 36px;
+  }
+
   .hero-gift-banner {
-    margin: var(--space-md) 0;
-    margin-left: auto;
-    padding: var(--space-md) var(--space-lg);
+    margin: 0;
+    padding: var(--space-sm) var(--space-md);
     text-align: center;
-    width: 95%;
-    max-width: 600px;
+    flex: 0 0 48%;
+    min-width: 48%;
+    max-width: 48%;
     background: linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(255, 152, 0, 0.2) 100%);
     border: 2px solid rgba(255, 193, 7, 0.6);
-    border-radius: 16px;
+    border-radius: 12px;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 4px 24px rgba(255, 193, 7, 0.3), 0 0 20px rgba(255, 193, 7, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-xs);
+    gap: 4px;
     position: relative;
     z-index: 10;
   }
@@ -295,14 +315,14 @@
   }
 
   .hero-gift-icon {
-    font-size: 36px;
+    font-size: 24px;
     line-height: 1;
-    margin-bottom: var(--space-xs);
+    margin-bottom: 2px;
   }
 
   .hero-gift-text {
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: 12px;
+    line-height: 1.4;
     text-align: center;
     margin: 0;
   }
@@ -310,9 +330,9 @@
   .hero-gift-text strong {
     color: #ffc107;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 13px;
     display: block;
-    margin-top: 4px;
+    margin-top: 2px;
   }
 
   .hero-pricing {
@@ -883,6 +903,7 @@
 
   .reviews {
     padding: var(--space-sm) 0;
+    margin-top: var(--space-2xl);
   }
   
   /* ============================================
@@ -1088,6 +1109,7 @@
   .contacts-grid {
     grid-template-columns: 1fr;
     gap: var(--space-lg);
+    margin-bottom: var(--space-2xl);
   }
 
   .contacts-info {

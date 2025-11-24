@@ -1907,6 +1907,67 @@ class CarWrappingCalculator {
     // Обновляем цену перед открытием формы
     this.updateTotal();
     
+    // Заполняем панель summary для десктопной версии
+    const desktopSummaryBrand = document.getElementById('desktopSummaryBrand');
+    const desktopSummaryModel = document.getElementById('desktopSummaryModel');
+    const desktopSummaryClass = document.getElementById('desktopSummaryClass');
+    const desktopSummaryService = document.getElementById('desktopSummaryService');
+    const desktopSummaryTotal = document.getElementById('desktopSummaryTotal');
+    
+    if (desktopSummaryBrand) {
+      desktopSummaryBrand.textContent = this.selectedBrand || '—';
+    }
+    if (desktopSummaryModel) {
+      desktopSummaryModel.textContent = this.selectedModel || '—';
+    }
+    if (desktopSummaryClass && this.selectedClass) {
+      const classNames = {
+        'small': 'Малый класс',
+        'business': 'Бизнес класс / Кроссоверы',
+        'suv-lux': 'Внедорожники / Люкс',
+        'pickup': 'Большие пикапы',
+        'bus': 'Автобусы / Минивэны'
+      };
+      desktopSummaryClass.textContent = classNames[this.selectedClass] || this.selectedClass;
+    } else if (desktopSummaryClass) {
+      desktopSummaryClass.textContent = '—';
+    }
+    
+    // Определяем выбранную услугу
+    if (desktopSummaryService && this.selectedClass) {
+      const zonesData = this.zonesDatabase[this.selectedClass];
+      let serviceText = '—';
+      
+      if (zonesData && zonesData['Пакеты услуг']) {
+        const selectedPackage = zonesData['Пакеты услуг'].find(pkg => 
+          this.selectedZones.has(pkg.id)
+        );
+        if (selectedPackage) {
+          serviceText = selectedPackage.name;
+        } else {
+          const allZones = Object.values(zonesData).flat();
+          const selectedZonesNames = Array.from(this.selectedZones)
+            .map(zoneId => {
+              const zone = allZones.find(z => z.id === zoneId);
+              return zone ? zone.name : null;
+            })
+            .filter(Boolean);
+          serviceText = selectedZonesNames.length > 0 
+            ? selectedZonesNames.join(', ') 
+            : '—';
+        }
+      }
+      desktopSummaryService.textContent = serviceText;
+    } else if (desktopSummaryService) {
+      desktopSummaryService.textContent = '—';
+    }
+    
+    // Итоговая стоимость
+    if (desktopSummaryTotal) {
+      const total = this.calculateTotal();
+      desktopSummaryTotal.textContent = `${total.toLocaleString('ru-RU')} ₽`;
+    }
+    
     // Заполняем данные в форму (десктопная форма)
     const carInput = document.getElementById('calcOrderCar');
     const servicesInput = document.getElementById('calcOrderServices');
