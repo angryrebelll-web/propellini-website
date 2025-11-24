@@ -1053,6 +1053,10 @@ class CarWrappingCalculator {
     this.renderZones();
       this.updateCarZonesVisual();
       this.updateTotal();
+      // Принудительно обновляем цену через небольшую задержку
+      setTimeout(() => {
+        this.updateTotal();
+      }, 100);
     this.showSelectedModel();
   }
 
@@ -1150,6 +1154,12 @@ class CarWrappingCalculator {
           // Вызываем событие change
           const changeEvent = new Event('change', { bubbles: true, cancelable: true });
           input.dispatchEvent(changeEvent);
+          // Принудительно вызываем toggleZone для обновления цены
+          if (window.calculator && window.calculator.toggleZone) {
+            setTimeout(() => {
+              window.calculator.toggleZone(input);
+            }, 10);
+          }
         }
       };
       
@@ -1224,6 +1234,10 @@ class CarWrappingCalculator {
       // Обновляем визуализацию и цену сразу после выбора пакета
       this.updateCarZonesVisual();
       this.updateTotal();
+      // Принудительно обновляем цену через небольшую задержку для надежности
+      setTimeout(() => {
+        this.updateTotal();
+      }, 100);
     } else if (isPackage && !checkbox.checked) {
       // Удаляем пакет и его зоны
       this.selectedZones.delete(zoneId);
@@ -1233,6 +1247,12 @@ class CarWrappingCalculator {
         const cb = document.querySelector(`#zone-${pid}`);
         if (cb) cb.checked = false;
       });
+      // Обновляем визуализацию и цену
+      this.updateCarZonesVisual();
+      this.updateTotal();
+      setTimeout(() => {
+        this.updateTotal();
+      }, 50);
     } else {
       // Проверяем, является ли это элементом "Полная оклейка"
       const isFullWrap = zoneId === 'full-glossy' || zoneId === 'full-matte' || zoneId === 'full-vinyl';
@@ -1282,9 +1302,13 @@ class CarWrappingCalculator {
           this.selectedZones.add(zoneId);
           checkbox.checked = true;
           
-          // Обновляем сразу
-          this.updateCarZonesVisual();
+        // Обновляем сразу
+        this.updateCarZonesVisual();
+        this.updateTotal();
+        // Принудительно обновляем цену
+        setTimeout(() => {
           this.updateTotal();
+        }, 50);
         } else {
           // Если выбираем обычную зону, снимаем все варианты полной оклейки
           ['full-glossy', 'full-matte', 'full-vinyl'].forEach(fullId => {
@@ -1299,6 +1323,10 @@ class CarWrappingCalculator {
           // Обновляем сразу
           this.updateCarZonesVisual();
           this.updateTotal();
+          // Принудительно обновляем цену
+          setTimeout(() => {
+            this.updateTotal();
+          }, 50);
         }
       } else {
         this.selectedZones.delete(zoneId);
@@ -1306,6 +1334,10 @@ class CarWrappingCalculator {
         // Обновляем сразу
         this.updateCarZonesVisual();
         this.updateTotal();
+        // Принудительно обновляем цену
+        setTimeout(() => {
+          this.updateTotal();
+        }, 50);
       }
     }
   }
@@ -2658,7 +2690,11 @@ class CarWrappingCalculator {
         this.selectedModel = null;
           if (this.modelSearch) this.modelSearch.value = '';
           if (this.selectedModelInfo) this.selectedModelInfo.style.display = 'none';
+          // Обновляем цену при выборе марки
           this.updateTotal();
+          setTimeout(() => {
+            this.updateTotal();
+          }, 100);
       });
       };
       
@@ -2725,6 +2761,10 @@ class CarWrappingCalculator {
         this.selectModel(this.selectedBrand, chip.dataset.model);
         modelsContainer.querySelectorAll('.model-chip').forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
+        // Обновляем цену после выбора модели
+        setTimeout(() => {
+          this.updateTotal();
+        }, 100);
       });
       };
       
@@ -2790,6 +2830,7 @@ class CarWrappingCalculator {
 
   // Обновление итоговой стоимости
   updateTotal() {
+    // Кешируем элементы если они не закешированы
     if (!this.totalAmountEl) {
       this.totalAmountEl = document.getElementById('totalAmount');
     }
@@ -2800,7 +2841,15 @@ class CarWrappingCalculator {
       this.carClassInfoEl = document.getElementById('carClassInfo');
     }
     
-    if (!this.totalAmountEl) return;
+    // Если элемент не найден, пытаемся найти его заново
+    if (!this.totalAmountEl) {
+      this.totalAmountEl = document.getElementById('totalAmount');
+    }
+    
+    if (!this.totalAmountEl) {
+      console.warn('Элемент totalAmount не найден');
+      return;
+    }
     
     const total = this.calculateTotal();
     let hasPackage = false;
@@ -2827,21 +2876,50 @@ class CarWrappingCalculator {
       }
     });
     
-    try {
-      if (window.requestAnimationFrame) {
+    // Обновляем итоговую стоимость сразу
+    if (this.totalAmountEl) {
+      try {
+        const formattedTotal = `${total.toLocaleString('ru-RU')} ₽`;
+        // Обновляем сразу
+        this.totalAmountEl.textContent = formattedTotal;
+        this.totalAmountEl.innerText = formattedTotal;
+        // Принудительно обновляем отображение
+        this.totalAmountEl.style.display = '';
+        this.totalAmountEl.style.visibility = 'visible';
+        this.totalAmountEl.offsetHeight; // Принудительный reflow
+        // Также обновляем через requestAnimationFrame для надежности
         requestAnimationFrame(() => {
           if (this.totalAmountEl) {
-            this.totalAmountEl.textContent = `${total.toLocaleString('ru-RU')} ₽`;
+            this.totalAmountEl.textContent = formattedTotal;
+            this.totalAmountEl.innerText = formattedTotal;
           }
         });
-      } else {
-        if (this.totalAmountEl) {
-          this.totalAmountEl.textContent = `${total.toLocaleString('ru-RU')} ₽`;
+        // Дополнительное обновление через небольшую задержку
+        setTimeout(() => {
+          if (this.totalAmountEl) {
+            this.totalAmountEl.textContent = formattedTotal;
+            this.totalAmountEl.innerText = formattedTotal;
+          }
+        }, 100);
+      } catch (e) {
+        console.error('Ошибка обновления цены:', e);
+        // Пытаемся найти элемент заново
+        const totalEl = document.getElementById('totalAmount');
+        if (totalEl) {
+          this.totalAmountEl = totalEl;
+          totalEl.textContent = `${total.toLocaleString('ru-RU')} ₽`;
         }
       }
-      } catch (e) {
-        // Тихая обработка ошибок для оптимизации
+    } else {
+      // Пытаемся найти элемент заново
+      const totalEl = document.getElementById('totalAmount');
+      if (totalEl) {
+        this.totalAmountEl = totalEl;
+        totalEl.textContent = `${total.toLocaleString('ru-RU')} ₽`;
+      } else {
+        console.warn('Элемент totalAmount не найден в DOM');
       }
+    }
     
     if (this.totalZonesEl) {
       try {
