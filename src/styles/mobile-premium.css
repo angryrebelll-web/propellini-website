@@ -548,33 +548,40 @@
   .about-achievements {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: var(--space-sm);
-    padding: var(--space-md) var(--space-sm);
+    gap: var(--space-sm) !important;
+    padding: var(--space-md) var(--space-sm) !important;
     visibility: visible !important;
     opacity: 1 !important;
-    margin-top: var(--space-md);
+    margin-top: var(--space-md) !important;
     justify-items: center;
+    align-items: center;
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .achievement-card {
-    padding: var(--space-md) var(--space-sm);
+    padding: var(--space-sm) var(--space-xs) !important;
     text-align: center;
     display: flex !important;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    visibility: visible;
-    opacity: 1;
-    width: 100%;
-    max-width: 150px;
-    min-height: 100px;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 90px !important;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(22, 132, 145, 0.2);
+    border-radius: 12px;
+    box-sizing: border-box;
   }
   
   .achievement-number {
-    font-size: 36px;
+    font-size: 32px !important;
     font-weight: 700;
     margin-bottom: var(--space-xs);
     line-height: 1;
@@ -582,10 +589,11 @@
   }
   
   .achievement-label {
-    font-size: 12px;
-    line-height: 1.4;
+    font-size: 11px !important;
+    line-height: 1.3 !important;
     text-align: center;
     color: var(--text);
+    padding: 0 var(--space-xs);
   }
 
   .about-promo {
