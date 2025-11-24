@@ -2788,19 +2788,60 @@ body:has(.portfolio-lightbox[style*="block"]) .nav-menu {
   }
   
   .lightbox-close {
-    top: 10px;
-    right: 10px;
-    width: 44px;
-    height: 44px;
-    font-size: 28px;
-    background: rgba(0, 0, 0, 0.8);
-    border-color: rgba(255, 255, 255, 0.4);
+    top: 10px !important;
+    right: 10px !important;
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 28px !important;
+    background: rgba(0, 0, 0, 0.9) !important;
+    border-color: rgba(255, 255, 255, 0.6) !important;
+    z-index: 1000001 !important;
+    position: fixed !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
   
   .lightbox-close:hover,
   .lightbox-close:active {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-color: var(--primary) !important;
+  }
+  
+  .lightbox-content {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+    max-width: 95vw !important;
+    max-height: 95vh !important;
+  }
+  
+  .lightbox-content img {
+    max-height: 80vh !important;
+    touch-action: none !important;
+    pointer-events: auto !important;
+  }
+  
+  .lightbox-prev,
+  .lightbox-next {
+    width: 50px !important;
+    height: 50px !important;
+    font-size: 30px !important;
+    touch-action: manipulation !important;
+    pointer-events: auto !important;
+  }
+  
+  .portfolio-lightbox {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+  }
+  
+  .lightbox-overlay {
+    touch-action: none !important;
+    pointer-events: auto !important;
   }
   
   .lightbox-prev,

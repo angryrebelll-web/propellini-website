@@ -2793,7 +2793,15 @@
         document.body.style.top = `-${scrollY}px`;
         document.body.style.width = '100%';
         document.body.style.overflow = 'hidden';
+        document.body.style.height = '100%';
+        document.documentElement.style.overflow = 'hidden';
         document.body.dataset.scrollY = scrollY.toString();
+        
+        // Для мобильных устройств - дополнительная блокировка
+        if (window.innerWidth <= 768) {
+          document.body.style.touchAction = 'none';
+          document.documentElement.style.touchAction = 'none';
+        }
         
         lightbox.style.display = 'flex';
         lightbox.style.visibility = 'visible';
@@ -2865,6 +2873,10 @@
               document.body.style.top = '';
               document.body.style.width = '';
               document.body.style.overflow = '';
+              document.body.style.height = '';
+              document.body.style.touchAction = '';
+              document.documentElement.style.overflow = '';
+              document.documentElement.style.touchAction = '';
               delete document.body.dataset.scrollY;
               window.scrollTo(0, scrollY);
               // Фокус возвращаем на элемент, который открыл lightbox
@@ -2884,6 +2896,10 @@
           document.body.style.top = '';
           document.body.style.width = '';
           document.body.style.overflow = '';
+          document.body.style.height = '';
+          document.body.style.touchAction = '';
+          document.documentElement.style.overflow = '';
+          document.documentElement.style.touchAction = '';
           delete document.body.dataset.scrollY;
           window.scrollTo(0, scrollY);
           if (document.activeElement && document.activeElement.blur) {
@@ -2960,22 +2976,34 @@
           
           // Добавляем обработчики разными способами для максимальной надежности
           const enhancedHandleClose = (e) => {
+            if (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              e.stopImmediatePropagation();
+            }
             console.log('Клик по кнопке закрытия портфолио');
             handleCloseClick(e);
+            return false;
           };
           
+          // Множественные обработчики для надежности
           newCloseBtn.addEventListener('click', enhancedHandleClose, true);
+          newCloseBtn.addEventListener('mousedown', enhancedHandleClose, true);
           newCloseBtn.addEventListener('touchstart', enhancedHandleClose, { passive: false });
           newCloseBtn.addEventListener('touchend', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             enhancedHandleClose(e);
           }, { passive: false });
           newCloseBtn.onclick = enhancedHandleClose;
           
           // Добавляем также прямое закрытие при клике на элемент
           newCloseBtn.style.cursor = 'pointer';
+          newCloseBtn.style.pointerEvents = 'auto';
+          newCloseBtn.style.zIndex = '1000001';
           newCloseBtn.setAttribute('role', 'button');
           newCloseBtn.setAttribute('tabindex', '0');
+          newCloseBtn.setAttribute('aria-label', 'Закрыть');
           
           // Сохраняем ссылку для обновления
           window.lightboxCloseBtn = newCloseBtn;
@@ -2999,15 +3027,39 @@
         }, 100);
       };
       
+      // Обработка клика на overlay для закрытия
       if (lightboxOverlay) {
+        // Удаляем старые обработчики
+        const newOverlay = lightboxOverlay.cloneNode(true);
+        lightboxOverlay.parentNode.replaceChild(newOverlay, lightboxOverlay);
+        const overlay = newOverlay;
+        
         const handleOverlayClose = (e) => {
-          if (e.target === lightboxOverlay || e.target === lightbox) {
+          // Закрываем только если клик именно на overlay, а не на содержимое
+          if (e.target === overlay || e.target === lightbox) {
             e.preventDefault();
+            e.stopPropagation();
             closeLightbox();
+            return false;
           }
         };
-        lightboxOverlay.addEventListener('click', handleOverlayClose, true);
-        lightboxOverlay.addEventListener('touchstart', handleOverlayClose, { passive: false });
+        
+        overlay.addEventListener('click', handleOverlayClose, true);
+        overlay.addEventListener('touchend', handleOverlayClose, { passive: false });
+        overlay.style.cursor = 'pointer';
+        
+        // Также обрабатываем клик на сам lightbox (но не на content)
+        if (lightbox) {
+          const handleLightboxClose = (e) => {
+            // Закрываем если клик на сам lightbox, но не на content или его детей
+            if (e.target === lightbox && !lightboxContent.contains(e.target)) {
+              e.preventDefault();
+              e.stopPropagation();
+              closeLightbox();
+            }
+          };
+          lightbox.addEventListener('click', handleLightboxClose, true);
+        }
       }
       
       // Навигация
