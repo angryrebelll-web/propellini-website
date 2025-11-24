@@ -819,53 +819,67 @@
 
   .process-steps-compact {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-sm);
-    margin-top: var(--space-md);
-    padding: 0 var(--space-sm);
-    visibility: visible;
-    opacity: 1;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: var(--space-sm) !important;
+    margin-top: var(--space-md) !important;
+    padding: 0 var(--space-sm) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .process-step-compact {
-    padding: var(--space-md);
-  }
-  
-  .process-number-compact {
-    font-size: 32px;
-  }
-  
-  .process-content-compact h3 {
-    font-size: 16px;
-    margin-bottom: var(--space-xs);
-  }
-  
-  .process-content-compact p {
-    font-size: 13px;
-    line-height: 1.5;
-  }
-
-  .process-step-compact {
-    padding: var(--space-md);
-    display: block !important;
-    visibility: visible;
-    opacity: 1;
+    padding: var(--space-sm) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     min-height: auto;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(22, 132, 145, 0.2);
+    border-radius: 12px;
+    box-sizing: border-box;
   }
-
+  
   .process-number-compact {
-    font-size: 32px;
-    margin-bottom: var(--space-xs);
+    font-size: 36px !important;
+    font-weight: 800 !important;
+    color: var(--primary) !important;
+    margin-bottom: var(--space-xs) !important;
+    line-height: 1 !important;
+    font-family: var(--font-montserrat);
+    text-shadow: 0 0 10px rgba(22, 132, 145, 0.5);
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
+  .process-content-compact {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--space-xs) !important;
+    width: 100%;
+  }
+  
   .process-content-compact h3 {
-    font-size: 16px;
-    margin-bottom: var(--space-xs);
+    font-size: 16px !important;
+    margin-bottom: var(--space-xs) !important;
+    font-weight: 700;
+    color: var(--text);
+    display: block !important;
+    visibility: visible !important;
   }
-
+  
   .process-content-compact p {
-    font-size: 13px;
-    line-height: 1.5;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    color: var(--text-muted);
+    margin: 0;
+    display: block !important;
+    visibility: visible !important;
   }
 
   /* ============================================
