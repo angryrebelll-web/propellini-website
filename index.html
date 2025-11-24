@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="src/styles/responsive-bg.css" />
   <link rel="stylesheet" href="src/styles/animations.css" />
   <link rel="stylesheet" href="src/styles/mobile-premium.css" />
+  <link rel="stylesheet" href="src/styles/mobile-fixes.css" />
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -475,7 +476,10 @@
 
       <div class="films-benefits">
         <p class="films-benefits-text">Выбор качественных пленок для оклейки – это первый шаг к улучшению внешнего вида вашего автомобиля и его защиты. Каждая из представленных пленок обладает уникальными характеристиками:</p>
-        <div class="films-benefits-grid">
+        <button class="films-benefits-toggle" id="filmsBenefitsToggle" tabindex="0">
+          <span>Характеристики пленок</span>
+        </button>
+        <div class="films-benefits-grid" id="filmsBenefitsGrid">
           <div class="films-benefit-item">
             <span class="films-benefit-icon">✓</span>
             <span>Защита от УФ-лучей</span>
@@ -593,21 +597,23 @@
   <section class="video-section" id="video">
     <!-- Desktop video - воспроизводится по кнопке -->
     <div class="video-background video-desktop">
-      <video id="desktopVideo" muted loop playsinline class="premium-processed" preload="metadata">
+      <video id="desktopVideo" muted loop playsinline class="premium-processed" preload="metadata" webkit-playsinline>
         <source src="./public/images/video/teaser-desktop.mp4" type="video/mp4" />
+        Ваш браузер не поддерживает видео.
       </video>
     </div>
     <!-- Mobile video - играет постоянно на фоне -->
     <div class="video-background video-mobile">
-      <video autoplay muted loop playsinline class="premium-processed">
+      <video autoplay muted loop playsinline class="premium-processed" webkit-playsinline>
         <source src="./public/images/video/teaser-mobile.mp4" type="video/mp4" />
+        Ваш браузер не поддерживает видео.
       </video>
     </div>
     <div class="video-overlay premium-bg-overlay" id="videoOverlay"></div>
     <div class="video-content" id="videoContent">
       <h2 class="section-title">Профессионализм в деталях</h2>
       <p class="video-description">Посмотрите, как мы работаем</p>
-      <button class="btn btn-primary video-play-btn" id="videoPlayBtn" tabindex="0" onclick="event.stopPropagation();">Смотреть видео</button>
+      <button class="btn btn-primary video-play-btn" id="videoPlayBtn" tabindex="0">Смотреть видео</button>
     </div>
   </section>
 
@@ -765,7 +771,6 @@
     <div class="container">
       <div class="contacts-header">
         <h2 class="section-title">Контакты</h2>
-        <p class="section-subtitle">Нет нерешаемых задач, есть разные подходы к их решению.</p>
         <p class="contacts-description">Вы можете оставить заявку по форме обратной связи или связаться с нами любым другим удобным способом.</p>
       </div>
       
@@ -2204,18 +2209,76 @@
       showMobileStep(1);
     };
 
+    // Аккордеон для характеристик пленок (мобильная версия)
+    const handleFilmsBenefitsToggle = () => {
+      const toggleBtn = document.getElementById('filmsBenefitsToggle');
+      const benefitsGrid = document.getElementById('filmsBenefitsGrid');
+      
+      if (toggleBtn && benefitsGrid) {
+        toggleBtn.addEventListener('click', () => {
+          toggleBtn.classList.toggle('active');
+          benefitsGrid.classList.toggle('active');
+        });
+      }
+    };
+
+    // Исправление видео для мобильных
+    const handleVideoFix = () => {
+      const videoDesktop = document.getElementById('desktopVideo');
+      const videoMobile = document.querySelector('.video-mobile video');
+      const videoPlayBtn = document.getElementById('videoPlayBtn');
+      const videoOverlay = document.getElementById('videoOverlay');
+      const videoContent = document.getElementById('videoContent');
+      
+      if (videoMobile) {
+        videoMobile.setAttribute('playsinline', '');
+        videoMobile.setAttribute('autoplay', '');
+        videoMobile.setAttribute('muted', '');
+        videoMobile.setAttribute('loop', '');
+      }
+      
+      if (videoPlayBtn && videoDesktop && videoOverlay && videoContent) {
+        videoPlayBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          if (videoDesktop.paused) {
+            videoDesktop.play().catch(err => console.log('Video play error:', err));
+            videoOverlay.style.opacity = '0';
+            videoContent.style.opacity = '0';
+            setTimeout(() => {
+              videoOverlay.style.display = 'none';
+              videoContent.style.display = 'none';
+            }, 300);
+          } else {
+            videoDesktop.pause();
+            videoOverlay.style.display = 'block';
+            videoContent.style.display = 'block';
+            setTimeout(() => {
+              videoOverlay.style.opacity = '1';
+              videoContent.style.opacity = '1';
+            }, 10);
+          }
+        });
+      }
+    };
+
     // Initialize when DOM is ready
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => {
         handleCalculatorToggle();
         handleApplicationModal();
         handleVideoPlay();
+        handleFilmsBenefitsToggle();
+        handleVideoFix();
         setTimeout(initMobileCalculator, 500);
       });
     } else {
       handleCalculatorToggle();
       handleApplicationModal();
       handleVideoPlay();
+      handleFilmsBenefitsToggle();
+      handleVideoFix();
       setTimeout(initMobileCalculator, 500);
     }
   </script>

@@ -1,0 +1,425 @@
+/* ============================================
+   МОБИЛЬНЫЕ ИСПРАВЛЕНИЯ ДЛЯ PROPELLINI
+   ============================================ */
+
+@media (max-width: 768px) {
+  
+  /* ============================================
+     1. ГЛАВНАЯ СТРАНИЦА - ЦЕНТРИРОВАНИЕ
+     ============================================ */
+  
+  .hero-content {
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  .hero-title {
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+  
+  .hero-promo {
+    text-align: center !important;
+  }
+  
+  .hero-pricing {
+    text-align: center !important;
+  }
+  
+  .hero-cta {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: var(--space-md) !important;
+  }
+  
+  /* Убираем информацию о "sawing", оставляем только адрес */
+  .hero-contacts {
+    text-align: center !important;
+    margin-top: var(--space-lg) !important;
+  }
+  
+  .hero-phone,
+  .hero-email {
+    display: block !important;
+    margin-bottom: var(--space-xs) !important;
+  }
+  
+  .hero-address {
+    font-size: 14px !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+  
+  /* ============================================
+     2. БЛОК "ПОЧЕМУ ВЫБИРАЮТ PROPELLINI" - ИСПРАВЛЕНИЕ ПУСТЫХ КАРТОЧЕК
+     ============================================ */
+  
+  .benefits-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: var(--space-md) !important;
+    padding: 0 var(--space-sm) !important;
+  }
+  
+  .benefit-card-glass {
+    min-height: 120px !important;
+    padding: var(--space-lg) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .benefit-glass-content {
+    width: 100% !important;
+    text-align: center !important;
+  }
+  
+  .benefit-glass-title {
+    font-size: 18px !important;
+    margin-bottom: var(--space-sm) !important;
+    color: var(--primary) !important;
+  }
+  
+  .benefit-glass-text {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+  
+  /* ============================================
+     3. ПАКЕТЫ УСЛУГ - ИСПРАВЛЕНИЕ ПУСТЫХ КАРТОЧЕК
+     ============================================ */
+  
+  .services-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: var(--space-lg) !important;
+    padding: 0 var(--space-sm) !important;
+  }
+  
+  .service-card {
+    min-height: auto !important;
+    padding: var(--space-xl) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .service-card h3 {
+    font-size: 22px !important;
+    margin-bottom: var(--space-md) !important;
+  }
+  
+  .service-card p {
+    font-size: 15px !important;
+    line-height: 1.7 !important;
+    margin-bottom: var(--space-md) !important;
+  }
+  
+  .service-features {
+    margin: var(--space-md) 0 !important;
+    padding-left: var(--space-lg) !important;
+  }
+  
+  .service-features li {
+    font-size: 14px !important;
+    line-height: 1.8 !important;
+    margin-bottom: var(--space-xs) !important;
+  }
+  
+  /* Убираем растягивание */
+  .services {
+    padding: var(--space-xl) 0 !important;
+  }
+  
+  /* ============================================
+     4. ПРЕМИАЛЬНЫЕ ПЛЕНКИ - АККОРДЕОН ДЛЯ ХАРАКТЕРИСТИК
+     ============================================ */
+  
+  .films-benefits {
+    margin-top: var(--space-lg) !important;
+    padding: 0 var(--space-sm) !important;
+  }
+  
+  .films-benefits-text {
+    margin-bottom: var(--space-md) !important;
+    text-align: center !important;
+  }
+  
+  /* Кнопка для раскрытия характеристик */
+  .films-benefits-toggle {
+    width: 100% !important;
+    padding: var(--space-md) var(--space-lg) !important;
+    background: rgba(22, 132, 145, 0.2) !important;
+    border: 1px solid var(--primary) !important;
+    color: var(--primary) !important;
+    border-radius: 12px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    margin-bottom: var(--space-md) !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .films-benefits-toggle:hover {
+    background: rgba(22, 132, 145, 0.3) !important;
+  }
+  
+  .films-benefits-toggle::after {
+    content: '▼' !important;
+    font-size: 12px !important;
+    transition: transform 0.3s ease !important;
+  }
+  
+  .films-benefits-toggle.active::after {
+    transform: rotate(180deg) !important;
+  }
+  
+  /* Скрываем сетку по умолчанию */
+  .films-benefits-grid {
+    display: none !important;
+    grid-template-columns: 1fr !important;
+    gap: var(--space-sm) !important;
+    margin-top: var(--space-md) !important;
+    padding: var(--space-md) !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border-radius: 12px !important;
+  }
+  
+  .films-benefits-grid.active {
+    display: grid !important;
+  }
+  
+  .films-benefit-item {
+    padding: var(--space-md) !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 8px !important;
+  }
+  
+  /* ============================================
+     5. ПРОЦЕСС РАБОТЫ - ПРОВЕРКА КАРТОЧЕК
+     ============================================ */
+  
+  .process-steps-compact {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: var(--space-md) !important;
+    padding: 0 var(--space-sm) !important;
+  }
+  
+  .process-step-compact {
+    min-height: 100px !important;
+    padding: var(--space-lg) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+  }
+  
+  .process-number-compact {
+    font-size: 36px !important;
+    margin-bottom: var(--space-sm) !important;
+    color: var(--primary) !important;
+  }
+  
+  .process-content-compact h3 {
+    font-size: 18px !important;
+    margin-bottom: var(--space-xs) !important;
+  }
+  
+  .process-content-compact p {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+  
+  /* ============================================
+     6. ВИДЕО - ИСПРАВЛЕНИЕ ПРОИГРЫВАНИЯ
+     ============================================ */
+  
+  .video-section {
+    min-height: 400px !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+  
+  .video-background video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+  
+  .video-play-btn {
+    z-index: 10 !important;
+    position: relative !important;
+    cursor: pointer !important;
+  }
+  
+  /* Исправление для мобильного видео */
+  .video-mobile video {
+    display: block !important;
+  }
+  
+  .video-desktop {
+    display: none !important;
+  }
+  
+  @media (min-width: 769px) {
+    .video-mobile {
+      display: none !important;
+    }
+    .video-desktop {
+      display: block !important;
+    }
+  }
+  
+  /* ============================================
+     7. КОНТАКТЫ - УМЕНЬШЕНИЕ РАЗМЕРОВ
+     ============================================ */
+  
+  .contacts {
+    padding: var(--space-lg) 0 !important;
+  }
+  
+  .contacts-header {
+    margin-bottom: var(--space-lg) !important;
+  }
+  
+  .contacts-description {
+    font-size: 14px !important;
+    margin-bottom: var(--space-md) !important;
+  }
+  
+  .contacts-grid {
+    gap: var(--space-lg) !important;
+  }
+  
+  .contacts-info {
+    padding: var(--space-md) !important;
+  }
+  
+  .contacts-info-title {
+    font-size: 18px !important;
+    margin-bottom: var(--space-sm) !important;
+  }
+  
+  .contacts-brand {
+    font-size: 20px !important;
+    margin-bottom: var(--space-md) !important;
+  }
+  
+  .contact-detail-item {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    margin-bottom: var(--space-sm) !important;
+  }
+  
+  .contact-phone {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+  }
+  
+  .contacts-form {
+    padding: var(--space-md) !important;
+  }
+  
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 15px !important;
+    padding: var(--space-sm) var(--space-md) !important;
+    min-height: 48px !important;
+  }
+  
+  .contact-form textarea {
+    min-height: 100px !important;
+  }
+  
+  /* ============================================
+     8. ОТЗЫВЫ - МИНИМАЛЬНЫЙ РАЗМЕР
+     ============================================ */
+  
+  .reviews {
+    padding: var(--space-lg) 0 !important;
+  }
+  
+  .review-card {
+    padding: var(--space-md) !important;
+    min-height: auto !important;
+  }
+  
+  .review-text {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+  
+  .review-author {
+    font-size: 13px !important;
+  }
+  
+  /* ============================================
+     9. УДАЛЕНИЕ НЕПОНЯТНОГО КОДА ВНИЗУ
+     ============================================ */
+  
+  /* Скрываем любые скрипты или код, который может отображаться */
+  script[type="text/javascript"] {
+    display: none !important;
+  }
+  
+  /* Убираем лишние отступы внизу */
+  body {
+    padding-bottom: 0 !important;
+  }
+  
+  footer {
+    margin-top: var(--space-lg) !important;
+    padding: var(--space-lg) 0 !important;
+  }
+  
+  /* ============================================
+     10. ОБЩИЕ ИСПРАВЛЕНИЯ
+     ============================================ */
+  
+  /* Убираем горизонтальный скролл */
+  * {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Улучшаем читаемость */
+  .section-title {
+    font-size: clamp(24px, 6vw, 32px) !important;
+    line-height: 1.3 !important;
+    margin-bottom: var(--space-md) !important;
+  }
+  
+  .section-subtitle {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    margin-bottom: var(--space-lg) !important;
+  }
+  
+  /* Центрирование всех секций */
+  section .container {
+    text-align: center !important;
+  }
+  
+  section .container > * {
+    text-align: left !important;
+  }
+  
+  section .container > h2,
+  section .container > .section-title {
+    text-align: center !important;
+  }
+}
+

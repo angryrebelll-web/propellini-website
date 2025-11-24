@@ -121,3 +121,4 @@ window.addEventListener('resize', handleResize);
 window.setResponsiveImage = setResponsiveImage;
 window.setResponsiveVideo = setResponsiveVideo;
 
+
