@@ -1851,8 +1851,17 @@
   }
   
   .mobile-zones-section {
-    margin-top: var(--space-md);
-    margin-bottom: var(--space-md);
+    margin-top: var(--space-md) !important;
+    margin-bottom: var(--space-md) !important;
+    width: 100% !important;
+    overflow: visible !important;
+    position: relative !important;
+  }
+  
+  /* Контейнер для зон должен позволять скролл */
+  .mobile-zones-section .mobile-zones-list {
+    position: relative !important;
+    z-index: 1 !important;
   }
   
   .mobile-zones-toggle {
@@ -1898,43 +1907,57 @@
   }
   
   .mobile-zones-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    max-height: 400px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    padding: var(--space-sm) 0;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary) rgba(255, 255, 255, 0.1);
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--space-sm) !important;
+    max-height: 400px !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: var(--space-sm) 0 !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: var(--primary) rgba(255, 255, 255, 0.1) !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    will-change: scroll-position !important;
+    touch-action: pan-y !important;
   }
   
   .mobile-zones-list::-webkit-scrollbar {
-    width: 6px;
+    width: 6px !important;
+    display: block !important;
   }
   
   .mobile-zones-list::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
   }
   
   .mobile-zones-list::-webkit-scrollbar-thumb {
-    background: var(--primary);
-    border-radius: 10px;
+    background: var(--primary) !important;
+    border-radius: 10px !important;
+  }
+  
+  /* Гарантируем, что зоны можно прокручивать */
+  .mobile-zones-list.open {
+    display: flex !important;
+    overflow-y: scroll !important;
+    -webkit-overflow-scrolling: touch !important;
   }
   
   .mobile-zone-item-new {
-    padding: var(--space-md);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(22, 132, 145, 0.3);
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
+    padding: var(--space-md) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(22, 132, 145, 0.3) !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    flex-shrink: 0 !important;
+    min-height: 50px !important;
+    box-sizing: border-box !important;
   }
   
   .mobile-zone-item-new:hover {
