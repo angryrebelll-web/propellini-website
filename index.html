@@ -477,9 +477,6 @@
 
       <div class="films-benefits">
         <p class="films-benefits-text">Выбор качественных пленок для оклейки – это первый шаг к улучшению внешнего вида вашего автомобиля и его защиты. Каждая из представленных пленок обладает уникальными характеристиками:</p>
-        <button class="films-benefits-toggle" id="filmsBenefitsToggle" tabindex="0">
-          <span>Характеристики пленок</span>
-        </button>
         <div class="films-benefits-grid" id="filmsBenefitsGrid">
           <div class="films-benefit-item">
             <span class="films-benefit-icon">✓</span>
@@ -1710,12 +1707,62 @@
         });
       }
 
-      // Кнопка заказа
+      // Кнопка заказа - открываем модальное окно заявки
       if (orderBtn) {
         orderBtn.addEventListener('click', () => {
-          const orderBtnDesktop = document.getElementById('orderBtn');
-          if (orderBtnDesktop) {
-            orderBtnDesktop.click();
+          const orderModal = document.getElementById('orderModal');
+          const body = document.body;
+          
+          if (orderModal) {
+            orderModal.style.display = 'flex';
+            body.classList.add('no-scroll');
+            
+            // Заполняем данные из калькулятора
+            if (window.calculator) {
+              const orderTotal = document.getElementById('orderTotal');
+              const orderCar = document.getElementById('orderCar');
+              const orderZones = document.getElementById('orderZones');
+              
+              // Итоговая стоимость
+              if (orderTotal && footerTotal) {
+                orderTotal.value = footerTotal.textContent || '0 ₽';
+              }
+              
+              // Автомобиль
+              if (orderCar) {
+                const brand = window.calculator.selectedBrand || '';
+                const model = window.calculator.selectedModel || '';
+                orderCar.value = `${brand} ${model}`.trim() || 'Не выбран';
+              }
+              
+              // Выбранные зоны
+              if (orderZones && window.calculator.selectedClass) {
+                const classToUse = window.calculator.selectedClass;
+                const zonesData = window.calculator.zonesDatabase[classToUse];
+                
+                if (zonesData) {
+                  const allZones = Object.values(zonesData).flat();
+                  const selectedZonesNames = Array.from(window.calculator.selectedZones)
+                    .map(zoneId => {
+                      const zone = allZones.find(z => z.id === zoneId);
+                      return zone ? zone.name : null;
+                    })
+                    .filter(Boolean);
+                  
+                  orderZones.value = selectedZonesNames.length > 0 
+                    ? selectedZonesNames.join(', ') 
+                    : 'Не выбраны';
+                }
+              }
+            }
+            
+            // Анимация появления
+            if (typeof gsap !== 'undefined') {
+              gsap.fromTo(orderModal, 
+                { opacity: 0 }, 
+                { opacity: 1, duration: 0.3, ease: 'power2.out' }
+              );
+            }
           }
         });
       }
