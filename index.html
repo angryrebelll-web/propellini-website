@@ -1912,9 +1912,17 @@
               const zoneId = e.target.value;
               const item = e.target.closest('.mobile-zone-item-new');
               
+              // Если чекбокс заблокирован (часть пакета), игнорируем
+              if (checkbox.disabled) {
+                e.preventDefault();
+                checkbox.checked = true; // Возвращаем checked
+                return;
+              }
+              
               // Если выбрана зона, снимаем пакеты
               if (e.target.checked) {
                 // Удаляем все пакеты
+                window.calculator.selectedPackage = null;
                 if (zonesData['Пакеты услуг']) {
                   zonesData['Пакеты услуг'].forEach(pkg => {
                     window.calculator.selectedZones.delete(pkg.id);
@@ -1924,11 +1932,21 @@
                   packagesGrid.querySelectorAll('.mobile-package-card').forEach(c => c.classList.remove('active'));
                 }
                 
+                // Убираем подсветку пакета со всех зон
+                zonesList.querySelectorAll('.mobile-zone-item-new').forEach(zoneItem => {
+                  zoneItem.classList.remove('package-selected');
+                  const zoneCheckbox = zoneItem.querySelector('input[type="checkbox"]');
+                  if (zoneCheckbox) {
+                    zoneCheckbox.disabled = false;
+                  }
+                });
+                
                 window.calculator.selectedZones.add(zoneId);
                 item?.classList.add('active');
+                item?.classList.remove('package-selected');
               } else {
                 window.calculator.selectedZones.delete(zoneId);
-                item?.classList.remove('active');
+                item?.classList.remove('active', 'package-selected');
               }
               
               // Показываем кнопку "Записаться на оклейку" если есть выбранные зоны
