@@ -845,7 +845,7 @@ class CarWrappingCalculator {
     this.zonesContainer = document.getElementById('zonesSelection');
     this.interactiveZonesGroup = document.getElementById('interactive-zones');
     this.car3dContainer = document.getElementById('car3dCanvas');
-    this.orderBtn = document.querySelector('.order-btn');
+    this.orderBtn = document.getElementById('orderBtn') || document.querySelector('.order-btn');
     
     // Проверка наличия элементов (без console.warn для оптимизации)
     // Элементы проверяются при использовании
@@ -1813,7 +1813,10 @@ class CarWrappingCalculator {
   // Открытие формы заявки внутри калькулятора
   openCalculatorApplicationForm() {
     const form = document.getElementById('calculatorApplicationForm');
-    if (!form) return;
+    if (!form) {
+      console.warn('Форма калькулятора не найдена');
+      return;
+    }
     
     // Заполняем данные в форму
     const carInput = document.getElementById('calcOrderCar');
@@ -1823,11 +1826,7 @@ class CarWrappingCalculator {
     // Автомобиль
     if (carInput) {
       if (this.selectedBrand && this.selectedModel) {
-        carInput.value = `${this.selectedBrand} ${this.selectedModel}`;
-        if (this.selectedClass) {
-          const className = this.carDatabase[this.selectedClass]?.name || '';
-          carInput.value += ` (${className})`;
-        }
+        carInput.value = `${this.selectedBrand} ${this.selectedModel}`.trim();
       } else {
         carInput.value = 'Не выбран';
       }
@@ -1835,12 +1834,22 @@ class CarWrappingCalculator {
     
     // Зоны
     if (zonesInput) {
-      if (this.selectedZones && this.selectedZones.size > 0) {
-        const zones = Array.from(this.selectedZones).map(zoneId => {
-          const zone = this.zonesDatabase.find(z => z.id === zoneId);
-          return zone ? zone.name : zoneId;
-        }).join(', ');
-        zonesInput.value = zones;
+      if (this.selectedZones && this.selectedZones.size > 0 && this.selectedClass) {
+        const zonesData = this.zonesDatabase[this.selectedClass];
+        if (zonesData) {
+          const allZones = Object.values(zonesData).flat();
+          const selectedZonesNames = Array.from(this.selectedZones)
+            .map(zoneId => {
+              const zone = allZones.find(z => z.id === zoneId);
+              return zone ? zone.name : null;
+            })
+            .filter(Boolean);
+          zonesInput.value = selectedZonesNames.length > 0 
+            ? selectedZonesNames.join(', ') 
+            : 'Не выбраны';
+        } else {
+          zonesInput.value = 'Не выбраны';
+        }
       } else {
         zonesInput.value = 'Не выбраны';
       }
