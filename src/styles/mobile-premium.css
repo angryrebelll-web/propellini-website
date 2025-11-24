@@ -216,7 +216,7 @@
     z-index: 5;
     text-align: left;
     padding: var(--space-md) var(--space-md) !important;
-    max-width: 1200px;
+    max-width: 100% !important;
     margin: 0 auto;
     margin-top: 20px;
     display: flex;
@@ -224,7 +224,9 @@
     gap: var(--space-md) !important;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 100%;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
   }
 
   .hero-title {
