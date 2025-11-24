@@ -1943,10 +1943,30 @@
                 window.calculator.updateTotal();
               }
               
-              // Показываем зоны
-              if (zonesSection) zonesSection.style.display = 'block';
             });
           });
+          
+          // Обработчик для кнопки-гармошки зон
+          const zonesToggle = document.getElementById('mobileZonesToggle');
+          if (zonesToggle) {
+            // Удаляем старые обработчики через клонирование
+            const newZonesToggle = zonesToggle.cloneNode(true);
+            zonesToggle.parentNode.replaceChild(newZonesToggle, zonesToggle);
+            
+            newZonesToggle.addEventListener('click', () => {
+              const zonesListElement = document.getElementById('mobileZonesList');
+              if (zonesListElement) {
+                const isHidden = zonesListElement.style.display === 'none' || !zonesListElement.style.display || zonesListElement.style.display === '';
+                if (isHidden) {
+                  zonesListElement.style.display = 'flex';
+                  newZonesToggle.classList.add('active');
+                } else {
+                  zonesListElement.style.display = 'none';
+                  newZonesToggle.classList.remove('active');
+                }
+              }
+            });
+          }
         }
 
         // Обработчик кнопки "Записаться на оклейку" на шаге 3
