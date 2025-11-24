@@ -3151,10 +3151,14 @@
       const originalOpen = openLightbox;
       openLightbox = function(index) {
         originalOpen.call(this, index);
-        // Обновляем обработчик после открытия
-                setTimeout(() => {
+        // Обновляем обработчик после открытия с несколькими попытками
+        setTimeout(() => {
           bindCloseButton();
-        }, 100);
+        }, 150);
+        // Также привязываем еще раз после анимации
+        setTimeout(() => {
+          bindCloseButton();
+        }, 500);
       };
       
       // Обработка клика на overlay для закрытия
