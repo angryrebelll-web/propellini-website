@@ -2723,8 +2723,8 @@ body {
   right: 20px !important;
   width: 50px !important;
   height: 50px !important;
-  background: rgba(0, 0, 0, 0.8) !important;
-  border: 2px solid rgba(255, 255, 255, 0.4) !important;
+  background: rgba(0, 0, 0, 0.9) !important;
+  border: 2px solid rgba(255, 255, 255, 0.6) !important;
   border-radius: 50% !important;
   color: #ffffff !important;
   font-size: 32px !important;
@@ -2742,6 +2742,10 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
   opacity: 1 !important;
   visibility: visible !important;
+  pointer-events: auto !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  touch-action: manipulation !important;
 }
 
 .lightbox-close:hover {
