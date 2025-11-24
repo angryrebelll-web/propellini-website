@@ -1621,6 +1621,11 @@
 
         // Инициализация: показываем все марки
         renderBrands();
+        
+        // Если марка уже выбрана, сразу рендерим модели (для случая, когда возвращаемся на шаг 1)
+        if (window.calculator && window.calculator.selectedBrand) {
+          // Не переходим автоматически, но готовим данные
+        }
 
         // Поиск с debounce - фильтрует чипсы
         if (searchInput) {
@@ -1643,10 +1648,27 @@
         const classNameEl = document.getElementById('mobileClassName');
         const searchInput = document.getElementById('mobileModelSearch');
         
-        if (!chipsContainer || !window.calculator || !window.calculator.selectedBrand) {
+        // Проверяем наличие марки с небольшой задержкой для надежности
+        if (!chipsContainer || !window.calculator) {
+          console.warn('Калькулятор или контейнер моделей не найден');
+          if (!window.calculator) {
+            setTimeout(() => {
+              if (window.calculator && !window.calculator.selectedBrand) {
+                currentStep = 1;
+                showStep(1);
+              }
+            }, 100);
+          }
+          return;
+        }
+        
+        if (!window.calculator.selectedBrand) {
+          console.warn('Марка не выбрана, возвращаемся на шаг 1');
           // Если нет бренда, возвращаемся на шаг 1
-          currentStep = 1;
-          showStep(1);
+          setTimeout(() => {
+            currentStep = 1;
+            showStep(1);
+          }, 100);
           return;
         }
 
@@ -1659,8 +1681,16 @@
         let modelClickHandlers = [];
 
         const renderModels = () => {
+          // Проверяем наличие марки перед рендерингом
+          if (!window.calculator || !window.calculator.selectedBrand) {
+            chipsContainer.innerHTML = '<div class="mobile-chips-empty">Сначала выберите марку</div>';
+            return;
+          }
+          
           // Автоматически подтягиваем модели для выбранной марки
           let models = window.calculator.getAllModelsForBrand(window.calculator.selectedBrand);
+          
+          console.log(`Найдено моделей для марки ${window.calculator.selectedBrand}:`, models.length);
           
           if (!models || models.length === 0) {
             chipsContainer.innerHTML = '<div class="mobile-chips-empty">Модели не найдены для выбранной марки</div>';
@@ -1694,6 +1724,9 @@
             ${model}
           </button>
         `).join('');
+          
+          // Если нет моделей, не продолжаем
+          if (models.length === 0) return;
 
           // Обработчики клика на чипсы моделей
         chipsContainer.querySelectorAll('.mobile-chip').forEach(chip => {
