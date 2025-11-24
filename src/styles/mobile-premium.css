@@ -254,8 +254,8 @@
   }
 
   .hero-banners-wrapper {
-    display: grid !important;
-    grid-template-columns: calc(50% - var(--space-sm) / 2) calc(50% - var(--space-sm) / 2) !important;
+    display: flex !important;
+    flex-direction: row !important;
     gap: var(--space-sm) !important;
     align-items: stretch !important;
     margin: 0 !important;
@@ -264,13 +264,14 @@
     box-sizing: border-box !important;
     padding: 0 !important;
     overflow: hidden !important;
+    flex-wrap: nowrap !important;
   }
 
   .hero-promo {
     background: rgba(22, 132, 145, 0.15) !important;
     border: 1px solid rgba(22, 132, 145, 0.4) !important;
     border-radius: 12px;
-    padding: var(--space-sm) var(--space-xs) !important;
+    padding: var(--space-sm) 6px !important;
     text-align: center;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -280,10 +281,10 @@
     align-items: center;
     min-height: 100px !important;
     box-sizing: border-box !important;
-    width: 100% !important;
-    max-width: 100% !important;
+    width: calc(50% - var(--space-sm) / 2) !important;
+    max-width: calc(50% - var(--space-sm) / 2) !important;
     overflow: hidden !important;
-    flex: 1 1 0 !important;
+    flex: 0 0 calc(50% - var(--space-sm) / 2) !important;
     min-width: 0 !important;
   }
 
@@ -306,7 +307,7 @@
 
   .hero-gift-banner {
     margin: 0 !important;
-    padding: var(--space-sm) var(--space-xs) !important;
+    padding: var(--space-sm) 6px !important;
     text-align: center;
     background: linear-gradient(135deg, rgba(255, 193, 7, 0.25) 0%, rgba(255, 152, 0, 0.25) 100%) !important;
     border: 2px solid rgba(255, 193, 7, 0.7) !important;
@@ -323,10 +324,10 @@
     z-index: 10;
     min-height: 100px !important;
     box-sizing: border-box !important;
-    width: 100% !important;
-    max-width: 100% !important;
+    width: calc(50% - var(--space-sm) / 2) !important;
+    max-width: calc(50% - var(--space-sm) / 2) !important;
     overflow: hidden !important;
-    flex: 1 1 0 !important;
+    flex: 0 0 calc(50% - var(--space-sm) / 2) !important;
     min-width: 0 !important;
   }
 
