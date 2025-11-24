@@ -2202,6 +2202,27 @@ body {
   object-position: center;
 }
 
+/* Rutube контейнер для десктопа */
+.video-rutube-container {
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
+  position: relative;
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-rutube-container iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
+  border-radius: 12px;
+}
+
 /* Desktop video - скрыт на мобильных */
 .video-desktop {
   display: block;

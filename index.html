@@ -596,19 +596,39 @@
 
   <!-- 9. TEASER VIDEO SECTION -->
   <section class="video-section" id="video">
-    <!-- Desktop video - воспроизводится по кнопке -->
-    <div class="video-background video-desktop">
-      <video id="desktopVideo" muted loop playsinline class="premium-processed" preload="metadata" webkit-playsinline>
+    <!-- Desktop video - Rutube iframe -->
+    <div class="video-background video-desktop" id="videoDesktopContainer">
+      <div class="video-rutube-container" id="videoRutubeContainer" style="display: none;">
+        <iframe 
+          id="rutubeVideoFrame"
+          src="https://rutube.ru/play/embed/081e1943d679395a563ac2325dd3e58b" 
+          frameborder="0" 
+          allow="clipboard-write; autoplay" 
+          webkitAllowFullScreen 
+          mozallowfullscreen 
+          allowFullScreen
+          style="width: 100%; height: 100%; min-height: 600px; border-radius: 12px;">
+        </iframe>
+      </div>
+      <!-- Fallback для старых браузеров -->
+      <video id="desktopVideo" muted loop playsinline class="premium-processed" preload="metadata" webkit-playsinline style="display: none;">
         <source src="./public/images/video/teaser-desktop.mp4" type="video/mp4" />
         Ваш браузер не поддерживает видео.
       </video>
     </div>
-    <!-- Mobile video - играет постоянно на фоне -->
-    <div class="video-background video-mobile">
-      <video autoplay muted loop playsinline class="premium-processed" webkit-playsinline>
-        <source src="./public/images/video/teaser-mobile.mp4" type="video/mp4" />
-        Ваш браузер не поддерживает видео.
-      </video>
+    <!-- Mobile video - Rutube iframe -->
+    <div class="video-background video-mobile" id="videoMobileContainer">
+      <div class="video-rutube-container-mobile">
+        <iframe 
+          src="https://rutube.ru/play/embed/081e1943d679395a563ac2325dd3e58b" 
+          frameborder="0" 
+          allow="clipboard-write; autoplay" 
+          webkitAllowFullScreen 
+          mozallowfullscreen 
+          allowFullScreen
+          style="width: 100%; height: 100%; min-height: 400px; border-radius: 12px;">
+        </iframe>
+      </div>
     </div>
     <div class="video-overlay premium-bg-overlay" id="videoOverlay"></div>
     <div class="video-content" id="videoContent">
@@ -1180,10 +1200,10 @@
       });
     };
 
-    // Video Play Button Handler
+    // Video Play Button Handler - Rutube
     const handleVideoPlay = () => {
       const videoPlayBtn = document.getElementById('videoPlayBtn');
-      const desktopVideo = document.getElementById('desktopVideo');
+      const videoRutubeContainer = document.getElementById('videoRutubeContainer');
       const videoOverlay = document.getElementById('videoOverlay');
       const videoContent = document.getElementById('videoContent');
       
@@ -1192,93 +1212,50 @@
         return;
       }
       
-      if (!desktopVideo) {
-        console.error('Видео desktopVideo не найдено');
-        return;
-      }
-      
-      // Проверяем загрузку видео
-      desktopVideo.addEventListener('loadedmetadata', () => {
-        console.log('Видео загружено, готово к воспроизведению');
-      });
-      
-      desktopVideo.addEventListener('error', (e) => {
-        console.error('Ошибка загрузки видео:', e);
-        console.error('Путь к видео:', desktopVideo.querySelector('source')?.src);
-      });
-      
       // Добавляем обработчик клика на кнопку
       const handleVideoClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log('Кнопка нажата, начинаем воспроизведение');
+        console.log('Кнопка нажата, показываем Rutube видео');
         
         // Проверяем, мобильное ли устройство
         const isMobile = window.innerWidth <= 768;
         
         if (isMobile) {
-          console.log('Мобильное устройство, видео должно играть на фоне');
+          console.log('Мобильное устройство, видео уже видно');
           return;
         }
         
-        if (!desktopVideo) {
-          console.error('Видео не найдено');
-          alert('Видео не найдено. Проверьте путь к файлу.');
-          return;
+        // Показываем Rutube iframe
+        if (videoRutubeContainer) {
+          videoRutubeContainer.style.display = 'block';
         }
         
-        // Проверяем, загружено ли видео
-        if (desktopVideo.readyState < 2) {
-          console.log('Видео еще загружается, ждем...');
-          desktopVideo.addEventListener('loadeddata', () => {
-            playVideo();
-          }, { once: true });
-          desktopVideo.load();
-          return;
-        }
-        
-        playVideo();
-      };
-      
-      const playVideo = () => {
-        // На десктопе: воспроизводим видео, убираем overlay и контент
-        desktopVideo.muted = false; // Включаем звук
-        
-        const playPromise = desktopVideo.play();
-        
-        if (playPromise !== undefined) {
-          playPromise.then(() => {
-            console.log('Видео воспроизводится');
-            // Скрываем overlay и контент с анимацией
-            if (videoOverlay && videoContent) {
-              if (typeof gsap !== 'undefined') {
-                gsap.to([videoOverlay, videoContent], {
-                  opacity: 0,
-                  duration: 0.5,
-                  ease: 'power2.out',
-                  onComplete: () => {
-                    if (videoOverlay) videoOverlay.style.display = 'none';
-                    if (videoContent) videoContent.style.display = 'none';
-                  }
-                });
-              } else {
-                // Fallback если GSAP не загружен
-                videoOverlay.style.opacity = '0';
-                videoContent.style.opacity = '0';
-                setTimeout(() => {
-                  if (videoOverlay) videoOverlay.style.display = 'none';
-                  if (videoContent) videoContent.style.display = 'none';
-                }, 500);
+        // Скрываем overlay и контент с анимацией
+        if (videoOverlay && videoContent) {
+          if (typeof gsap !== 'undefined') {
+            gsap.to([videoOverlay, videoContent], {
+              opacity: 0,
+              duration: 0.5,
+              ease: 'power2.out',
+              onComplete: () => {
+                if (videoOverlay) videoOverlay.style.display = 'none';
+                if (videoContent) videoContent.style.display = 'none';
               }
-            }
-            
-            // Скрываем кнопку
-            videoPlayBtn.style.display = 'none';
-          }).catch(err => {
-            console.error('Ошибка воспроизведения видео:', err);
-            alert('Не удалось воспроизвести видео: ' + err.message);
-          });
+            });
+          } else {
+            // Fallback если GSAP не загружен
+            videoOverlay.style.opacity = '0';
+            videoContent.style.opacity = '0';
+            setTimeout(() => {
+              if (videoOverlay) videoOverlay.style.display = 'none';
+              if (videoContent) videoContent.style.display = 'none';
+            }, 500);
+          }
         }
+        
+        // Скрываем кнопку
+        videoPlayBtn.style.display = 'none';
       };
       
       videoPlayBtn.addEventListener('click', handleVideoClick);
@@ -2223,45 +2200,19 @@
       }
     };
 
-    // Исправление видео для мобильных
+    // Исправление видео для мобильных - Rutube
     const handleVideoFix = () => {
-      const videoDesktop = document.getElementById('desktopVideo');
-      const videoMobile = document.querySelector('.video-mobile video');
+      const videoRutubeContainer = document.getElementById('videoRutubeContainer');
+      const videoMobileContainer = document.querySelector('.video-mobile');
       const videoPlayBtn = document.getElementById('videoPlayBtn');
       const videoOverlay = document.getElementById('videoOverlay');
       const videoContent = document.getElementById('videoContent');
       
-      if (videoMobile) {
-        videoMobile.setAttribute('playsinline', '');
-        videoMobile.setAttribute('autoplay', '');
-        videoMobile.setAttribute('muted', '');
-        videoMobile.setAttribute('loop', '');
-      }
+      // Мобильное видео уже работает через Rutube iframe
+      // Ничего дополнительного не требуется
       
-      if (videoPlayBtn && videoDesktop && videoOverlay && videoContent) {
-        videoPlayBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          if (videoDesktop.paused) {
-            videoDesktop.play().catch(err => console.log('Video play error:', err));
-            videoOverlay.style.opacity = '0';
-            videoContent.style.opacity = '0';
-            setTimeout(() => {
-              videoOverlay.style.display = 'none';
-              videoContent.style.display = 'none';
-            }, 300);
-          } else {
-            videoDesktop.pause();
-            videoOverlay.style.display = 'block';
-            videoContent.style.display = 'block';
-            setTimeout(() => {
-              videoOverlay.style.opacity = '1';
-              videoContent.style.opacity = '1';
-            }, 10);
-          }
-        });
-      }
+      // Обработчик для десктопа уже в handleVideoPlay
+      // Эта функция оставлена для совместимости
     };
 
     // Initialize when DOM is ready

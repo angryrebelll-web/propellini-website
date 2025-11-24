@@ -244,7 +244,7 @@
   }
   
   /* ============================================
-     6. ВИДЕО - ИСПРАВЛЕНИЕ ПРОИГРЫВАНИЯ
+     6. ВИДЕО - RUTUBE IFRAME
      ============================================ */
   
   .video-section {
@@ -253,10 +253,30 @@
     overflow: hidden !important;
   }
   
-  .video-background video {
+  /* Rutube контейнер для мобильных */
+  .video-rutube-container-mobile {
     width: 100% !important;
     height: 100% !important;
-    object-fit: cover !important;
+    min-height: 400px !important;
+    position: relative !important;
+    padding: var(--space-md) !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    border-radius: 12px !important;
+  }
+  
+  .video-rutube-container-mobile iframe {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 400px !important;
+    border-radius: 12px !important;
+  }
+  
+  .video-mobile {
+    display: block !important;
+  }
+  
+  .video-desktop {
+    display: none !important;
   }
   
   .video-play-btn {
@@ -265,21 +285,30 @@
     cursor: pointer !important;
   }
   
-  /* Исправление для мобильного видео */
-  .video-mobile video {
-    display: block !important;
-  }
-  
-  .video-desktop {
-    display: none !important;
-  }
-  
   @media (min-width: 769px) {
     .video-mobile {
       display: none !important;
     }
     .video-desktop {
       display: block !important;
+    }
+    
+    /* Rutube контейнер для десктопа */
+    .video-rutube-container {
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 600px !important;
+      position: relative !important;
+      padding: var(--space-lg) !important;
+      background: rgba(0, 0, 0, 0.3) !important;
+      border-radius: 12px !important;
+    }
+    
+    .video-rutube-container iframe {
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 600px !important;
+      border-radius: 12px !important;
     }
   }
   
