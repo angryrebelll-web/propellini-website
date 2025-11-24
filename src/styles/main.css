@@ -1712,18 +1712,17 @@ body {
   position: relative !important;
   width: 100%;
   max-width: 600px;
-  max-height: 90vh;
+  max-height: 85vh !important;
   overflow-y: auto;
   margin: auto;
-  padding: var(--space-lg);
+  padding: var(--space-md) var(--space-lg) !important;
   background: rgba(18, 18, 18, 0.98);
   border: 2px solid var(--primary);
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  max-height: 90vh;
-  overflow-y: auto;
   z-index: 30001;
   pointer-events: auto;
+  box-sizing: border-box;
 }
 
 .application-form-header {
@@ -2120,12 +2119,36 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm) !important;
-  max-height: calc(100vh - 400px) !important;
+  max-height: calc(100vh - 420px) !important;
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: var(--space-xs);
-  padding-bottom: 80px !important;
+  padding-bottom: 90px !important;
   -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+
+.mobile-zones-list {
+  max-height: calc(100vh - 420px) !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 90px !important;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+
+.mobile-packages-grid {
+  margin-bottom: var(--space-md) !important;
+  gap: var(--space-sm) !important;
+}
+
+.mobile-zones-section {
+  margin-bottom: var(--space-md) !important;
+}
+
+.mobile-packages-section {
+  margin-bottom: var(--space-md) !important;
+}
 }
 
 .mobile-zones-category {
@@ -3582,6 +3605,7 @@ body:has(.portfolio-lightbox[style*="block"]) .nav-menu {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
+  margin-bottom: var(--space-sm) !important;
 }
 
 .form-group label {
