@@ -808,6 +808,18 @@ class CarWrappingCalculator {
   // Получить все модели для бренда из всех классов
   getAllModelsForBrand(brand) {
     const models = [];
+    
+    // Сначала ищем в новой структуре данных
+    const brandData = this.expandedCarDatabase.find(b => b.brand === brand);
+    if (brandData) {
+      brandData.models.forEach(model => {
+        if (!models.includes(model.name)) {
+          models.push(model.name);
+        }
+      });
+    }
+    
+    // Fallback на старую структуру для обратной совместимости
     Object.entries(this.carDatabase).forEach(([classKey, classData]) => {
       if (classData.brands[brand]) {
         classData.brands[brand].forEach(model => {
@@ -817,6 +829,7 @@ class CarWrappingCalculator {
         });
       }
     });
+    
     return models.sort();
   }
 

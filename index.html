@@ -277,7 +277,7 @@
                 <div class="car-zones-visual" id="car3dContainer">
                   <div id="car3dCanvas"></div>
                   <div class="car-3d-hint">
-                    <span>🖱️ Вращать | 🔍 Зум</span>
+                    <span>Вращать мышью | Зум колесиком</span>
                   </div>
                 </div>
                 <div id="carSvgFallback" style="display: none;">
@@ -352,8 +352,9 @@
           <div class="mobile-wizard-step active" data-step="1">
             <h3 class="mobile-step-title">Выберите марку автомобиля</h3>
             <div class="mobile-search-box">
-              <input type="text" id="mobileBrandSearch" placeholder="Поиск марки..." autocomplete="off" />
+              <input type="text" id="mobileBrandSearch" placeholder="Поиск марки или выберите ниже..." autocomplete="off" />
             </div>
+            <div class="mobile-chips-hint">Или выберите из списка:</div>
             <div class="mobile-chips-scroll" id="mobileBrandsChips">
               <!-- Горизонтальные чипсы марок будут здесь -->
             </div>
@@ -367,6 +368,10 @@
               <span class="badge-label">Класс:</span>
               <span class="badge-value" id="mobileClassName"></span>
             </div>
+            <div class="mobile-search-box">
+              <input type="text" id="mobileModelSearch" placeholder="Поиск модели или выберите ниже..." autocomplete="off" />
+            </div>
+            <div class="mobile-chips-hint">Или выберите из списка:</div>
             <div class="mobile-chips-scroll" id="mobileModelsChips">
               <!-- Горизонтальные чипсы моделей будут здесь -->
             </div>
@@ -394,7 +399,7 @@
             </div>
           </div>
 
-          <!-- Шаг 4: Итог -->
+          <!-- Шаг 4: Итог и форма заказа -->
           <div class="mobile-wizard-step" data-step="4">
             <h3 class="mobile-step-title">Проверьте данные</h3>
             <div class="mobile-summary-card">
@@ -419,9 +424,41 @@
                 <span class="summary-value-total" id="summaryTotal">0 ₽</span>
               </div>
             </div>
-            <button class="mobile-order-btn" id="mobileOrderBtn">
-              Записаться на оклейку
-            </button>
+            
+            <!-- Форма заказа -->
+            <div class="mobile-order-form-container">
+              <h4 class="mobile-form-title">Оставить заявку</h4>
+              <form id="mobileOrderForm" class="mobile-order-form">
+                <div class="mobile-form-group">
+                  <label for="mobileOrderName">Ваше имя *</label>
+                  <input type="text" id="mobileOrderName" name="name" required placeholder="Введите ваше имя" />
+                </div>
+                <div class="mobile-form-group">
+                  <label for="mobileOrderPhone">Телефон *</label>
+                  <input type="tel" id="mobileOrderPhone" name="phone" required placeholder="+7 (___) ___-__-__" />
+                </div>
+                <div class="mobile-form-group">
+                  <label for="mobileOrderEmail">Email</label>
+                  <input type="email" id="mobileOrderEmail" name="email" placeholder="email@example.com" />
+                </div>
+                <div class="mobile-form-group">
+                  <label for="mobileOrderCar">Автомобиль</label>
+                  <input type="text" id="mobileOrderCar" name="car" readonly placeholder="Не выбран" />
+                </div>
+                <div class="mobile-form-group">
+                  <label for="mobileOrderTotal">Итоговая стоимость</label>
+                  <input type="text" id="mobileOrderTotal" name="total" readonly placeholder="0 ₽" />
+                </div>
+                <div class="mobile-form-group">
+                  <label for="mobileOrderComment">Комментарий</label>
+                  <textarea id="mobileOrderComment" name="comment" rows="3" placeholder="Дополнительная информация"></textarea>
+                </div>
+                <button type="submit" class="mobile-order-btn" id="mobileOrderSubmitBtn">
+                  Отправить заявку
+                </button>
+                <p class="mobile-form-privacy">Нажимая кнопку "Отправить заявку", вы соглашаетесь с политикой конфиденциальности.</p>
+              </form>
+            </div>
           </div>
 
           <!-- Фиксированная нижняя панель -->
@@ -1281,7 +1318,6 @@
       const footerPrev = document.getElementById('mobileFooterPrev');
       const footerNext = document.getElementById('mobileFooterNext');
       const footerTotal = document.getElementById('mobileFooterTotal');
-      const orderBtn = document.getElementById('mobileOrderBtn');
 
       // Функция показа шага с анимацией
       const showStep = (stepNum, direction = 'next') => {
@@ -1301,9 +1337,6 @@
         }
         if (footerNext) {
           footerNext.style.display = stepNum === totalSteps ? 'none' : 'flex';
-        }
-        if (orderBtn) {
-          orderBtn.style.display = stepNum === totalSteps ? 'block' : 'none';
         }
 
         // Инициализация шага
@@ -1328,27 +1361,50 @@
         if (!chipsContainer || !window.calculator) return;
 
         let searchQuery = '';
+        let brandClickHandlers = [];
 
         const renderBrands = () => {
           let brands = window.calculator.getAllBrands();
           
+          if (!brands || brands.length === 0) {
+            chipsContainer.innerHTML = '<div class="mobile-chips-empty">Марки не найдены</div>';
+            return;
+          }
+          
+          // Фильтруем по поиску, если есть
           if (searchQuery) {
             brands = brands.filter(b => 
               b.toLowerCase().includes(searchQuery.toLowerCase())
             );
           }
 
+          if (brands.length === 0) {
+            chipsContainer.innerHTML = '<div class="mobile-chips-empty">По вашему запросу ничего не найдено</div>';
+            return;
+          }
+
+          // Очищаем старые обработчики
+          brandClickHandlers.forEach(handler => {
+            if (handler.element && handler.element.removeEventListener) {
+              handler.element.removeEventListener('click', handler.fn);
+            }
+          });
+          brandClickHandlers = [];
+
           chipsContainer.innerHTML = brands.map(brand => `
             <button class="mobile-chip ${window.calculator.selectedBrand === brand ? 'active' : ''}" 
-                    data-brand="${brand}">
+                    data-brand="${brand}"
+                    tabindex="0">
               ${brand}
             </button>
           `).join('');
 
-          // Обработчики клика
+          // Обработчики клика на чипсы марок
           chipsContainer.querySelectorAll('.mobile-chip').forEach(chip => {
-            chip.addEventListener('click', () => {
+            const handleBrandClick = () => {
               const brand = chip.dataset.brand;
+              
+              // Устанавливаем выбранную марку
               window.calculator.selectedBrand = brand;
               window.calculator.selectedModel = null;
               window.calculator.selectedZones.clear();
@@ -1357,36 +1413,49 @@
               chipsContainer.querySelectorAll('.mobile-chip').forEach(c => c.classList.remove('active'));
               chip.classList.add('active');
               
+              // Очищаем поиск
+              if (searchInput) {
+                searchInput.value = '';
+                searchQuery = '';
+              }
+              
               updateTotalPrice();
               
-              // Автоматический переход на шаг 2
+              // Автоматически подтягиваем модели и переходим на шаг 2
               setTimeout(() => {
                 currentStep = 2;
                 showStep(2, 'next');
               }, 300);
-            });
+            };
+            
+            chip.addEventListener('click', handleBrandClick);
+            brandClickHandlers.push({ element: chip, fn: handleBrandClick });
           });
         };
 
+        // Инициализация: показываем все марки
         renderBrands();
 
-        // Поиск с debounce
+        // Поиск с debounce - фильтрует чипсы
         if (searchInput) {
           let searchTimeout;
           searchInput.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
             searchQuery = e.target.value;
-            searchTimeout = setTimeout(renderBrands, 300);
+            searchTimeout = setTimeout(() => {
+              renderBrands();
+            }, 200);
           });
         }
       };
 
-      // Шаг 2: Выбор модели (горизонтальные чипсы)
+      // Шаг 2: Выбор модели (горизонтальные чипсы) - автоматически подтягиваются после выбора марки
       const initStep2 = () => {
         const chipsContainer = document.getElementById('mobileModelsChips');
         const selectedBrandEl = document.getElementById('mobileSelectedBrand');
         const classBadge = document.getElementById('mobileClassBadge');
         const classNameEl = document.getElementById('mobileClassName');
+        const searchInput = document.getElementById('mobileModelSearch');
         
         if (!chipsContainer || !window.calculator || !window.calculator.selectedBrand) {
           // Если нет бренда, возвращаемся на шаг 1
@@ -1397,51 +1466,112 @@
 
         // Показываем выбранный бренд
         if (selectedBrandEl) {
-          selectedBrandEl.textContent = window.calculator.selectedBrand;
+          selectedBrandEl.textContent = `Выбрана марка: ${window.calculator.selectedBrand}`;
         }
 
-        const models = window.calculator.getAllModelsForBrand(window.calculator.selectedBrand);
-        
-        chipsContainer.innerHTML = models.map(model => `
-          <button class="mobile-chip ${window.calculator.selectedModel === model ? 'active' : ''}" 
-                  data-model="${model}">
-            ${model}
-          </button>
-        `).join('');
+        let searchQuery = '';
+        let modelClickHandlers = [];
 
-        // Обработчики клика
-        chipsContainer.querySelectorAll('.mobile-chip').forEach(chip => {
-          chip.addEventListener('click', () => {
-            const model = chip.dataset.model;
-            window.calculator.selectModel(window.calculator.selectedBrand, model);
-            window.calculator.selectedZones.clear();
-            
-            // Обновляем активный чип
-            chipsContainer.querySelectorAll('.mobile-chip').forEach(c => c.classList.remove('active'));
-            chip.classList.add('active');
-            
-            // Показываем класс
-            if (classBadge && classNameEl && window.calculator.selectedClass) {
-              const classNames = {
-                'small': 'Малый класс',
-                'business': 'Бизнес класс / Кроссоверы',
-                'suv-lux': 'Внедорожники / Люкс',
-                'pickup': 'Большие пикапы',
-                'bus': 'Автобусы / Минивэны'
-              };
-              classNameEl.textContent = classNames[window.calculator.selectedClass] || window.calculator.selectedClass;
-              classBadge.style.display = 'flex';
+        const renderModels = () => {
+          // Автоматически подтягиваем модели для выбранной марки
+          let models = window.calculator.getAllModelsForBrand(window.calculator.selectedBrand);
+          
+          if (!models || models.length === 0) {
+            chipsContainer.innerHTML = '<div class="mobile-chips-empty">Модели не найдены для выбранной марки</div>';
+            return;
+          }
+          
+          // Фильтруем по поиску, если есть
+          if (searchQuery) {
+            models = models.filter(m => 
+              m.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+          }
+          
+          if (models.length === 0) {
+            chipsContainer.innerHTML = '<div class="mobile-chips-empty">По вашему запросу ничего не найдено</div>';
+            return;
+          }
+          
+          // Очищаем старые обработчики
+          modelClickHandlers.forEach(handler => {
+            if (handler.element && handler.element.removeEventListener) {
+              handler.element.removeEventListener('click', handler.fn);
             }
-            
-            updateTotalPrice();
-            
-            // Автоматический переход на шаг 3
-            setTimeout(() => {
-              currentStep = 3;
-              showStep(3, 'next');
-            }, 300);
           });
-        });
+          modelClickHandlers = [];
+          
+          chipsContainer.innerHTML = models.map(model => `
+            <button class="mobile-chip ${window.calculator.selectedModel === model ? 'active' : ''}" 
+                    data-model="${model}"
+                    tabindex="0">
+              ${model}
+            </button>
+          `).join('');
+
+          // Обработчики клика на чипсы моделей
+          chipsContainer.querySelectorAll('.mobile-chip').forEach(chip => {
+            const handleModelClick = () => {
+              const model = chip.dataset.model;
+              
+              // Устанавливаем выбранную модель
+              window.calculator.selectModel(window.calculator.selectedBrand, model);
+              window.calculator.selectedZones.clear();
+              
+              // Обновляем активный чип
+              chipsContainer.querySelectorAll('.mobile-chip').forEach(c => c.classList.remove('active'));
+              chip.classList.add('active');
+              
+              // Очищаем поиск
+              if (searchInput) {
+                searchInput.value = '';
+                searchQuery = '';
+              }
+              
+              // Показываем класс автомобиля
+              if (classBadge && classNameEl && window.calculator.selectedClass) {
+                const classNames = {
+                  'small': 'Малый класс',
+                  'business': 'Бизнес класс / Кроссоверы',
+                  'suv-lux': 'Внедорожники / Люкс',
+                  'pickup': 'Большие пикапы',
+                  'bus': 'Автобусы / Минивэны'
+                };
+                classNameEl.textContent = classNames[window.calculator.selectedClass] || window.calculator.selectedClass;
+                classBadge.style.display = 'flex';
+              }
+              
+              updateTotalPrice();
+              
+              // Автоматический переход на шаг 3
+              setTimeout(() => {
+                currentStep = 3;
+                showStep(3, 'next');
+              }, 300);
+            };
+            
+            chip.addEventListener('click', handleModelClick);
+            modelClickHandlers.push({ element: chip, fn: handleModelClick });
+          });
+        };
+
+        // Автоматически подтягиваем и показываем модели при инициализации шага 2
+        renderModels();
+
+        // Поиск с debounce - фильтрует чипсы моделей
+        if (searchInput) {
+          let searchTimeout;
+          searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchQuery = e.target.value;
+            searchTimeout = setTimeout(() => {
+              renderModels();
+            }, 200);
+          });
+          
+          // Очищаем поиск при инициализации
+          searchInput.value = '';
+        }
       };
 
       // Шаг 3: Выбор услуги (пакеты или зоны)
@@ -1564,7 +1694,7 @@
         }
       };
 
-      // Шаг 4: Итог
+      // Шаг 4: Итог и форма заказа
       const initStep4 = () => {
         const summaryBrand = document.getElementById('summaryBrand');
         const summaryModel = document.getElementById('summaryModel');
@@ -1624,6 +1754,92 @@
         updateTotalPrice();
         if (summaryTotal) {
           summaryTotal.textContent = footerTotal?.textContent || '0 ₽';
+        }
+
+        // Заполняем поля формы данными из калькулятора
+        const orderCarInput = document.getElementById('mobileOrderCar');
+        const orderTotalInput = document.getElementById('mobileOrderTotal');
+        
+        if (orderCarInput && window.calculator) {
+          const brand = window.calculator.selectedBrand || '';
+          const model = window.calculator.selectedModel || '';
+          orderCarInput.value = `${brand} ${model}`.trim() || 'Не выбран';
+        }
+        
+        if (orderTotalInput && summaryTotal) {
+          orderTotalInput.value = summaryTotal.textContent || '0 ₽';
+        }
+
+        // Обработчик формы заказа
+        const orderForm = document.getElementById('mobileOrderForm');
+        const submitBtn = document.getElementById('mobileOrderSubmitBtn');
+        
+        if (orderForm && submitBtn) {
+          orderForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Блокируем кнопку отправки
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Отправка...';
+            
+            const formData = {
+              name: document.getElementById('mobileOrderName').value,
+              phone: document.getElementById('mobileOrderPhone').value,
+              email: document.getElementById('mobileOrderEmail').value,
+              car: document.getElementById('mobileOrderCar').value,
+              total: document.getElementById('mobileOrderTotal').value,
+              zones: summaryService?.textContent || '—',
+              comment: document.getElementById('mobileOrderComment').value
+            };
+
+            try {
+              // Здесь можно добавить отправку данных на сервер
+              // const response = await fetch('/api/order', {
+              //   method: 'POST',
+              //   headers: { 'Content-Type': 'application/json' },
+              //   body: JSON.stringify(formData)
+              // });
+              
+              // Пока просто логируем
+              console.log('Отправка заявки:', formData);
+              
+              // Имитация отправки
+              await new Promise(resolve => setTimeout(resolve, 1000));
+              
+              // Показываем сообщение об успехе
+              submitBtn.textContent = '✓ Отправлено!';
+              submitBtn.style.background = 'rgba(34, 197, 94, 0.2)';
+              submitBtn.style.borderColor = '#22c55e';
+              submitBtn.style.color = '#22c55e';
+              
+              // Очищаем форму
+              orderForm.reset();
+              
+              // Через 3 секунды возвращаем кнопку в исходное состояние
+              setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Отправить заявку';
+                submitBtn.style.background = '';
+                submitBtn.style.borderColor = '';
+                submitBtn.style.color = '';
+              }, 3000);
+              
+            } catch (error) {
+              console.error('Ошибка отправки заявки:', error);
+              submitBtn.textContent = 'Ошибка. Попробуйте снова';
+              submitBtn.style.background = 'rgba(239, 68, 68, 0.2)';
+              submitBtn.style.borderColor = '#ef4444';
+              submitBtn.style.color = '#ef4444';
+              
+              setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Отправить заявку';
+                submitBtn.style.background = '';
+                submitBtn.style.borderColor = '';
+                submitBtn.style.color = '';
+              }, 3000);
+            }
+          });
         }
       };
 
@@ -1707,73 +1923,12 @@
         });
       }
 
-      // Кнопка заказа - открываем модальное окно заявки
-      if (orderBtn) {
-        orderBtn.addEventListener('click', () => {
-          const orderModal = document.getElementById('orderModal');
-          const body = document.body;
-          
-          if (orderModal) {
-            orderModal.style.display = 'flex';
-            body.classList.add('no-scroll');
-            
-            // Заполняем данные из калькулятора
-            if (window.calculator) {
-              const orderTotal = document.getElementById('orderTotal');
-              const orderCar = document.getElementById('orderCar');
-              const orderZones = document.getElementById('orderZones');
-              
-              // Итоговая стоимость
-              if (orderTotal && footerTotal) {
-                orderTotal.value = footerTotal.textContent || '0 ₽';
-              }
-              
-              // Автомобиль
-              if (orderCar) {
-                const brand = window.calculator.selectedBrand || '';
-                const model = window.calculator.selectedModel || '';
-                orderCar.value = `${brand} ${model}`.trim() || 'Не выбран';
-              }
-              
-              // Выбранные зоны
-              if (orderZones && window.calculator.selectedClass) {
-                const classToUse = window.calculator.selectedClass;
-                const zonesData = window.calculator.zonesDatabase[classToUse];
-                
-                if (zonesData) {
-                  const allZones = Object.values(zonesData).flat();
-                  const selectedZonesNames = Array.from(window.calculator.selectedZones)
-                    .map(zoneId => {
-                      const zone = allZones.find(z => z.id === zoneId);
-                      return zone ? zone.name : null;
-                    })
-                    .filter(Boolean);
-                  
-                  orderZones.value = selectedZonesNames.length > 0 
-                    ? selectedZonesNames.join(', ') 
-                    : 'Не выбраны';
-                }
-              }
-            }
-            
-            // Анимация появления
-            if (typeof gsap !== 'undefined') {
-              gsap.fromTo(orderModal, 
-                { opacity: 0 }, 
-                { opacity: 1, duration: 0.3, ease: 'power2.out' }
-              );
-            }
-          }
-        });
-      }
 
       // Инициализация при открытии калькулятора
       const calculatorSection = document.getElementById('calculator');
       if (calculatorSection) {
         const observer = new MutationObserver(() => {
           if (calculatorSection.classList.contains('active')) {
-            currentStep = 1;
-            showStep(1);
             // Сбрасываем выбор при открытии
             if (window.calculator) {
               window.calculator.selectedBrand = null;
@@ -1781,6 +1936,19 @@
               window.calculator.selectedClass = null;
               window.calculator.selectedZones.clear();
             }
+            
+            // Сбрасываем поиск
+            const brandSearch = document.getElementById('mobileBrandSearch');
+            const modelSearch = document.getElementById('mobileModelSearch');
+            if (brandSearch) brandSearch.value = '';
+            if (modelSearch) modelSearch.value = '';
+            
+            // Скрываем бейдж класса
+            const classBadge = document.getElementById('mobileClassBadge');
+            if (classBadge) classBadge.style.display = 'none';
+            
+            currentStep = 1;
+            showStep(1);
           }
         });
         
