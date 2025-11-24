@@ -2789,18 +2789,22 @@
         
         // Сохраняем позицию скролла перед блокировкой
         const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${scrollY}px`;
-        document.body.style.width = '100%';
-        document.body.style.overflow = 'hidden';
-        document.body.style.height = '100%';
-        document.documentElement.style.overflow = 'hidden';
         document.body.dataset.scrollY = scrollY.toString();
         
-        // Для мобильных устройств - дополнительная блокировка
+        // Для мобильных устройств - полная блокировка скролла
         if (window.innerWidth <= 768) {
+          document.body.style.position = 'fixed';
+          document.body.style.top = `-${scrollY}px`;
+          document.body.style.width = '100%';
+          document.body.style.overflow = 'hidden';
+          document.body.style.height = '100%';
+          document.documentElement.style.overflow = 'hidden';
           document.body.style.touchAction = 'none';
           document.documentElement.style.touchAction = 'none';
+        } else {
+          // Для десктопной версии только блокируем скролл body, но разрешаем в lightbox
+          document.body.style.overflow = 'hidden';
+          document.documentElement.style.overflow = 'hidden';
         }
         
         lightbox.style.display = 'flex';
@@ -2869,6 +2873,8 @@
               lightbox.style.opacity = '0';
               // Восстанавливаем скролл
               const scrollY = parseInt(document.body.dataset.scrollY || '0');
+              
+              // Восстанавливаем стили для всех версий
               document.body.style.position = '';
               document.body.style.top = '';
               document.body.style.width = '';
@@ -2877,8 +2883,17 @@
               document.body.style.touchAction = '';
               document.documentElement.style.overflow = '';
               document.documentElement.style.touchAction = '';
+              
+              // Удаляем сохраненную позицию
               delete document.body.dataset.scrollY;
-              window.scrollTo(0, scrollY);
+              
+              // Восстанавливаем позицию скролла
+              setTimeout(() => {
+                window.scrollTo({
+                  top: scrollY,
+                  behavior: 'instant'
+                });
+              }, 10);
               // Фокус возвращаем на элемент, который открыл lightbox
               if (document.activeElement && document.activeElement.blur) {
                 document.activeElement.blur();
@@ -2892,6 +2907,8 @@
           lightbox.style.opacity = '0';
           // Восстанавливаем скролл
           const scrollY = parseInt(document.body.dataset.scrollY || '0');
+          
+          // Восстанавливаем стили для всех версий
           document.body.style.position = '';
           document.body.style.top = '';
           document.body.style.width = '';
@@ -2900,8 +2917,17 @@
           document.body.style.touchAction = '';
           document.documentElement.style.overflow = '';
           document.documentElement.style.touchAction = '';
+          
+          // Удаляем сохраненную позицию
           delete document.body.dataset.scrollY;
-          window.scrollTo(0, scrollY);
+          
+          // Восстанавливаем позицию скролла
+          setTimeout(() => {
+            window.scrollTo({
+              top: scrollY,
+              behavior: 'instant'
+            });
+          }, 10);
           if (document.activeElement && document.activeElement.blur) {
             document.activeElement.blur();
           }

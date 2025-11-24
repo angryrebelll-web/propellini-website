@@ -2653,7 +2653,8 @@ body {
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.95);
-  overflow: hidden;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   visibility: hidden;
@@ -2662,6 +2663,7 @@ body {
   pointer-events: auto !important;
   margin: 0 !important;
   padding: 0 !important;
+  -webkit-overflow-scrolling: touch;
 }
 
 .portfolio-lightbox[style*="flex"],
@@ -2692,6 +2694,11 @@ body {
   align-items: center;
   z-index: 1000000 !important;
   isolation: isolate;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 80px 20px 40px 20px !important;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 }
 
 .lightbox-content img {
@@ -2789,9 +2796,20 @@ body {
 body:has(.portfolio-lightbox[style*="flex"]),
 body:has(.portfolio-lightbox[style*="block"]) {
   overflow: hidden !important;
-  position: fixed !important;
-  width: 100% !important;
-  height: 100% !important;
+}
+
+/* Для десктопной версии разрешаем скролл внутри lightbox */
+@media (min-width: 769px) {
+  .portfolio-lightbox[style*="flex"],
+  .portfolio-lightbox[style*="block"] {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+  
+  .lightbox-content {
+    overflow-y: auto !important;
+    max-height: none !important;
+  }
 }
 
 /* Когда lightbox открыт, все остальные секции должны быть ниже */
