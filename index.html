@@ -1043,13 +1043,14 @@
         heroCalculatorBtn.addEventListener('click', openCalculator);
       }
 
-      // All calculator open buttons
-      const calculatorOpenBtns = document.querySelectorAll('.calculator-open-btn');
-      calculatorOpenBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
+      // All calculator open buttons - используем делегирование событий для надежности
+      document.addEventListener('click', (e) => {
+        const calculatorBtn = e.target.closest('.calculator-open-btn');
+        if (calculatorBtn) {
           e.preventDefault();
+          e.stopPropagation();
           openCalculator(e);
-        });
+        }
       });
 
       if (calculatorCloseBtn) {
