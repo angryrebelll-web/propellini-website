@@ -32,6 +32,7 @@
   <link rel="stylesheet" href="src/styles/final-optimizations.css" />
   <link rel="stylesheet" href="src/styles/hero-mercedes-bg.css" />
   <link rel="stylesheet" href="src/styles/critical-fixes.css" />
+  <link rel="stylesheet" href="src/styles/calculator-modal.css" />
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -233,10 +234,13 @@
     </div>
   </section>
 
-  <!-- 5. CALCULATOR SECTION -->
-  <section class="calculator-section" id="calculator">
-    <button class="calculator-close-btn" id="calculatorCloseBtn" aria-label="Закрыть калькулятор" tabindex="0">&times;</button>
-    <div class="container">
+  <!-- 5. CALCULATOR MODAL - Fullscreen Modal -->
+  <div class="calculator-modal-overlay" id="calculatorModalOverlay"></div>
+  <div class="calculator-modal" id="calculatorModal">
+    <button class="calculator-modal-close" id="calculatorModalClose" aria-label="Закрыть калькулятор" tabindex="0">&times;</button>
+    <div class="calculator-modal-content">
+      <section class="calculator-section" id="calculator">
+        <div class="container">
       <h2 class="section-title">Калькулятор стоимости</h2>
       <p class="section-subtitle">Выберите автомобиль и зоны оклейки для расчета стоимости</p>
       
@@ -507,8 +511,10 @@
           </div>
         </div>
       </div>
+        </div>
+      </section>
     </div>
-  </section>
+  </div>
 
   <!-- 6. FILMS SECTION -->
   <section class="films" id="films">
@@ -1039,96 +1045,11 @@
   <script src="src/js/parallax-enhancements.js"></script>
   <script src="src/js/accessibility-improvements.js"></script>
   <script src="src/js/button-fixes.js"></script>
+  <script src="src/js/calculator-modal.js"></script>
   <script src="animations.js"></script>
   <script>
-    // Calculator Toggle Functionality
-    const handleCalculatorToggle = () => {
-      const calculatorSection = document.getElementById('calculator');
-      const calculatorNavBtn = document.getElementById('calculatorNavBtn');
-      const calculatorCloseBtn = document.getElementById('calculatorCloseBtn');
-      const body = document.body;
-
-      // Open calculator
-      const openCalculator = (e) => {
-        if (e) e.preventDefault();
-        calculatorSection.classList.add('active');
-        body.style.overflow = 'hidden';
-        calculatorSection.scrollTop = 0;
-        
-        // Повторная инициализация калькулятора при открытии
-        if (window.calculator) {
-          setTimeout(() => {
-            // Переинициализируем для надежности
-            const isMobile = window.innerWidth <= 900;
-            if (isMobile) {
-              if (window.calculator.initMobileWizard) {
-                window.calculator.initMobileWizard();
-              }
-            } else {
-              // Десктоп версия
-              if (window.calculator.renderBrandChips) {
-                window.calculator.renderBrandChips();
-              }
-              if (window.calculator.renderZones) {
-                window.calculator.renderZones();
-              }
-              if (window.calculator.bindClassSelection) {
-                window.calculator.bindClassSelection();
-              }
-            }
-            if (window.calculator.updateTotal) {
-              window.calculator.updateTotal();
-            }
-          }, 100);
-        }
-      };
-
-      // Close calculator
-      const closeCalculator = (e) => {
-        if (e) e.preventDefault();
-        calculatorSection.classList.remove('active');
-        body.style.overflow = '';
-      };
-
-      // Event listeners
-      if (calculatorNavBtn) {
-        calculatorNavBtn.addEventListener('click', openCalculator);
-      }
-
-      // Hero calculator button
-      const heroCalculatorBtn = document.getElementById('heroCalculatorBtn');
-      if (heroCalculatorBtn) {
-        heroCalculatorBtn.addEventListener('click', openCalculator);
-      }
-
-      // All calculator open buttons - используем делегирование событий для надежности
-      document.addEventListener('click', (e) => {
-        const calculatorBtn = e.target.closest('.calculator-open-btn');
-        if (calculatorBtn) {
-          e.preventDefault();
-          e.stopPropagation();
-          openCalculator(e);
-        }
-      });
-
-      if (calculatorCloseBtn) {
-        calculatorCloseBtn.addEventListener('click', closeCalculator);
-      }
-
-      // Close on Escape key
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && calculatorSection.classList.contains('active')) {
-          closeCalculator();
-        }
-      });
-
-      // Close on click outside
-      calculatorSection.addEventListener('click', (e) => {
-        if (e.target === calculatorSection) {
-          closeCalculator();
-        }
-      });
-    };
+    // Calculator Modal - теперь обрабатывается через calculator-modal.js
+    // Старый код удален, все работает через полноценный modal интерфейс
 
     // Application Modal Toggle Functionality
     const handleApplicationModal = () => {

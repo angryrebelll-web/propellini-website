@@ -1041,17 +1041,18 @@ body {
 }
 
 /* Calculator Section */
-.calculator-section {
-  padding: var(--space-2xl) 0;
-  display: none; /* Скрыт по умолчанию */
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2000;
-  overflow-y: auto;
-  background: rgba(10, 10, 10, 0.98);
+/* Старый стиль калькулятора - теперь используется только внутри modal */
+.calculator-section:not(.calculator-modal .calculator-section) {
+  display: none !important;
+}
+
+/* Калькулятор внутри modal */
+.calculator-modal .calculator-section {
+  padding: 0;
+  display: block !important;
+  position: relative;
+  background: transparent;
+  overflow: visible;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   opacity: 0;

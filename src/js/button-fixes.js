@@ -8,34 +8,15 @@
     document.addEventListener('click', (e) => {
       const target = e.target;
       
-      // Кнопки открытия калькулятора
-      if (target.matches('.calculator-open-btn') || target.closest('.calculator-open-btn')) {
+      // Кнопки открытия калькулятора - используем modal
+      if (target.matches('.calculator-open-btn') || 
+          target.closest('.calculator-open-btn') ||
+          target.matches('.open-calculator') ||
+          target.closest('.open-calculator')) {
         e.preventDefault();
         e.stopPropagation();
-        const calculatorSection = document.getElementById('calculator');
-        if (calculatorSection) {
-          calculatorSection.classList.add('active');
-          document.body.style.overflow = 'hidden';
-          
-          // Инициализация калькулятора
-          if (window.calculator) {
-            setTimeout(() => {
-              const isMobile = window.innerWidth <= 900;
-              if (isMobile && window.calculator.initMobileWizard) {
-                window.calculator.initMobileWizard();
-              } else if (!isMobile) {
-                if (window.calculator.renderBrandChips) {
-                  window.calculator.renderBrandChips();
-                }
-                if (window.calculator.renderZones) {
-                  window.calculator.renderZones();
-                }
-              }
-              if (window.calculator.updateTotal) {
-                window.calculator.updateTotal();
-              }
-            }, 100);
-          }
+        if (window.openCalculatorModal) {
+          window.openCalculatorModal();
         }
       }
       
