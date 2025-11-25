@@ -111,7 +111,16 @@
 
     // Получение зон для класса
     getZonesForClass(carClass) {
+      if (!carClass) return CALCULATOR_DATA.zones.small;
       return CALCULATOR_DATA.zones[carClass] || CALCULATOR_DATA.zones.small;
+    }
+    
+    // Получение моделей для марки (для совместимости)
+    getModelsForBrand(brand) {
+      if (!brand) return [];
+      const brandData = CALCULATOR_DATA.brands[brand];
+      if (!brandData) return [];
+      return brandData.models.map(name => ({ name, class: this.getModelClass(brand, name) }));
     }
 
     // Выбор марки
