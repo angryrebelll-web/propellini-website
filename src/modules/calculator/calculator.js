@@ -1434,8 +1434,9 @@ class CarWrappingCalculator {
     
     // Зум колесом мыши
     this.renderer3d.domElement.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      if (this.camera3d) {
+      // Zoom только если не скроллим страницу
+      if (this.camera3d && e.target.closest('.calculator-3d-container')) {
+        e.preventDefault();
         const delta = e.deltaY * 0.01;
         this.camera3d.position.z = Math.max(8, Math.min(20, this.camera3d.position.z + delta));
       }
@@ -2431,9 +2432,9 @@ class CarWrappingCalculator {
       chip.addEventListener('click', handleModelClick);
       chip.addEventListener('touchstart', handleModelClick, { passive: false });
       chip.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-      }, { passive: false });
+      // Не блокируем скролл - только обрабатываем клик
+      // e.preventDefault(); // УБРАНО - блокирует скролл
+      }, { passive: true });
     });
   }
 

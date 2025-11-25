@@ -33,7 +33,11 @@
   <link rel="stylesheet" href="src/modules/contacts/contacts.css" />
   <link rel="stylesheet" href="src/modules/footer/footer.css" />
   
-  <!-- Legacy styles for compatibility (will be removed gradually) -->
+  <!-- Fixes -->
+  <link rel="stylesheet" href="src/styles/z-index-fix.css" />
+  <link rel="stylesheet" href="src/styles/performance-optimization.css" />
+  
+  <!-- Legacy styles for compatibility -->
   <link rel="stylesheet" href="src/styles/responsive-bg.css" />
   <link rel="stylesheet" href="src/styles/calculator-modal.css" />
   <link rel="stylesheet" href="src/styles/unified-order-form.css" />
@@ -1209,19 +1213,17 @@
   <!-- Utils -->
   <script src="src/utils/responsive-images.js"></script>
   
-  <!-- Module Scripts -->
+  <!-- Core Scripts - Порядок важен! -->
+  <script src="src/js/scroll-fix.js"></script>
   <script src="src/modules/header/header.js"></script>
-  <script src="src/modules/calculator/calculator.js"></script>
+  <script src="src/modules/calculator/calculator-unified.js"></script>
   
-  <!-- Legacy scripts for compatibility -->
-  <script src="src/js/button-fixes.js"></script>
+  <!-- UI Scripts -->
   <script src="src/js/calculator-modal.js"></script>
   <script src="src/js/unified-order-form.js"></script>
-  <script src="src/js/mobile-calculator-fix.js"></script>
-  <script src="src/js/mobile-calculator-wizard.js"></script>
-  <script src="src/js/mobile-gallery-swipe.js"></script>
+  <script src="src/js/button-fixes.js"></script>
   <script src="src/js/portfolio-lightbox.js"></script>
-  <script src="src/js/mobile-wizard-enhancements.js"></script>
+  <script src="src/js/mobile-gallery-swipe.js"></script>
   <script src="src/js/parallax-enhancements.js"></script>
   <script src="src/js/accessibility-improvements.js"></script>
   <script src="animations.js"></script>

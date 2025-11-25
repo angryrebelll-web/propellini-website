@@ -1,0 +1,64 @@
+/* ============================================
+   Z-INDEX FIX - Правильная иерархия слоёв
+   ============================================ */
+
+/* Базовые слои */
+.noise-layer {
+  z-index: 1 !important;
+}
+
+.main-nav,
+header {
+  z-index: 100 !important;
+}
+
+/* Контент */
+.hero-section,
+.benefits-section,
+.about-section {
+  z-index: 2 !important;
+}
+
+/* Модальные окна */
+.calculator-modal-overlay {
+  z-index: 9990 !important;
+}
+
+.calculator-modal {
+  z-index: 9991 !important;
+}
+
+.unified-order-modal-overlay {
+  z-index: 9992 !important;
+}
+
+.unified-order-modal {
+  z-index: 9993 !important;
+}
+
+/* Lightbox */
+.portfolio-lightbox,
+.mobile-gallery-lightbox {
+  z-index: 9994 !important;
+}
+
+/* Убираем фантомные контейнеры */
+.calculator-modal:not(.active) {
+  pointer-events: none !important;
+}
+
+.unified-order-modal:not(.active) {
+  pointer-events: none !important;
+}
+
+/* Исправляем кликабельность */
+.calculator-modal.active * {
+  pointer-events: auto;
+}
+
+/* Убираем невидимые блоки поверх контента */
+body:not(.calculator-modal-open) .calculator-modal-overlay {
+  display: none !important;
+  pointer-events: none !important;
+}
+

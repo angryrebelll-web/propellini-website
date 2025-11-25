@@ -109,8 +109,22 @@ header {
 
 /* Mobile Navigation */
 @media (max-width: 900px) {
+  .main-nav {
+    background: rgba(240, 240, 240, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+  }
+  
+  .nav-logo-text {
+    color: #0f0f0f !important;
+  }
+  
   .nav-toggle {
     display: flex;
+  }
+  
+  .nav-toggle span {
+    background: #0f0f0f !important;
   }
   
   .nav-menu {
@@ -150,6 +164,10 @@ header {
     border-radius: 12px;
     background: rgba(22, 132, 145, 0.1);
     border: 1px solid rgba(22, 132, 145, 0.2);
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .nav-menu a:active {

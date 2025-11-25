@@ -77,8 +77,11 @@
       form.style.display = 'flex';
     }
 
-    // Блокируем прокрутку
+    // Блокируем прокрутку (через scroll-fix.js)
     body.classList.add('unified-order-modal-open');
+    body.style.overflow = 'hidden';
+    body.style.position = 'fixed';
+    body.style.width = '100%';
 
     // Показываем modal
     overlay.classList.add('active');
@@ -171,6 +174,9 @@
     setTimeout(() => {
       modal.classList.remove('active', 'closing');
       body.classList.remove('unified-order-modal-open');
+      body.style.overflow = '';
+      body.style.position = '';
+      body.style.width = '';
       isModalOpen = false;
 
       // Сбрасываем форму

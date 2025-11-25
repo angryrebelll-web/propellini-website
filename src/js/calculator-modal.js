@@ -13,8 +13,11 @@
 
     if (!modal || !overlay) return;
 
-    // Блокируем прокрутку body
+    // Блокируем прокрутку body (через scroll-fix.js)
     body.classList.add('calculator-modal-open');
+    body.style.overflow = 'hidden';
+    body.style.position = 'fixed';
+    body.style.width = '100%';
     
     // Показываем overlay и modal
     overlay.classList.add('active');
@@ -116,6 +119,9 @@
     setTimeout(() => {
       modal.classList.remove('active', 'closing');
       body.classList.remove('calculator-modal-open');
+      body.style.overflow = '';
+      body.style.position = '';
+      body.style.width = '';
       isModalOpen = false;
     }, 300);
   }

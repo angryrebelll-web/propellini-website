@@ -154,7 +154,7 @@
       let currentScale = 1;
 
       lightboxImage.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 2) {
+        if (e.touches.length === 2 && lightbox.classList.contains('active')) {
           e.preventDefault();
           const touch1 = e.touches[0];
           const touch2 = e.touches[1];
@@ -163,10 +163,10 @@
             touch2.clientY - touch1.clientY
           );
         }
-      });
+      }, { passive: false });
 
       lightboxImage.addEventListener('touchmove', (e) => {
-        if (e.touches.length === 2) {
+        if (e.touches.length === 2 && lightbox.classList.contains('active')) {
           e.preventDefault();
           const touch1 = e.touches[0];
           const touch2 = e.touches[1];
@@ -180,7 +180,7 @@
           lightboxImage.style.transform = `scale(${currentScale})`;
           isZoomed = currentScale > 1.1;
         }
-      });
+      }, { passive: false });
 
       lightboxImage.addEventListener('touchend', () => {
         if (currentScale < 1.1) {

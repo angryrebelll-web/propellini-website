@@ -1,0 +1,77 @@
+/* ============================================
+   PERFORMANCE OPTIMIZATION
+   Убираем тяжелые эффекты, оптимизируем рендеринг
+   ============================================ */
+
+/* Убираем лишние box-shadow */
+.benefit-card-glass,
+.portfolio-item,
+.gallery-item {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.benefit-card-glass:hover,
+.portfolio-item:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Оптимизируем backdrop-filter - только где нужно */
+.main-nav {
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.calculator-modal,
+.unified-order-modal {
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* Убираем лишние blur */
+.benefit-card-glass {
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+/* Оптимизация GPU */
+.hero-section,
+.hero-layer,
+.hero-overlay {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Lazy loading для изображений */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* Убираем лишние анимации на мобильных */
+@media (max-width: 768px) {
+  * {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.2s !important;
+  }
+  
+  .hero-layer {
+    animation: none !important;
+  }
+}
+
+/* Оптимизация скролла */
+.calculator-modal-content,
+.unified-order-modal-content {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Убираем лишние transform на неактивных элементах */
+.calculator-modal:not(.active) * {
+  transform: none !important;
+}
+
