@@ -845,7 +845,7 @@ class CarWrappingCalculator {
     this.zonesContainer = document.getElementById('zonesSelection');
     this.interactiveZonesGroup = document.getElementById('interactive-zones');
     this.car3dContainer = document.getElementById('car3dCanvas');
-    this.orderBtn = document.getElementById('orderBtn') || document.querySelector('.order-btn');
+    this.orderBtn = document.querySelector('.order-btn');
     
     // Проверка наличия элементов (без console.warn для оптимизации)
     // Элементы проверяются при использовании
@@ -1019,9 +1019,11 @@ class CarWrappingCalculator {
     // Убеждаемся что brand chips отображаются после загрузки DOM
     setTimeout(() => {
       this.renderBrandChips();
-      this.updateTotal();
-      // Переинициализируем кнопку заказа после загрузки DOM
-      this.bindOrderButton();
+      // Показываем примеры для выбранного класса
+      if (this.selectedClass) {
+        this.showClassExamples(this.selectedClass);
+      }
+    this.updateTotal();
     }, 50);
     
     // Дополнительно инициализируем мобильный визард если нужно
@@ -1053,10 +1055,6 @@ class CarWrappingCalculator {
     this.renderZones();
       this.updateCarZonesVisual();
       this.updateTotal();
-      // Принудительно обновляем цену через небольшую задержку
-      setTimeout(() => {
-        this.updateTotal();
-      }, 100);
     this.showSelectedModel();
   }
 
@@ -1130,49 +1128,27 @@ class CarWrappingCalculator {
     
     // Добавляем обработчики для клика по label (zone-item)
     this.zonesContainer.querySelectorAll('.zone-item').forEach(item => {
-      // Удаляем старые обработчики через клонирование
-      const newItem = item.cloneNode(true);
-      item.parentNode.replaceChild(newItem, item);
-      const zoneItem = newItem;
-      
       const handleItemClick = (e) => {
-        e.stopPropagation();
-        
-        const input = zoneItem.querySelector('input[type="checkbox"], input[type="radio"]');
-        if (!input) return;
-        
-        // Если клик не по самому input, переключаем его
-        if (e.target !== input && e.target.tagName !== 'INPUT') {
-          e.preventDefault();
-          
-          if (input.type === 'checkbox') {
-            input.checked = !input.checked;
-          } else if (input.type === 'radio') {
-            input.checked = true;
-          }
-          
-          // Вызываем событие change
-          const changeEvent = new Event('change', { bubbles: true, cancelable: true });
-          input.dispatchEvent(changeEvent);
-          // Принудительно вызываем toggleZone для обновления цены
-          if (window.calculator && window.calculator.toggleZone) {
-            setTimeout(() => {
-              window.calculator.toggleZone(input);
-            }, 10);
+        // Если клик не по input, переключаем checkbox/radio
+        if (e.target.tagName !== 'INPUT') {
+          const input = item.querySelector('input[type="checkbox"], input[type="radio"]');
+          if (input) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (input.type === 'checkbox') {
+              input.checked = !input.checked;
+            } else if (input.type === 'radio') {
+              input.checked = true;
+            }
+            
+            input.dispatchEvent(new Event('change', { bubbles: true }));
           }
         }
       };
       
-      zoneItem.addEventListener('click', handleItemClick, true);
-      zoneItem.addEventListener('touchstart', handleItemClick, { passive: false });
-      
-      // Также добавляем обработчик на сам input
-      const input = zoneItem.querySelector('input[type="checkbox"], input[type="radio"]');
-      if (input) {
-        input.addEventListener('click', (e) => {
-          e.stopPropagation();
-        }, true);
-      }
+      item.addEventListener('click', handleItemClick);
+      item.addEventListener('touchstart', handleItemClick, { passive: false });
     });
   }
 
@@ -1208,36 +1184,9 @@ class CarWrappingCalculator {
       const packageZones = this.getPackageZones(zoneId);
       packageZones.forEach(pid => {
         this.selectedZones.add(pid);
-        // Ищем чекбокс и отмечаем его
         const cb = document.querySelector(`#zone-${pid}`);
-        if (cb) {
-          cb.checked = true;
-          // Обновляем визуальное состояние элемента
-          const zoneItem = cb.closest('.zone-item');
-          if (zoneItem) {
-            zoneItem.classList.add('selected');
-          }
-        } else {
-          // Если чекбокс ещё не отрендерен, попробуем через небольшую задержку
-          setTimeout(() => {
-            const delayedCb = document.querySelector(`#zone-${pid}`);
-            if (delayedCb) {
-              delayedCb.checked = true;
-              const zoneItem = delayedCb.closest('.zone-item');
-              if (zoneItem) {
-                zoneItem.classList.add('selected');
-              }
-            }
-          }, 100);
-        }
+        if (cb) cb.checked = true;
       });
-      // Обновляем визуализацию и цену сразу после выбора пакета
-      this.updateCarZonesVisual();
-      this.updateTotal();
-      // Принудительно обновляем цену через небольшую задержку для надежности
-      setTimeout(() => {
-        this.updateTotal();
-      }, 100);
     } else if (isPackage && !checkbox.checked) {
       // Удаляем пакет и его зоны
       this.selectedZones.delete(zoneId);
@@ -1247,12 +1196,6 @@ class CarWrappingCalculator {
         const cb = document.querySelector(`#zone-${pid}`);
         if (cb) cb.checked = false;
       });
-      // Обновляем визуализацию и цену
-      this.updateCarZonesVisual();
-      this.updateTotal();
-      setTimeout(() => {
-        this.updateTotal();
-      }, 50);
     } else {
       // Проверяем, является ли это элементом "Полная оклейка"
       const isFullWrap = zoneId === 'full-glossy' || zoneId === 'full-matte' || zoneId === 'full-vinyl';
@@ -1301,14 +1244,6 @@ class CarWrappingCalculator {
           // Добавляем выбранную полную оклейку и ставим галочку
           this.selectedZones.add(zoneId);
           checkbox.checked = true;
-          
-        // Обновляем сразу
-        this.updateCarZonesVisual();
-        this.updateTotal();
-        // Принудительно обновляем цену
-        setTimeout(() => {
-          this.updateTotal();
-        }, 50);
         } else {
           // Если выбираем обычную зону, снимаем все варианты полной оклейки
           ['full-glossy', 'full-matte', 'full-vinyl'].forEach(fullId => {
@@ -1319,27 +1254,14 @@ class CarWrappingCalculator {
           
           // Добавляем выбранную зону
           this.selectedZones.add(zoneId);
-          
-          // Обновляем сразу
-          this.updateCarZonesVisual();
-          this.updateTotal();
-          // Принудительно обновляем цену
-          setTimeout(() => {
-            this.updateTotal();
-          }, 50);
         }
       } else {
         this.selectedZones.delete(zoneId);
-        
-        // Обновляем сразу
-        this.updateCarZonesVisual();
-        this.updateTotal();
-        // Принудительно обновляем цену
-        setTimeout(() => {
-          this.updateTotal();
-        }, 50);
       }
     }
+
+    this.updateCarZonesVisual();
+    this.updateTotal();
   }
 
   // Получить зоны из пакета
@@ -1878,361 +1800,76 @@ class CarWrappingCalculator {
 
   // Привязка кнопки заказа
   bindOrderButton() {
-    // Ищем кнопку заново
-    let orderBtn = document.getElementById('orderBtn') || document.querySelector('.order-btn');
-    
-    if (!orderBtn) {
-      console.warn('Кнопка orderBtn не найдена, повторная попытка через 100ms...');
-      setTimeout(() => {
-        this.bindOrderButton();
-      }, 100);
-      return;
+    if (this.orderBtn) {
+      const handleOrderClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Открываем форму внутри калькулятора
+        this.openCalculatorApplicationForm();
+      };
+      
+      this.orderBtn.addEventListener('click', handleOrderClick);
+      this.orderBtn.addEventListener('touchstart', handleOrderClick, { passive: false });
     }
-    
-    // Сохраняем ссылку
-    this.orderBtn = orderBtn;
-    
-    // Удаляем все существующие обработчики через клонирование
-    const newBtn = orderBtn.cloneNode(true);
-    orderBtn.parentNode.replaceChild(newBtn, orderBtn);
-    orderBtn = newBtn;
-    this.orderBtn = orderBtn;
-    
-    const handleOrderClick = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      console.log('Кнопка заказа нажата, открываем форму', {
-        selectedBrand: this.selectedBrand,
-        selectedModel: this.selectedModel,
-        selectedZones: Array.from(this.selectedZones || [])
-      });
-      
-      // Открываем форму внутри калькулятора
-      this.openCalculatorApplicationForm();
-    };
-    
-    // Удаляем старые обработчики
-    orderBtn.removeEventListener('click', handleOrderClick, true);
-    orderBtn.removeEventListener('touchstart', handleOrderClick);
-    
-    // Добавляем обработчики
-    orderBtn.addEventListener('click', handleOrderClick, true);
-    orderBtn.addEventListener('touchstart', handleOrderClick, { passive: false });
-    
-    // Также добавляем через onclick для надежности
-    orderBtn.onclick = handleOrderClick;
-    
-    console.log('Кнопка orderBtn привязана');
   }
   
   // Открытие формы заявки внутри калькулятора
   openCalculatorApplicationForm() {
     const form = document.getElementById('calculatorApplicationForm');
-    if (!form) {
-      console.warn('Форма калькулятора не найдена');
-      return;
-    }
+    if (!form) return;
     
-    console.log('Открываем форму калькулятора');
-    
-    // Обновляем цену перед открытием формы
-    this.updateTotal();
-    
-    // Заполняем панель summary для десктопной версии
-    const desktopSummaryBrand = document.getElementById('desktopSummaryBrand');
-    const desktopSummaryModel = document.getElementById('desktopSummaryModel');
-    const desktopSummaryClass = document.getElementById('desktopSummaryClass');
-    const desktopSummaryService = document.getElementById('desktopSummaryService');
-    const desktopSummaryTotal = document.getElementById('desktopSummaryTotal');
-    
-    if (desktopSummaryBrand) {
-      desktopSummaryBrand.textContent = this.selectedBrand || '—';
-    }
-    if (desktopSummaryModel) {
-      desktopSummaryModel.textContent = this.selectedModel || '—';
-    }
-    if (desktopSummaryClass && this.selectedClass) {
-      const classNames = {
-        'small': 'Малый класс',
-        'business': 'Бизнес класс / Кроссоверы',
-        'suv-lux': 'Внедорожники / Люкс',
-        'pickup': 'Большие пикапы',
-        'bus': 'Автобусы / Минивэны'
-      };
-      desktopSummaryClass.textContent = classNames[this.selectedClass] || this.selectedClass;
-    } else if (desktopSummaryClass) {
-      desktopSummaryClass.textContent = '—';
-    }
-    
-    // Определяем выбранную услугу
-    if (desktopSummaryService && this.selectedClass) {
-      const zonesData = this.zonesDatabase[this.selectedClass];
-      let serviceText = '—';
-      
-      if (zonesData && zonesData['Пакеты услуг']) {
-        const selectedPackage = zonesData['Пакеты услуг'].find(pkg => 
-          this.selectedZones.has(pkg.id)
-        );
-        if (selectedPackage) {
-          serviceText = selectedPackage.name;
-        } else {
-          const allZones = Object.values(zonesData).flat();
-          const selectedZonesNames = Array.from(this.selectedZones)
-            .map(zoneId => {
-              const zone = allZones.find(z => z.id === zoneId);
-              return zone ? zone.name : null;
-            })
-            .filter(Boolean);
-          serviceText = selectedZonesNames.length > 0 
-            ? selectedZonesNames.join(', ') 
-            : '—';
-        }
-      }
-      desktopSummaryService.textContent = serviceText;
-    } else if (desktopSummaryService) {
-      desktopSummaryService.textContent = '—';
-    }
-    
-    // Итоговая стоимость
-    if (desktopSummaryTotal) {
-      const total = this.calculateTotal();
-      desktopSummaryTotal.textContent = `${total.toLocaleString('ru-RU')} ₽`;
-    }
-    
-    // Заполняем данные в форму (десктопная форма)
+    // Заполняем данные в форму
     const carInput = document.getElementById('calcOrderCar');
-    const servicesInput = document.getElementById('calcOrderServices');
+    const zonesInput = document.getElementById('calcOrderZones');
     const totalInput = document.getElementById('calcOrderTotal');
-    
-    // Также заполняем мобильную форму, если она есть
-    const mobileCarInput = document.getElementById('mobileOrderCar');
-    const mobileServicesInput = document.getElementById('mobileOrderServices');
-    const mobileTotalInput = document.getElementById('mobileOrderTotal');
     
     // Автомобиль
     if (carInput) {
       if (this.selectedBrand && this.selectedModel) {
-        let carText = `${this.selectedBrand} ${this.selectedModel}`.trim();
-        // Добавляем класс автомобиля, если есть
+        carInput.value = `${this.selectedBrand} ${this.selectedModel}`;
         if (this.selectedClass) {
           const className = this.carDatabase[this.selectedClass]?.name || '';
-          if (className) {
-            carText += ` (${className})`;
-          }
+          carInput.value += ` (${className})`;
         }
-        carInput.value = carText;
       } else {
         carInput.value = 'Не выбран';
       }
-      console.log('Заполнено поле автомобиля:', carInput.value);
     }
     
-    // Услуги (пакеты и отдельные зоны)
-    if (servicesInput) {
-      if (this.selectedZones && this.selectedZones.size > 0 && this.selectedClass) {
-        const zonesData = this.zonesDatabase[this.selectedClass];
-        if (zonesData) {
-          const allZones = Object.values(zonesData).flat();
-          const selectedItems = [];
-          
-          // Сначала собираем пакеты
-          const packages = zonesData['Пакеты услуг'] || [];
-          const selectedPackages = Array.from(this.selectedZones)
-            .filter(id => packages.some(p => p.id === id))
-            .map(packageId => {
-              const pkg = packages.find(p => p.id === packageId);
-              return pkg ? pkg.name : null;
-            })
-            .filter(Boolean);
-          
-          selectedItems.push(...selectedPackages);
-          
-          // Затем собираем отдельные зоны/услуги (не входящие в выбранные пакеты)
-          const packageZoneIds = new Set();
-          packages.forEach(pkg => {
-            const pkgZones = this.getPackageZones(pkg.id);
-            pkgZones.forEach(zid => packageZoneIds.add(zid));
-          });
-          
-          const selectedZonesNames = Array.from(this.selectedZones)
-            .map(zoneId => {
-              // Пропускаем пакеты - они уже добавлены
-              if (packages.some(p => p.id === zoneId)) return null;
-              // Пропускаем зоны, которые входят в выбранные пакеты
-              if (packageZoneIds.has(zoneId)) return null;
-              const zone = allZones.find(z => z.id === zoneId);
-              return zone ? zone.name : null;
-            })
-            .filter(Boolean);
-          
-          selectedItems.push(...selectedZonesNames);
-          
-          servicesInput.value = selectedItems.length > 0 
-            ? selectedItems.join('\n') 
-            : 'Не выбраны';
-          console.log('Заполнено поле услуг:', servicesInput.value);
-        } else {
-          servicesInput.value = 'Не выбраны';
-        }
+    // Зоны
+    if (zonesInput) {
+      if (this.selectedZones && this.selectedZones.size > 0) {
+        const zones = Array.from(this.selectedZones).map(zoneId => {
+          const zone = this.zonesDatabase.find(z => z.id === zoneId);
+          return zone ? zone.name : zoneId;
+        }).join(', ');
+        zonesInput.value = zones;
       } else {
-        servicesInput.value = 'Не выбраны';
-        console.log('Услуги не выбраны');
+        zonesInput.value = 'Не выбраны';
       }
     }
     
-    // Стоимость (десктопная форма)
+    // Стоимость
     if (totalInput) {
       const total = this.calculateTotal();
       totalInput.value = `${total.toLocaleString('ru-RU')} ₽`;
     }
     
-    // Заполняем мобильную форму теми же данными
-    if (mobileCarInput) {
-      if (this.selectedBrand && this.selectedModel) {
-        let carText = `${this.selectedBrand} ${this.selectedModel}`.trim();
-        if (this.selectedClass) {
-          const className = this.carDatabase[this.selectedClass]?.name || '';
-          if (className) {
-            carText += ` (${className})`;
-          }
-        }
-        mobileCarInput.value = carText;
-      } else {
-        mobileCarInput.value = 'Не выбран';
-      }
-    }
+    // Показываем форму
+    form.style.display = 'block';
     
-    if (mobileServicesInput) {
-      if (this.selectedZones && this.selectedZones.size > 0 && this.selectedClass) {
-        const zonesData = this.zonesDatabase[this.selectedClass];
-        if (zonesData) {
-          const allZones = Object.values(zonesData).flat();
-          const selectedItems = [];
-          
-          const packages = zonesData['Пакеты услуг'] || [];
-          const selectedPackages = Array.from(this.selectedZones)
-            .filter(id => packages.some(p => p.id === id))
-            .map(packageId => {
-              const pkg = packages.find(p => p.id === packageId);
-              return pkg ? pkg.name : null;
-            })
-            .filter(Boolean);
-          
-          selectedItems.push(...selectedPackages);
-          
-          const packageZoneIds = new Set();
-          packages.forEach(pkg => {
-            const pkgZones = this.getPackageZones(pkg.id);
-            pkgZones.forEach(zid => packageZoneIds.add(zid));
-          });
-          
-          const selectedZonesNames = Array.from(this.selectedZones)
-            .map(zoneId => {
-              if (packages.some(p => p.id === zoneId)) return null;
-              if (packageZoneIds.has(zoneId)) return null;
-              const zone = allZones.find(z => z.id === zoneId);
-              return zone ? zone.name : null;
-            })
-            .filter(Boolean);
-          
-          selectedItems.push(...selectedZonesNames);
-          
-          mobileServicesInput.value = selectedItems.length > 0 
-            ? selectedItems.join('\n') 
-            : 'Не выбраны';
-        } else {
-          mobileServicesInput.value = 'Не выбраны';
-        }
-      } else {
-        mobileServicesInput.value = 'Не выбраны';
-      }
-    }
-    
-    if (mobileTotalInput) {
-      const total = this.calculateTotal();
-      mobileTotalInput.value = `${total.toLocaleString('ru-RU')} ₽`;
-    }
-    
-    // Перемещаем форму в body для корректного отображения поверх калькулятора
-    if (form.parentElement !== document.body) {
-      document.body.appendChild(form);
-    }
-    
-    // Показываем форму как модальное окно поверх калькулятора
-    form.classList.add('active');
-    form.style.display = 'flex';
-    form.style.position = 'fixed';
-    form.style.top = '0';
-    form.style.left = '0';
-    form.style.right = '0';
-    form.style.bottom = '0';
-    form.style.width = '100%';
-    form.style.height = '100%';
-    form.style.zIndex = '99999';
-    form.style.pointerEvents = 'auto';
-    form.style.background = 'rgba(0, 0, 0, 0.85)';
-    form.style.backdropFilter = 'blur(10px)';
-    form.style.webkitBackdropFilter = 'blur(10px)';
-    form.style.alignItems = 'center';
-    form.style.justifyContent = 'center';
-    form.style.padding = '20px';
-    form.style.overflowY = 'auto';
-    form.style.margin = '0';
-    form.style.opacity = '1';
-    form.style.visibility = 'visible';
-    document.body.style.overflow = 'hidden';
-    
-    // Добавляем обработчик клика на overlay для закрытия
-    const handleOverlayClick = (e) => {
-      // Закрываем при клике на фон (саму форму, но не на содержимое)
-      const formContent = form.querySelector('.calculator-order-form');
-      if (e.target === form && formContent && !formContent.contains(e.target)) {
-        this.closeCalculatorApplicationForm();
-      }
-    };
-    
-    // Удаляем старые обработчики и добавляем новый
-    form.removeEventListener('click', handleOverlayClick);
-    form.addEventListener('click', handleOverlayClick, true);
-    
-    // Закрытие по Escape
-    const handleEscape = (e) => {
-      if (e.key === 'Escape' && form.classList.contains('active')) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.closeCalculatorApplicationForm();
-      }
-    };
-    document.addEventListener('keydown', handleEscape);
-    form.dataset.escapeHandler = 'true';
-    
-    // Привязка кнопки закрытия
-    const closeBtn = document.getElementById('calculatorFormClose');
-    if (closeBtn) {
-      const handleClose = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        this.closeCalculatorApplicationForm();
-      };
-      closeBtn.addEventListener('click', handleClose, true);
-      closeBtn.addEventListener('touchstart', handleClose, { passive: false });
-      closeBtn.onclick = handleClose;
-    }
-    
-    console.log('Форма калькулятора открыта, z-index:', form.style.zIndex || '99999');
+    // Прокручиваем к форме
+    setTimeout(() => {
+      form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
   }
   
   // Закрытие формы заявки внутри калькулятора
   closeCalculatorApplicationForm() {
     const form = document.getElementById('calculatorApplicationForm');
     if (form) {
-      form.classList.remove('active');
       form.style.display = 'none';
-      form.style.visibility = 'hidden';
-      form.style.opacity = '0';
-      form.style.zIndex = '';
-      document.body.style.overflow = '';
     }
   }
   
@@ -2620,6 +2257,9 @@ class CarWrappingCalculator {
           // Обновляем марки для выбранного класса
           this.renderBrandChips();
           
+          // Показываем примеры моделей для выбранного класса
+          this.showClassExamples(this.selectedClass);
+          
           // Очищаем модели
           const modelsContainer = document.getElementById('modelChips');
           if (modelsContainer) {
@@ -2630,8 +2270,6 @@ class CarWrappingCalculator {
           this.renderZones();
           this.updateCarZonesVisual();
           
-          // Обновляем цену сразу и после небольшой задержки
-          this.updateTotal();
           setTimeout(() => {
             this.updateTotal();
           }, 50);
@@ -2641,6 +2279,77 @@ class CarWrappingCalculator {
       btn.addEventListener('click', handleClassClick);
       btn.addEventListener('touchstart', handleClassClick, { passive: false });
     });
+  }
+
+  // Показать примеры моделей для выбранного класса
+  showClassExamples(className) {
+    const examplesBox = document.getElementById('classExamplesBox');
+    const examplesTitle = document.getElementById('classExamplesTitle');
+    const examplesTags = document.getElementById('classExamplesTags');
+    
+    if (!examplesBox || !examplesTitle || !examplesTags) return;
+    
+    if (!className) {
+      examplesBox.style.display = 'none';
+      return;
+    }
+    
+    // Получаем примеры моделей для класса из базы данных
+    const examples = this.getClassExamples(className);
+    
+    if (examples.length === 0) {
+      examplesBox.style.display = 'none';
+      return;
+    }
+    
+    // Названия классов для отображения
+    const classNames = {
+      'small': 'Малый класс',
+      'business': 'Бизнес класс / Кроссоверы',
+      'suv-lux': 'Внедорожники / Люкс',
+      'pickup': 'Большие пикапы',
+      'bus': 'Автобусы / Минивэны'
+    };
+    
+    examplesTitle.textContent = `Примеры моделей (${classNames[className] || className}):`;
+    
+    // Показываем первые 8 примеров, остальные скрываем
+    const displayExamples = examples.slice(0, 8);
+    const remainingCount = examples.length - 8;
+    
+    examplesTags.innerHTML = displayExamples.map(example => 
+      `<span class="class-example-tag">${example}</span>`
+    ).join('');
+    
+    if (remainingCount > 0) {
+      examplesTags.innerHTML += `<span class="class-example-tag" style="color: var(--text-muted);">+ еще ${remainingCount}</span>`;
+    }
+    
+    examplesBox.style.display = 'block';
+  }
+  
+  // Получить примеры моделей для класса
+  getClassExamples(className) {
+    if (!this.expandedCarDatabase || !className) return [];
+    
+    const examples = [];
+    const seen = new Set();
+    
+    // Собираем уникальные примеры моделей для класса
+    this.expandedCarDatabase.forEach(brandData => {
+      brandData.models.forEach(model => {
+        if (model.class === className) {
+          const example = `${brandData.brand} ${model.name}`;
+          if (!seen.has(example)) {
+            seen.add(example);
+            examples.push(example);
+          }
+        }
+      });
+    });
+    
+    // Сортируем и возвращаем
+    return examples.sort().slice(0, 12); // Максимум 12 примеров
   }
 
   // Рендер чипов брендов
@@ -2690,11 +2399,6 @@ class CarWrappingCalculator {
         this.selectedModel = null;
           if (this.modelSearch) this.modelSearch.value = '';
           if (this.selectedModelInfo) this.selectedModelInfo.style.display = 'none';
-          // Обновляем цену при выборе марки
-          this.updateTotal();
-          setTimeout(() => {
-            this.updateTotal();
-          }, 100);
       });
       };
       
@@ -2761,10 +2465,6 @@ class CarWrappingCalculator {
         this.selectModel(this.selectedBrand, chip.dataset.model);
         modelsContainer.querySelectorAll('.model-chip').forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
-        // Обновляем цену после выбора модели
-        setTimeout(() => {
-          this.updateTotal();
-        }, 100);
       });
       };
       
@@ -2777,8 +2477,20 @@ class CarWrappingCalculator {
     });
   }
 
-  // Вычисление общей стоимости (возвращает число)
-  calculateTotal() {
+  // Обновление итоговой стоимости
+  updateTotal() {
+    if (!this.totalAmountEl) {
+      this.totalAmountEl = document.getElementById('totalAmount');
+    }
+    if (!this.totalZonesEl) {
+      this.totalZonesEl = document.getElementById('totalZones');
+    }
+    if (!this.carClassInfoEl) {
+      this.carClassInfoEl = document.getElementById('carClassInfo');
+    }
+    
+    if (!this.totalAmountEl) return;
+    
     let total = 0;
     let hasPackage = false;
     const packageZones = new Set();
@@ -2786,7 +2498,11 @@ class CarWrappingCalculator {
     const classToUse = this.selectedClass || 'small';
     
     if (!this.zonesDatabase || !this.zonesDatabase[classToUse]) {
-      return 0;
+      console.warn('База данных зон не найдена для класса:', classToUse);
+      if (this.totalAmountEl) {
+        this.totalAmountEl.textContent = '0 ₽';
+      }
+      return;
     }
     
     const zonesData = this.zonesDatabase[classToUse];
@@ -2811,7 +2527,7 @@ class CarWrappingCalculator {
         } else if (!packageZones.has(id)) {
           total += zoneData.price;
         }
-      } else {
+        } else {
         const zoneItem = document.querySelector(`.zone-item[data-zone="${id}"]`);
         if (zoneItem) {
           const priceEl = zoneItem.querySelector('.zone-price');
@@ -2825,101 +2541,21 @@ class CarWrappingCalculator {
       }
     });
     
-    return total;
-  }
-
-  // Обновление итоговой стоимости
-  updateTotal() {
-    // Кешируем элементы если они не закешированы
-    if (!this.totalAmountEl) {
-      this.totalAmountEl = document.getElementById('totalAmount');
-    }
-    if (!this.totalZonesEl) {
-      this.totalZonesEl = document.getElementById('totalZones');
-    }
-    if (!this.carClassInfoEl) {
-      this.carClassInfoEl = document.getElementById('carClassInfo');
-    }
-    
-    // Если элемент не найден, пытаемся найти его заново
-    if (!this.totalAmountEl) {
-      this.totalAmountEl = document.getElementById('totalAmount');
-    }
-    
-    if (!this.totalAmountEl) {
-      console.warn('Элемент totalAmount не найден');
-      return;
-    }
-    
-    const total = this.calculateTotal();
-    let hasPackage = false;
-    const packageZones = new Set();
-    
-    const classToUse = this.selectedClass || 'small';
-    
-    if (!this.zonesDatabase || !this.zonesDatabase[classToUse]) {
-      console.warn('База данных зон не найдена для класса:', classToUse);
-      if (this.totalAmountEl) {
-        this.totalAmountEl.textContent = '0 ₽';
-      }
-      return;
-    }
-    
-    const zonesData = this.zonesDatabase[classToUse];
-    const allZones = Object.values(zonesData).flat();
-    const packages = zonesData['Пакеты услуг'] || [];
-    
-    // Проверяем наличие пакета
-    this.selectedZones.forEach((id) => {
-      if (packages.some(p => p.id === id)) {
-        hasPackage = true;
-      }
-    });
-    
-    // Обновляем итоговую стоимость сразу
-    if (this.totalAmountEl) {
-      try {
-        const formattedTotal = `${total.toLocaleString('ru-RU')} ₽`;
-        // Обновляем сразу
-        this.totalAmountEl.textContent = formattedTotal;
-        this.totalAmountEl.innerText = formattedTotal;
-        // Принудительно обновляем отображение
-        this.totalAmountEl.style.display = '';
-        this.totalAmountEl.style.visibility = 'visible';
-        this.totalAmountEl.offsetHeight; // Принудительный reflow
-        // Также обновляем через requestAnimationFrame для надежности
+    try {
+      if (window.requestAnimationFrame) {
         requestAnimationFrame(() => {
           if (this.totalAmountEl) {
-            this.totalAmountEl.textContent = formattedTotal;
-            this.totalAmountEl.innerText = formattedTotal;
+            this.totalAmountEl.textContent = `${total.toLocaleString('ru-RU')} ₽`;
           }
         });
-        // Дополнительное обновление через небольшую задержку
-        setTimeout(() => {
-          if (this.totalAmountEl) {
-            this.totalAmountEl.textContent = formattedTotal;
-            this.totalAmountEl.innerText = formattedTotal;
-          }
-        }, 100);
-      } catch (e) {
-        console.error('Ошибка обновления цены:', e);
-        // Пытаемся найти элемент заново
-        const totalEl = document.getElementById('totalAmount');
-        if (totalEl) {
-          this.totalAmountEl = totalEl;
-          totalEl.textContent = `${total.toLocaleString('ru-RU')} ₽`;
+      } else {
+        if (this.totalAmountEl) {
+          this.totalAmountEl.textContent = `${total.toLocaleString('ru-RU')} ₽`;
         }
       }
-    } else {
-      // Пытаемся найти элемент заново
-      const totalEl = document.getElementById('totalAmount');
-      if (totalEl) {
-        this.totalAmountEl = totalEl;
-        totalEl.textContent = `${total.toLocaleString('ru-RU')} ₽`;
-      } else {
-        console.warn('Элемент totalAmount не найден в DOM');
+      } catch (e) {
+        // Тихая обработка ошибок для оптимизации
       }
-    }
     
     if (this.totalZonesEl) {
       try {
@@ -2983,6 +2619,11 @@ class CarWrappingCalculator {
   // Инициализация шага 1: Выбор марки
   initWizardStep1() {
     this.renderWizardBrands();
+    
+    // Показываем примеры для выбранного класса если он уже выбран
+    if (this.selectedClass) {
+      this.showMobileClassExamples(this.selectedClass);
+    }
     
     // Поиск по брендам с debounce
     const searchInput = document.getElementById('wizardBrandSearch');
@@ -3383,10 +3024,17 @@ class CarWrappingCalculator {
       stepEl.style.display = 'none';
     });
     
-    // Показываем нужный шаг
-    const stepEl = document.querySelector(`.wizard-step[data-step="${step}"]`);
+    // Скрываем все мобильные шаги
+    document.querySelectorAll('.mobile-wizard-step').forEach(stepEl => {
+      stepEl.classList.remove('active', 'slide-out', 'slide-in');
+      stepEl.style.display = 'none';
+    });
+    
+    // Показываем нужный шаг (проверяем оба варианта)
+    const stepEl = document.querySelector(`.wizard-step[data-step="${step}"]`) || 
+                   document.querySelector(`.mobile-wizard-step[data-step="${step}"]`);
     if (stepEl) {
-      stepEl.style.display = 'block';
+      stepEl.style.display = 'flex';
     setTimeout(() => {
         stepEl.classList.add('active', 'slide-in');
     }, 10);
@@ -3438,6 +3086,10 @@ class CarWrappingCalculator {
       this.renderWizardModels();
     } else if (step === 3 && this.selectedModel) {
       this.renderWizardClass();
+      // Показываем примеры для выбранного класса в мобильной версии
+      if (this.selectedClass) {
+        this.showMobileClassExamples(this.selectedClass);
+      }
     } else if (step === 4 && this.selectedClass) {
       this.renderWizardPackages();
     } else if (step === 5 && this.selectedClass) {
@@ -3446,6 +3098,53 @@ class CarWrappingCalculator {
     } else if (step === 6) {
       this.renderWizardSummary();
     }
+  }
+  
+  // Показать примеры моделей для мобильной версии
+  showMobileClassExamples(className) {
+    const examplesBox = document.getElementById('mobileClassExamplesBox');
+    const examplesTitle = document.getElementById('mobileClassExamplesTitle');
+    const examplesTags = document.getElementById('mobileClassExamplesTags');
+    
+    if (!examplesBox || !examplesTitle || !examplesTags) return;
+    
+    if (!className) {
+      examplesBox.style.display = 'none';
+      return;
+    }
+    
+    // Получаем примеры моделей для класса
+    const examples = this.getClassExamples(className);
+    
+    if (examples.length === 0) {
+      examplesBox.style.display = 'none';
+      return;
+    }
+    
+    // Названия классов для отображения
+    const classNames = {
+      'small': 'Малый класс',
+      'business': 'Бизнес класс / Кроссоверы',
+      'suv-lux': 'Внедорожники / Люкс',
+      'pickup': 'Большие пикапы',
+      'bus': 'Автобусы / Минивэны'
+    };
+    
+    examplesTitle.textContent = `Примеры моделей (${classNames[className] || className}):`;
+    
+    // Показываем первые 6 примеров для мобильной версии
+    const displayExamples = examples.slice(0, 6);
+    const remainingCount = examples.length - 6;
+    
+    examplesTags.innerHTML = displayExamples.map(example => 
+      `<span class="mobile-class-example-tag">${example}</span>`
+    ).join('');
+    
+    if (remainingCount > 0) {
+      examplesTags.innerHTML += `<span class="mobile-class-example-tag" style="color: var(--text-muted);">+ еще ${remainingCount}</span>`;
+    }
+    
+    examplesBox.style.display = 'block';
   }
   
   // Проверка возможности перехода к следующему шагу
@@ -3532,6 +3231,9 @@ class CarWrappingCalculator {
         classOptions.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         this.selectedClass = btn.dataset.class;
+        // Показываем примеры для выбранного класса
+        this.showMobileClassExamples(this.selectedClass);
+        this.showClassExamples(this.selectedClass); // Также для десктопной версии
         this.updateMobileButtons();
       });
     });
@@ -3926,205 +3628,6 @@ class CarWrappingCalculator {
 }
 
 // Инициализация калькулятора
-// КРИТИЧНО: Заменяем видео ДО загрузки DOM
-(function() {
-  'use strict';
-  
-  // Заменяем видео сразу, как только элемент появится
-  const replaceVideo = () => {
-    const heroSection = document.getElementById('hero') || document.querySelector('.hero');
-    if (!heroSection) return;
-    
-    const videoContainer = heroSection.querySelector('.hero-video-background');
-    if (!videoContainer) return;
-    
-    // Удаляем ВСЕ существующие iframe
-    const oldIframes = videoContainer.querySelectorAll('iframe');
-    oldIframes.forEach(iframe => iframe.remove());
-    
-    // Создаем новый iframe с новым видео и уникальным параметром для обхода кеша
-    const timestamp = Date.now();
-    const newVideoSrc = `https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&origin=https://angryrebelll-web.github.io&v=${timestamp}`;
-    
-    const newIframe = document.createElement('iframe');
-    newIframe.className = 'hero-video-iframe hero-video-element hero-video-desktop';
-    newIframe.id = 'heroVideoDesktop';
-    newIframe.width = '100%';
-    newIframe.height = '100%';
-    newIframe.src = newVideoSrc;
-    newIframe.setAttribute('frameborder', '0');
-    newIframe.setAttribute('scrolling', 'no');
-    newIframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
-    newIframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-    newIframe.setAttribute('allowfullscreen', '');
-    newIframe.setAttribute('title', '992 GT3RS Night Run | 4K - Фоновое видео');
-    
-    videoContainer.appendChild(newIframe);
-  };
-  
-  // Пытаемся заменить сразу
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', replaceVideo);
-  } else {
-    replaceVideo();
-  }
-  
-  // Также заменяем через небольшую задержку для гарантии
-  setTimeout(replaceVideo, 100);
-  setTimeout(replaceVideo, 500);
-  setTimeout(replaceVideo, 1000);
-})();
-
 document.addEventListener('DOMContentLoaded', () => {
   window.calculator = new CarWrappingCalculator();
-  
-  // Управление автовоспроизведением фонового видео
-  initHeroVideo();
 });
-
-// Инициализация фонового видео из YouTube Shorts
-function initHeroVideo() {
-  const desktopVideo = document.getElementById('heroVideoDesktop');
-  const mobileVideo = document.getElementById('heroVideoMobile');
-  
-  // КРИТИЧНО: Отключаем старое видео и принудительно устанавливаем НОВОЕ YouTube видео для десктопа
-  // Отключаем старый video элемент
-  const oldDesktopVideo = document.getElementById('desktopVideo');
-  if (oldDesktopVideo) {
-    oldDesktopVideo.style.display = 'none';
-    oldDesktopVideo.style.visibility = 'hidden';
-    oldDesktopVideo.style.opacity = '0';
-    oldDesktopVideo.pause();
-    oldDesktopVideo.src = '';
-    oldDesktopVideo.removeAttribute('src');
-  }
-  
-  const oldVideoContainer = document.getElementById('videoDesktopContainer');
-  if (oldVideoContainer) {
-    oldVideoContainer.style.display = 'none';
-    oldVideoContainer.style.visibility = 'hidden';
-  }
-  
-  // РАДИКАЛЬНО: Полностью пересоздаем iframe с новым видео для десктопа
-  if (window.innerWidth > 768) {
-    const videoContainer = desktopVideo?.parentElement;
-    if (videoContainer && desktopVideo) {
-      const newDesktopVideoSrc = 'https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&origin=https://angryrebelll-web.github.io';
-      
-      // Полностью удаляем старый iframe
-      desktopVideo.remove();
-      
-      // Создаем новый iframe с нуля
-      const newIframe = document.createElement('iframe');
-      newIframe.className = 'hero-video-iframe hero-video-element hero-video-desktop';
-      newIframe.id = 'heroVideoDesktop';
-      newIframe.width = '100%';
-      newIframe.height = '100%';
-      newIframe.src = newDesktopVideoSrc;
-      newIframe.setAttribute('frameborder', '0');
-      newIframe.setAttribute('scrolling', 'no');
-      newIframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
-      newIframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-      newIframe.setAttribute('allowfullscreen', '');
-      newIframe.setAttribute('title', '992 GT3RS Night Run | 4K - Фоновое видео');
-      
-      // Вставляем новый iframe в контейнер
-      videoContainer.appendChild(newIframe);
-      
-      // Обновляем ссылку на элемент
-      window.heroVideoDesktopElement = newIframe;
-    }
-  }
-  
-  // Функция для обеспечения видимости и автовоспроизведения YouTube видео
-  const ensureVideoPlayback = (iframe, isDesktop = false) => {
-    if (!iframe) return;
-    
-    // Для десктопного видео проверяем правильность видео
-    if (isDesktop) {
-      const newVideoSrc = 'https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&origin=https://angryrebelll-web.github.io';
-      const currentSrc = iframe.src || '';
-      
-      // ВСЕГДА заменяем на новое видео для десктопа
-      if (!currentSrc.includes('CqoG-pyVSFM') || !currentSrc.includes('si=r3ngGX13BomWWGXK')) {
-        iframe.removeAttribute('src');
-        iframe.src = '';
-        setTimeout(() => {
-          iframe.setAttribute('src', newVideoSrc);
-          iframe.src = newVideoSrc;
-        }, 150);
-      }
-    }
-    
-    // Принудительно показываем iframe
-    iframe.style.opacity = '1';
-    iframe.style.visibility = 'visible';
-    iframe.style.display = 'block';
-    
-    iframe.addEventListener('load', () => {
-      // Видео загружено, делаем его видимым
-      iframe.style.opacity = '1';
-      
-      // Попытка запустить воспроизведение через YouTube API
-      try {
-        if (iframe.contentWindow) {
-          iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-        }
-      } catch (e) {
-        console.log('YouTube video autoplay:', e);
-      }
-    });
-    
-    // Принудительное отображение через небольшую задержку
-    setTimeout(() => {
-      iframe.style.display = 'block';
-      iframe.style.visibility = 'visible';
-      iframe.style.opacity = '1';
-    }, 500);
-  };
-  
-  if (desktopVideo && window.innerWidth > 768) {
-    ensureVideoPlayback(desktopVideo, true);
-  }
-  
-  if (mobileVideo && window.innerWidth <= 768) {
-    ensureVideoPlayback(mobileVideo, false);
-  }
-  
-  // Обработка видимости страницы для возобновления воспроизведения
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) {
-      // Возобновить воспроизведение при возврате на страницу
-      if (desktopVideo && window.innerWidth > 768) {
-        try {
-          desktopVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-        } catch (e) {}
-      }
-      if (mobileVideo && window.innerWidth <= 768) {
-        try {
-          mobileVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-        } catch (e) {}
-      }
-    }
-  });
-  
-  // Обработка сообщений от YouTube iframe
-  window.addEventListener('message', (event) => {
-    if (event.origin !== 'https://www.youtube.com') return;
-    
-    try {
-      const data = JSON.parse(event.data);
-      if (data.event === 'onStateChange' && data.info === 0) {
-        // Видео закончилось, перезапускаем для зацикливания
-        if (desktopVideo && window.innerWidth > 768) {
-          desktopVideo.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[0, true]}', '*');
-        }
-        if (mobileVideo && window.innerWidth <= 768) {
-          mobileVideo.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[0, true]}', '*');
-        }
-      }
-    } catch (e) {
-      // Игнорируем ошибки парсинга
-    }
-  });
-}
