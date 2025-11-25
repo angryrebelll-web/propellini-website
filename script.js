@@ -3454,30 +3454,15 @@ class CarWrappingCalculator {
     const isPackage = zoneItem.dataset.type === 'package';
     
     if (isPackage && checkbox.checked) {
+      // Очищаем все выбранные зоны и пакеты
       const zonesToRemove = Array.from(this.selectedZones);
       zonesToRemove.forEach(id => {
-        if (id !== zone) {
-          this.selectedZones.delete(id);
-          const zoneCheckbox = document.querySelector(`#mobile-zone-${id}`);
-          if (zoneCheckbox) zoneCheckbox.checked = false;
-        }
+        this.selectedZones.delete(id);
+        const zoneCheckbox = document.querySelector(`#mobile-zone-${id}`);
+        if (zoneCheckbox) zoneCheckbox.checked = false;
       });
       
-      this.selectedZones.forEach(id => {
-        const otherItem = document.querySelector(`.zone-item[data-zone="${id}"]`);
-        if (otherItem && otherItem.dataset.type === 'package' && id !== zone) {
-          this.selectedZones.delete(id);
-          const otherCheckbox = document.querySelector(`#mobile-zone-${id}`);
-          if (otherCheckbox) otherCheckbox.checked = false;
-          const prevPackageZones = this.getPackageZones(id);
-          prevPackageZones.forEach(zoneId => {
-            this.selectedZones.delete(zoneId);
-            const zoneCheckbox = document.querySelector(`#mobile-zone-${zoneId}`);
-            if (zoneCheckbox) zoneCheckbox.checked = false;
-          });
-        }
-      });
-      
+      // Добавляем пакет и его зоны
       this.selectedZones.add(zone);
       const packageZones = this.getPackageZones(zone);
       packageZones.forEach(zoneId => {
@@ -3485,9 +3470,8 @@ class CarWrappingCalculator {
         const zoneCheckbox = document.querySelector(`#mobile-zone-${zoneId}`);
         if (zoneCheckbox) zoneCheckbox.checked = true;
       });
-    }
-    
-    if (isPackage && !checkbox.checked) {
+    } else if (isPackage && !checkbox.checked) {
+      // Удаляем пакет и его зоны
       this.selectedZones.delete(zone);
       const packageZones = this.getPackageZones(zone);
       packageZones.forEach(zoneId => {
@@ -3495,10 +3479,25 @@ class CarWrappingCalculator {
         const zoneCheckbox = document.querySelector(`#mobile-zone-${zoneId}`);
         if (zoneCheckbox) zoneCheckbox.checked = false;
       });
-    }
-    
-    if (!isPackage) {
+    } else {
+      // Обычная зона
       if (checkbox.checked) {
+        // Снимаем все пакеты при выборе обычной зоны
+        document.querySelectorAll('input[name="package"]').forEach(radio => {
+          radio.checked = false;
+          const packageItem = radio.closest('.zone-item');
+          if (packageItem) {
+            const packageId = packageItem.dataset.zone;
+            this.selectedZones.delete(packageId);
+            const packageZones = this.getPackageZones(packageId);
+            packageZones.forEach(pid => {
+              this.selectedZones.delete(pid);
+              const zoneCheckbox = document.querySelector(`#mobile-zone-${pid}`);
+              if (zoneCheckbox) zoneCheckbox.checked = false;
+            });
+          }
+        });
+        
         this.selectedZones.add(zone);
       } else {
         this.selectedZones.delete(zone);
@@ -3506,6 +3505,8 @@ class CarWrappingCalculator {
     }
     
     this.updateMobileTotal();
+    this.updateMobileCarZonesVisual();
+    this.updateMobileButtons();
   }
   
   updateMobileTotal() {
