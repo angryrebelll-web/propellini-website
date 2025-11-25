@@ -63,7 +63,7 @@ class CarWrappingCalculator {
           { name: "X4", class: "business" },
           { name: "X5", class: "suv-lux" },
           { name: "X6", class: "suv-lux" },
-          { name: "X7", class: "bus" },
+          { name: "X7", class: "suv-lux" },
           { name: "X18", class: "business" },
           { name: "Z4", class: "small" },
           { name: "i3", class: "small" },
@@ -1177,6 +1177,15 @@ class CarWrappingCalculator {
         const cb = document.querySelector(`#zone-${pid}`);
         if (cb) cb.checked = true;
       });
+      
+      // Убеждаемся что варианты полной оклейки отмечены
+      if (zoneId === 'package-premium') {
+        const fullGlossy = document.querySelector('#zone-full-glossy');
+        if (fullGlossy) fullGlossy.checked = true;
+      } else if (zoneId === 'package-lux') {
+        const fullMatte = document.querySelector('#zone-full-matte');
+        if (fullMatte) fullMatte.checked = true;
+      }
     } else if (isPackage && !checkbox.checked) {
       // Удаляем пакет и его зоны
       this.selectedZones.delete(zoneId);
@@ -1218,22 +1227,22 @@ class CarWrappingCalculator {
   // Получить зоны из пакета
   getPackageZones(packageId) {
     const classToUse = this.selectedClass || 'small';
-    const zonesData = this.zonesDatabase[classToUse];
-    if (!zonesData || !zonesData['Пакеты услуг']) return [];
-
-    const packageData = zonesData['Пакеты услуг'].find(p => p.id === packageId);
-    if (!packageData) return [];
-
-    // Зоны риска для базового пакета
+    
     if (packageId === 'package-basic') {
       return this.getRiskZonesForClass(classToUse);
     }
-    // Для премиум и люкс добавляем полную оклейку
-    if (packageId === 'package-premium' || packageId === 'package-lux') {
-      const riskZones = this.getRiskZonesForClass(classToUse);
-      return riskZones;
+    if (packageId === 'package-premium') {
+      return [
+        ...this.getRiskZonesForClass(classToUse),
+        'full-glossy' // Полная глянцевая оклейка
+      ];
     }
-    
+    if (packageId === 'package-lux') {
+      return [
+        ...this.getRiskZonesForClass(classToUse), 
+        'full-matte' // Полная матовая оклейка
+      ];
+    }
     return [];
   }
 
@@ -2468,17 +2477,24 @@ class CarWrappingCalculator {
       }
     });
     
+    // Сначала обрабатываем пакеты
     this.selectedZones.forEach((id) => {
       const zoneData = allZones.find(z => z.id === id);
       
-      if (zoneData) {
-        if (zoneData.type === 'package') {
-          total += zoneData.price;
-          hasPackage = true;
-        } else if (!packageZones.has(id)) {
-          total += zoneData.price;
-        }
-        } else {
+      if (zoneData && zoneData.type === 'package') {
+        // Пакеты учитываются только один раз
+        total += zoneData.price;
+        hasPackage = true;
+      }
+    });
+    
+    // Затем обрабатываем обычные зоны (не входящие в пакет)
+    this.selectedZones.forEach((id) => {
+      const zoneData = allZones.find(z => z.id === id);
+      
+      if (zoneData && zoneData.type !== 'package' && !packageZones.has(id)) {
+        total += zoneData.price;
+      } else if (!zoneData) {
         const zoneItem = document.querySelector(`.zone-item[data-zone="${id}"]`);
         if (zoneItem) {
           const priceEl = zoneItem.querySelector('.zone-price');
@@ -2814,8 +2830,8 @@ class CarWrappingCalculator {
     
     // Добавляем пакет и его зоны
     this.selectedZones.add(packageId);
-          const packageZones = this.getPackageZones(packageId);
-          packageZones.forEach(zoneId => {
+    const packageZones = this.getPackageZones(packageId);
+    packageZones.forEach(zoneId => {
       this.selectedZones.add(zoneId);
     });
     
@@ -2921,18 +2937,20 @@ class CarWrappingCalculator {
   toggleWizardZone(zoneId) {
     if (this.selectedZones.has(zoneId)) {
       this.selectedZones.delete(zoneId);
-        } else {
+    } else {
       this.selectedZones.add(zoneId);
     }
     
-    // Снимаем выбор пакета при ручном выборе зон
+    // Корректное снятие пакетов при ручном выборе
     if (this.selectedZones.has(zoneId)) {
       ['package-basic', 'package-premium', 'package-lux'].forEach(pkgId => {
-        this.selectedZones.delete(pkgId);
-        const packageZones = this.getPackageZones(pkgId);
-        packageZones.forEach(pZoneId => {
-          this.selectedZones.delete(pZoneId);
-        });
+        if (this.selectedZones.has(pkgId)) {
+          this.selectedZones.delete(pkgId);
+          const packageZones = this.getPackageZones(pkgId);
+          packageZones.forEach(pZoneId => {
+            this.selectedZones.delete(pZoneId);
+          });
+        }
       });
       this.selectedPackage = null;
     }
