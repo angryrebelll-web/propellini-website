@@ -37,7 +37,21 @@
           
           // Инициализируем мобильный визард
           if (window.calculator.initMobileWizard) {
-            window.calculator.initMobileWizard();
+            try {
+              window.calculator.initMobileWizard();
+              
+              // Дополнительная инициализация для надежности
+              setTimeout(() => {
+                if (window.calculator.renderWizardBrands) {
+                  window.calculator.renderWizardBrands();
+                }
+                if (window.calculator.bindWizardEvents) {
+                  window.calculator.bindWizardEvents();
+                }
+              }, 200);
+            } catch (e) {
+              console.error('Ошибка инициализации мобильного визарда:', e);
+            }
           }
         } else {
           if (desktopCalc) desktopCalc.style.display = 'block';
