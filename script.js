@@ -3938,18 +3938,34 @@ function initHeroVideo() {
   const desktopVideo = document.getElementById('heroVideoDesktop');
   const mobileVideo = document.getElementById('heroVideoMobile');
   
+  // Принудительно обновляем src для десктопного видео, чтобы обойти кеш
+  if (desktopVideo && window.innerWidth > 768) {
+    const currentSrc = desktopVideo.src;
+    // Если это не новое видео CqoG-pyVSFM, обновляем
+    if (!currentSrc.includes('CqoG-pyVSFM')) {
+      desktopVideo.src = 'https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&v=' + Date.now();
+    }
+  }
+  
   // Функция для обеспечения видимости и автовоспроизведения YouTube видео
   const ensureVideoPlayback = (iframe) => {
     if (!iframe) return;
     
     // Принудительно показываем iframe
-    iframe.style.opacity = '0.9';
+    iframe.style.opacity = '1';
     iframe.style.visibility = 'visible';
     iframe.style.display = 'block';
     
+    // Обновляем src с временной меткой для обхода кеша при первой загрузке
+    const originalSrc = iframe.src;
+    if (!originalSrc.includes('v=') || originalSrc.match(/v=\d+$/)) {
+      const separator = originalSrc.includes('?') ? '&' : '?';
+      iframe.src = originalSrc.split('&v=')[0].split('?v=')[0] + separator + 'v=' + Date.now();
+    }
+    
     iframe.addEventListener('load', () => {
       // Видео загружено, делаем его видимым
-      iframe.style.opacity = '0.9';
+      iframe.style.opacity = '1';
       
       // Попытка запустить воспроизведение через YouTube API
       try {
@@ -3965,7 +3981,7 @@ function initHeroVideo() {
     setTimeout(() => {
       iframe.style.display = 'block';
       iframe.style.visibility = 'visible';
-      iframe.style.opacity = '0.9';
+      iframe.style.opacity = '1';
     }, 500);
   };
   
