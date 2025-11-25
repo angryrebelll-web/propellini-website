@@ -125,7 +125,10 @@ function renderModels() {
     chip.textContent = model;
     chip.addEventListener("click", () => {
       setModel(model);
-      renderStep();
+      // Автоматически переходим к следующему шагу
+      setTimeout(() => {
+        nextStep();
+      }, 300);
     });
     container.appendChild(chip);
   });
@@ -183,7 +186,9 @@ function renderServiceSelect() {
     const checkbox = item.querySelector("input");
     checkbox.addEventListener("change", () => {
       toggleZone(zoneName);
-      renderStep();
+      updateTotal();
+      updateButtons();
+      // Не перерисовываем весь шаг - только обновляем состояние
     });
     zonesList.appendChild(item);
   });
@@ -237,26 +242,48 @@ function renderSummary() {
 }
 
 // Обновление кнопок навигации
+let nextBtnHandler = null;
+let prevBtnHandler = null;
+
 function updateButtons() {
   const currentStep = getStep();
   
   if (nextBtn) {
     nextBtn.disabled = !canGoNext();
+    nextBtn.textContent = currentStep === 4 ? "Записаться" : "Далее";
+    
+    // Удаляем старый обработчик
+    if (nextBtnHandler) {
+      nextBtn.removeEventListener("click", nextBtnHandler);
+    }
+    
+    // Создаем новый обработчик
     if (currentStep === 4) {
-      nextBtn.textContent = "Записаться";
-      nextBtn.onclick = () => {
+      nextBtnHandler = () => {
         const data = getRequestData();
         openRequestForm(data);
       };
     } else {
-      nextBtn.textContent = "Далее";
-      nextBtn.onclick = nextStep;
+      nextBtnHandler = nextStep;
     }
+    
+    nextBtn.addEventListener("click", nextBtnHandler);
   }
   
   if (prevBtn) {
-    prevBtn.style.display = currentStep > 1 ? "block" : "none";
-    prevBtn.onclick = prevStep;
+    const shouldShow = currentStep > 1;
+    prevBtn.style.display = shouldShow ? "flex" : "none";
+    
+    // Удаляем старый обработчик
+    if (prevBtnHandler) {
+      prevBtn.removeEventListener("click", prevBtnHandler);
+    }
+    
+    // Создаем новый обработчик
+    if (shouldShow) {
+      prevBtnHandler = prevStep;
+      prevBtn.addEventListener("click", prevBtnHandler);
+    }
   }
 }
 
