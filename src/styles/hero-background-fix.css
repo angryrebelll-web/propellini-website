@@ -99,6 +99,8 @@ section:first-of-type {
   section:first-of-type {
     background: linear-gradient(rgba(10, 10, 10, 0.7), rgba(5, 5, 5, 0.8)), 
                 url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-1080x1920.jpg') center/cover;
+    background-size: cover;
+    background-position: center;
     background-attachment: scroll;
   }
 }
