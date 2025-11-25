@@ -56,7 +56,7 @@
       <h1 class="hero-title">Оклейка<br>автомобиля<br>защитной пленкой</h1>
       <div class="hero-promo">
         <p class="hero-promo-text">Скидка 50% на броню лобового<br>стекла при полной оклейке кузова</p>
-        <a href="#contacts" class="btn btn-primary discount-open-btn" tabindex="0">Получить скидку</a>
+        <a href="#" class="btn btn-primary discount-open-btn" tabindex="0">Получить скидку</a>
       </div>
       <div class="hero-pricing">
         <p class="hero-pricing-item">Оклейка зон риска от <strong>25 000 ₽</strong></p>
@@ -155,7 +155,7 @@
         <div class="promo-content">
           <h3 class="promo-title">Скидка 50% на броню лобового стекла</h3>
           <p class="promo-subtitle">при полной оклейке кузова</p>
-          <a href="#contacts" class="btn btn-primary promo-btn discount-open-btn" tabindex="0">Получить скидку</a>
+          <a href="#" class="btn btn-primary promo-btn discount-open-btn" tabindex="0">Получить скидку</a>
         </div>
       </div>
     </div>
@@ -1219,8 +1219,12 @@
         });
       };
 
-      // Initialize discount modal
-      handleDiscountModal();
+      // Initialize discount modal - убеждаемся что инициализируется после DOM
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', handleDiscountModal);
+      } else {
+        handleDiscountModal();
+      }
 
       // Close buttons
       if (orderModalClose) {

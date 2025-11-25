@@ -57,12 +57,23 @@
   
   /* Hero Promo - мобильная версия */
   .hero-promo {
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-md);
+    padding: var(--space-md);
+    background: rgba(22, 132, 145, 0.1);
+    border: 1px solid rgba(22, 132, 145, 0.3);
+    border-radius: 12px;
   }
   
   .hero-promo-text {
-    font-size: 16px;
-    line-height: 1.5;
+    font-size: 15px;
+    line-height: 1.4;
+    margin-bottom: var(--space-sm);
+  }
+  
+  .hero-promo .btn {
+    padding: 10px 16px;
+    font-size: 14px;
+    width: 100%;
   }
   
   /* Hero Pricing - мобильная версия */
@@ -150,6 +161,13 @@
     min-width: 280px;
     scroll-snap-align: start;
     margin: 0;
+  }
+  
+  .service-card .btn {
+    padding: 10px 16px;
+    font-size: 14px;
+    width: 100%;
+    margin-top: var(--space-sm);
   }
   
   .service-card:first-child {
@@ -401,6 +419,34 @@
   .reviews-slider {
     margin-top: var(--space-md);
     gap: var(--space-md);
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--space-sm);
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) transparent;
+  }
+  
+  .reviews-slider::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .reviews-slider::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .reviews-slider::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+  }
+  
+  .review-card {
+    flex: 0 0 85%;
+    max-width: 85%;
+    scroll-snap-align: start;
+    min-width: 280px;
   }
   
   /* Уменьшение отступов в contacts */
