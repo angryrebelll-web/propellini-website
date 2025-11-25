@@ -1,0 +1,230 @@
+/* Desktop UX Improvements - Улучшения для десктоп версии */
+
+@media (min-width: 769px) {
+  /* ============================================
+     УВЕЛИЧЕННЫЕ ОТСТУПЫ И ВОЗДУХ
+     ============================================ */
+  
+  section {
+    padding: var(--space-2xl) 0;
+  }
+  
+  .container {
+    padding: 0 var(--space-xl);
+  }
+  
+  /* Улучшенные отступы между элементами */
+  .benefits-grid,
+  .services-grid,
+  .portfolio-gallery {
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+  }
+  
+  /* ============================================
+     УЛУЧШЕННАЯ ТИПОГРАФИКА
+     ============================================ */
+  
+  .section-title {
+    font-size: clamp(48px, 5vw, 80px);
+    margin-bottom: var(--space-lg);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  
+  .section-subtitle {
+    font-size: clamp(20px, 2vw, 28px);
+    margin-bottom: var(--space-2xl);
+    opacity: 0.85;
+    line-height: 1.6;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  h3 {
+    font-size: clamp(28px, 2.5vw, 36px);
+    margin-bottom: var(--space-md);
+  }
+  
+  /* ============================================
+     УСИЛЕННЫЕ HOVER/ACTIVE СОСТОЯНИЯ
+     ============================================ */
+  
+  .benefit-card-glass:hover {
+    transform: translateY(-8px);
+    border-color: rgba(22, 132, 145, 0.6);
+    box-shadow: 0 16px 48px rgba(22, 132, 145, 0.3),
+                0 0 0 1px rgba(22, 132, 145, 0.5);
+    background: rgba(18, 18, 18, 0.85);
+  }
+  
+  .service-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(22, 132, 145, 0.4),
+                0 0 0 2px rgba(22, 132, 145, 0.6);
+  }
+  
+  .portfolio-item:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(22, 132, 145, 0.3);
+  }
+  
+  .btn-primary:active {
+    transform: translateY(-1px) scale(0.98);
+  }
+  
+  .btn-secondary:active {
+    transform: translateY(-1px) scale(0.98);
+  }
+  
+  /* ============================================
+     УПОРЯДОЧЕННЫЕ СЕТКИ
+     ============================================ */
+  
+  /* Портфолио 3×3 */
+  .portfolio-gallery {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+    max-width: 1400px;
+  }
+  
+  /* Услуги 3 в ряд */
+  .services-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+    max-width: 1400px;
+  }
+  
+  /* Плёнки 3×2 */
+  .films-benefits-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+    max-width: 1200px;
+  }
+  
+  /* ============================================
+     УЛУЧШЕННАЯ ЧИТАЕМОСТЬ ТЕКСТА
+     ============================================ */
+  
+  .benefit-glass-text,
+  .service-description,
+  p {
+    line-height: 1.7;
+    font-size: 17px;
+  }
+  
+  /* Hero: нормальная прозрачность для видимости Mercedes фона */
+  .hero.hero-section .hero-overlay {
+    background: linear-gradient(
+      to bottom, 
+      rgba(0, 0, 0, 0.3) 0%, 
+      rgba(0, 0, 0, 0.45) 100%
+    ) !important;
+  }
+  
+  /* Другие секции: стандартное затемнение */
+  .premium-bg-overlay::before {
+    background: rgba(0, 0, 0, 0.55) !important;
+  }
+  
+  .premium-bg-overlay-strong::before {
+    background: rgba(0, 0, 0, 0.65) !important;
+  }
+  
+  /* ============================================
+     УЛУЧШЕННЫЕ CTA-КНОПКИ
+     ============================================ */
+  
+  .btn {
+    min-height: 56px;
+    padding: 18px 36px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  
+  .btn-primary {
+    box-shadow: 0 8px 32px rgba(22, 132, 145, 0.4),
+                0 0 0 0 rgba(22, 132, 145, 0.5);
+  }
+  
+  .btn-primary:hover {
+    box-shadow: 0 12px 48px rgba(22, 132, 145, 0.5),
+                0 0 0 4px rgba(22, 132, 145, 0.3);
+  }
+  
+  /* ============================================
+     ПЛАВНЫЕ ПЕРЕХОДЫ МЕЖДУ БЛОКАМИ
+     ============================================ */
+  
+  section {
+    scroll-margin-top: 100px;
+  }
+  
+  /* Teal separators */
+  .section-separator {
+    height: 2px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(22, 132, 145, 0.3) 20%,
+      rgba(22, 132, 145, 0.5) 50%,
+      rgba(22, 132, 145, 0.3) 80%,
+      transparent 100%
+    );
+    margin: var(--space-2xl) 0;
+    opacity: 0.8;
+  }
+  
+  /* ============================================
+     ИСПРАВЛЕНИЕ РАЗМЫТЫХ ФОНОВ
+     ============================================ */
+  
+  .responsive-bg img,
+  .responsive-bg {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  /* ============================================
+     УЛУЧШЕННЫЕ КАРТОЧКИ
+     ============================================ */
+  
+  .benefit-card-glass,
+  .service-card,
+  .portfolio-item {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Премиальные тени */
+  .benefit-card-glass,
+  .service-card {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+  
+  .benefit-card-glass:hover,
+  .service-card:hover {
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(22, 132, 145, 0.5);
+  }
+}
+
+/* Адаптив для планшетов */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .portfolio-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .films-benefits-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+

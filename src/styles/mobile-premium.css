@@ -25,12 +25,25 @@
     min-height: calc(100vh - 70px);
   }
   
-  /* Убеждаемся, что overlay правильно работает на мобильных */
+  /* Нормальная прозрачность overlay - Mercedes виден на mobile */
   .hero.hero-section .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.45) 100%);
     z-index: 4;
+  }
+  
+  /* Убираем лишние затемнения на mobile */
+  .hero.hero-section.premium-bg-overlay::before,
+  .hero.hero-section.premium-bg-overlay::after {
+    display: none !important;
+    background: none !important;
+  }
+  
+  .hero.hero-section.premium-processed::before,
+  .hero.hero-section.premium-processed::after {
+    display: none !important;
+    background: none !important;
   }
   
   /* Hero Content - мобильная оптимизация (сохраняем выравнивание слева) */

@@ -1,0 +1,707 @@
+/* PROPELLINI Premium Improvements - Desktop & Mobile */
+
+/* ============================================
+   ЗАДАЧА №1: DESKTOP UX/UI УЛУЧШЕНИЯ
+   ============================================ */
+
+/* Улучшенные отступы и визуальные паузы */
+:root {
+  --space-section: 120px; /* Больше воздуха между секциями */
+  --space-element: 32px;   /* Отступы между элементами */
+  --overlay-dark: rgba(0, 0, 0, 0.5); /* 50% затемнение для читаемости */
+}
+
+/* Плавные переходы между секциями */
+section {
+  position: relative;
+  padding: var(--space-section) 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(22, 132, 145, 0.3) 50%, 
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+section:hover::before {
+  opacity: 1;
+}
+
+/* Улучшенная типографика и иерархия */
+.section-title {
+  font-size: clamp(42px, 5vw, 72px);
+  font-weight: 400;
+  margin-bottom: var(--space-md);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.section-subtitle {
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 300;
+  margin-bottom: var(--space-xl);
+  opacity: 0.85;
+  line-height: 1.6;
+}
+
+h3 {
+  font-size: clamp(24px, 2.5vw, 32px);
+  font-weight: 500;
+  margin-bottom: var(--space-sm);
+  line-height: 1.3;
+}
+
+/* Увеличенные CTA-кнопки с уверенностью */
+.btn {
+  min-height: 56px; /* Увеличено с 52px */
+  padding: 16px 32px; /* Больше padding */
+  font-size: 17px; /* Чуть больше шрифт */
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  box-shadow: 0 8px 24px rgba(22, 132, 145, 0.35),
+              0 0 0 0 rgba(22, 132, 145, 0.5);
+  position: relative;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-primary:hover::before {
+  opacity: 1;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(22, 132, 145, 0.5),
+              0 0 0 4px rgba(22, 132, 145, 0.2);
+}
+
+.btn-primary:active {
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  border-width: 2px;
+  position: relative;
+}
+
+.btn-secondary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(22, 132, 145, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-secondary:hover::after {
+  opacity: 1;
+}
+
+.btn-secondary:hover {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 20px rgba(22, 132, 145, 0.3);
+}
+
+  /* Desktop: нормальная прозрачность для видимости фона */
+@media (min-width: 769px) {
+  .hero-overlay {
+    background: linear-gradient(
+      to bottom, 
+      rgba(0, 0, 0, 0.3) 0%, 
+      rgba(0, 0, 0, 0.45) 100%
+    ) !important;
+  }
+}
+
+/* Mobile: более сильное затемнение для читаемости */
+@media (max-width: 768px) {
+  .hero-overlay {
+    background: linear-gradient(
+      to bottom, 
+      rgba(0, 0, 0, 0.55) 0%, 
+      rgba(0, 0, 0, 0.65) 100%
+    ) !important;
+  }
+}
+
+.premium-bg-overlay::before {
+  background: rgba(0, 0, 0, 0.55) !important;
+}
+
+.premium-bg-overlay-strong::before {
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Плавные переходы между блоками */
+section {
+  scroll-margin-top: 80px;
+}
+
+/* Teal separators между секциями */
+.section-separator {
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(22, 132, 145, 0.2) 20%,
+    rgba(22, 132, 145, 0.4) 50%,
+    rgba(22, 132, 145, 0.2) 80%,
+    transparent 100%
+  );
+  margin: var(--space-xl) 0;
+  opacity: 0.6;
+}
+
+/* Исправление размытых фонов */
+.responsive-bg img,
+.responsive-bg {
+  object-fit: cover;
+  object-position: center;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Сетки: 3×3 галерея - Desktop улучшения */
+@media (min-width: 1025px) {
+  .portfolio-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .portfolio-item {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+  
+  .portfolio-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  
+  .portfolio-item:hover img {
+    transform: scale(1.05);
+  }
+}
+
+/* 3 пакета услуг в ряд - Desktop */
+@media (min-width: 1025px) {
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+    margin-top: var(--space-xl);
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .service-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 48px rgba(22, 132, 145, 0.3),
+                0 0 0 1px rgba(22, 132, 145, 0.5);
+  }
+}
+
+/* Партнёрские плёнки — 3×2 - Desktop */
+@media (min-width: 769px) {
+  .films-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+}
+
+@media (min-width: 1025px) {
+  .films-benefits-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+}
+
+/* ============================================
+   ЗАДАЧА №4: ВИЗУАЛЬНЫЕ УЛУЧШЕНИЯ
+   ============================================ */
+
+/* Параллакс для HERO и "Наш бокс" */
+.parallax-image {
+  will-change: transform;
+}
+
+/* Плавный скролл */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Мягкие section-переходы */
+@keyframes sectionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+section[data-animate="fade"] {
+  animation: sectionFadeIn 0.8s ease-out forwards;
+}
+
+/* Мини-неон на hover (без цирка) */
+.benefit-card-glass:hover,
+.service-card:hover {
+  border-color: rgba(22, 132, 145, 0.6);
+  box-shadow: 0 8px 32px rgba(22, 132, 145, 0.2),
+              0 0 0 1px rgba(22, 132, 145, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* Премиальные тени */
+.card,
+.benefit-card-glass,
+.service-card {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15),
+              0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.card:hover,
+.benefit-card-glass:hover,
+.service-card:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2),
+              0 0 0 1px rgba(22, 132, 145, 0.4);
+}
+
+/* ============================================
+   ЗАДАЧА №3: МОБИЛЬНАЯ АДАПТАЦИЯ
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Кнопки увеличиваем, hit-area 48px+ */
+  .btn {
+    min-height: 48px;
+    padding: 14px 24px;
+    font-size: 16px;
+    touch-action: manipulation;
+  }
+  
+  /* Текст 15–17px, не меньше */
+  body {
+    font-size: 16px;
+  }
+  
+  p, li, span {
+    font-size: clamp(15px, 4vw, 17px);
+    line-height: 1.6;
+  }
+  
+  /* Изображения 9:16, без мыла */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  .portfolio-item img,
+  .service-card img {
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    width: 100%;
+  }
+  
+  /* Безопасные зоны iOS */
+  .container {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+  
+  /* Не допускать наложения блоков на CTA и футер */
+  section {
+    padding-bottom: max(80px, env(safe-area-inset-bottom));
+  }
+  
+  .mobile-wizard-footer {
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+}
+
+/* ============================================
+   ЗАДАЧА №2: MOBILE UX-WIZARD ДЛЯ КАЛЬКУЛЯТОРА
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Каждый шаг на отдельном экране */
+  .mobile-wizard-step {
+    display: none;
+    flex-direction: column;
+    min-height: calc(100vh - 140px); /* BUG 5 FIX: Фиксированная высота */
+    padding: var(--space-lg) var(--space-md);
+    padding-bottom: 120px; /* Место для фиксированного блока */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  /* BUG 1 FIX: Шаг 3 с выбором зон - больше padding снизу */
+  .mobile-wizard-step[data-step="3"] {
+    padding-bottom: 150px; /* Увеличено для шага с зонами, чтобы "Итого" не перекрывало */
+  }
+  
+  .mobile-wizard-step.active {
+    display: flex;
+    animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* BUG 5 FIX: Плавная анимация между шагами */
+  .mobile-wizard-step.slide-out {
+    animation: slideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  
+  @keyframes slideOut {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+  }
+  
+  /* Фиксированный блок "Итого" снизу */
+  .mobile-wizard-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(22, 132, 145, 0.3);
+    padding: var(--space-md);
+    padding-bottom: max(var(--space-md), env(safe-area-inset-bottom)); /* BUG 7 FIX: Safe-area для клавиатуры */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    z-index: 1000;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .mobile-footer-total {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .footer-total-label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  
+  .footer-total-value {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+    text-shadow: 0 0 20px rgba(22, 132, 145, 0.5);
+  }
+  
+  /* Крупные кнопки "Далее" и "Назад" */
+  .mobile-footer-btn {
+    min-height: 48px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    touch-action: manipulation;
+  }
+  
+  .mobile-footer-next {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--text);
+    box-shadow: 0 4px 16px rgba(22, 132, 145, 0.4);
+  }
+  
+  .mobile-footer-next:active {
+    transform: scale(0.98);
+  }
+  
+  .mobile-footer-prev {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .mobile-footer-prev:active {
+    transform: scale(0.98);
+  }
+  
+  /* Горизонтальные чипсы */
+  .mobile-chips-scroll {
+    display: flex;
+    gap: var(--space-sm);
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: var(--space-sm) 0;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .mobile-chips-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* BUG 4 FIX: Hit-area минимум 48px */
+  .mobile-chip {
+    flex: 0 0 auto;
+    min-height: 48px; /* Минимум 48px для удобного нажатия */
+    padding: 12px 20px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text);
+    font-size: 15px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    scroll-snap-align: start;
+    touch-action: manipulation;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .mobile-chip.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--text);
+    box-shadow: 0 4px 16px rgba(22, 132, 145, 0.4);
+  }
+  
+  /* Пакеты услуг */
+  .mobile-packages-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+  
+  .mobile-package-card {
+    background: rgba(18, 18, 18, 0.6);
+    border: 2px solid rgba(22, 132, 145, 0.3);
+    border-radius: 16px;
+    padding: var(--space-lg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 48px; /* Hit-area */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    touch-action: manipulation;
+  }
+  
+  .mobile-package-card.selected {
+    border-color: var(--primary);
+    background: rgba(22, 132, 145, 0.15);
+    box-shadow: 0 8px 32px rgba(22, 132, 145, 0.3);
+    transform: scale(1.02);
+  }
+  
+  .mobile-package-card:active {
+    transform: scale(0.98);
+  }
+  
+  /* Зоны вручную - список */
+  .mobile-zones-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+  }
+  
+  /* SVG-зоны скрыть на мобилке - только список */
+  .mobile-wizard-step .car-zones-visual,
+  .mobile-wizard-step #car3dContainer,
+  .mobile-wizard-step #carSvgFallback,
+  .mobile-wizard-step svg {
+    display: none !important;
+  }
+  
+  .mobile-zone-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background: rgba(18, 18, 18, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .mobile-zone-item input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    accent-color: var(--primary);
+  }
+  
+  .mobile-zone-item:has(input:checked) {
+    border-color: var(--primary);
+    background: rgba(22, 132, 145, 0.15);
+  }
+  
+  /* Плашка "Класс: ..." */
+  .mobile-class-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 8px 16px;
+    background: rgba(22, 132, 145, 0.2);
+    border: 1px solid var(--primary);
+    border-radius: 20px;
+    margin-bottom: var(--space-md);
+    font-size: 14px;
+  }
+  
+  .badge-label {
+    color: var(--text-muted);
+  }
+  
+  .badge-value {
+    color: var(--primary);
+    font-weight: 600;
+  }
+  
+  /* Поиск */
+  .mobile-search-box input {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(18, 18, 18, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 16px;
+    margin-bottom: var(--space-md);
+  }
+  
+  .mobile-search-box input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(22, 132, 145, 0.2);
+  }
+  
+  /* Итоговая карточка */
+  .mobile-summary-card {
+    background: rgba(18, 18, 18, 0.8);
+    border: 1px solid rgba(22, 132, 145, 0.3);
+    border-radius: 16px;
+    padding: var(--space-lg);
+    margin-bottom: var(--space-xl);
+  }
+  
+  .mobile-summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .mobile-summary-item:last-child {
+    border-bottom: none;
+  }
+  
+  .summary-label {
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+  
+  .summary-value {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  
+  .mobile-summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-md);
+    margin-top: var(--space-md);
+    border-top: 2px solid var(--primary);
+  }
+  
+  .summary-value-total {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+}
+
+/* Свайпы для переключения шагов */
+@media (max-width: 768px) {
+  .mobile-wizard-new {
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  .mobile-wizard-step {
+    touch-action: pan-y;
+  }
+}
+

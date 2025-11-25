@@ -1,0 +1,95 @@
+/* Hero Mercedes AMG GT63 Background - Desktop версия */
+
+/* Улучшенная видимость фонового изображения Mercedes на desktop */
+@media (min-width: 769px) {
+  .hero.hero-section {
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed;
+    position: relative;
+  }
+  
+  /* Нормальная прозрачность overlay - Mercedes виден */
+  .hero.hero-section .hero-overlay {
+    background: linear-gradient(
+      to bottom, 
+      rgba(0, 0, 0, 0.3) 0%, 
+      rgba(0, 0, 0, 0.45) 100%
+    ) !important;
+    z-index: 4;
+  }
+  
+  /* Убираем лишние затемнения от premium-bg-overlay */
+  .hero.hero-section.premium-bg-overlay::before {
+    display: none !important;
+    background: none !important;
+  }
+  
+  .hero.hero-section.premium-bg-overlay::after {
+    display: none !important;
+    background: none !important;
+  }
+  
+  /* Убираем дополнительные затемнения от premium-processed */
+  .hero.hero-section.premium-processed::before,
+  .hero.hero-section.premium-processed::after {
+    display: none !important;
+    background: none !important;
+  }
+  
+  /* Улучшенное качество изображения */
+  .hero.hero-section {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+}
+
+/* Mobile: нормальная прозрачность для видимости Mercedes фона */
+@media (max-width: 768px) {
+  .hero.hero-section {
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    position: relative;
+  }
+  
+  /* Нормальная прозрачность overlay - Mercedes виден */
+  .hero.hero-section .hero-overlay {
+    background: linear-gradient(
+      to bottom, 
+      rgba(0, 0, 0, 0.3) 0%, 
+      rgba(0, 0, 0, 0.45) 100%
+    ) !important;
+    z-index: 4;
+  }
+  
+  /* Убираем лишние затемнения от premium-bg-overlay на mobile */
+  .hero.hero-section.premium-bg-overlay::before {
+    display: none !important;
+    background: none !important;
+  }
+  
+  .hero.hero-section.premium-bg-overlay::after {
+    display: none !important;
+    background: none !important;
+  }
+  
+  /* Убираем дополнительные затемнения от premium-processed */
+  .hero.hero-section.premium-processed::before,
+  .hero.hero-section.premium-processed::after {
+    display: none !important;
+    background: none !important;
+  }
+  
+  /* Улучшенное качество изображения на mobile */
+  .hero.hero-section {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+}
+

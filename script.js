@@ -3043,8 +3043,11 @@ class CarWrappingCalculator {
     }
     
     // Обновляем индикаторы шагов
-    this.updateMobileStepIndicator();
-    this.updateMobileButtons();
+    if (this.updateMobileStepIndicator) {
+      this.updateMobileStepIndicator();
+    }
+    if (this.updateMobileButtons) {
+      this.updateMobileButtons();
     }
     
     // Обновляем кнопку "Назад"

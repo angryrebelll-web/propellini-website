@@ -1,0 +1,334 @@
+/* Final Optimizations - Финальные оптимизации и исправления */
+
+/* ============================================
+   BUG 2 FIX: Размытые фоны на мобильной
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Используем мобильные версии изображений */
+  .responsive-bg {
+    background-size: cover !important;
+    background-position: center center !important;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  /* Улучшенное качество изображений */
+  .responsive-bg img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+/* ============================================
+   LAZY LOADING для изображений
+   ============================================ */
+
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* Intersection Observer для lazy loading */
+if ('IntersectionObserver' in window) {
+  const imageObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        if (img.dataset.src) {
+          img.src = img.dataset.src;
+          img.classList.add('loaded');
+          observer.unobserve(img);
+        }
+      }
+    });
+  });
+
+  document.querySelectorAll('img[data-src]').forEach(img => {
+    imageObserver.observe(img);
+  });
+}
+
+/* ============================================
+   УЛУЧШЕННЫЕ СЕТКИ ДЛЯ DESKTOP
+   ============================================ */
+
+@media (min-width: 1025px) {
+  /* Портфолио 3×3 */
+  .portfolio-gallery {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: var(--space-xl) !important;
+    max-width: 1400px !important;
+  }
+  
+  /* Услуги 3 в ряд */
+  .services-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: var(--space-xl) !important;
+    max-width: 1400px !important;
+  }
+  
+  /* Плёнки 3×2 */
+  .films-benefits-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: var(--space-lg) !important;
+    max-width: 1200px !important;
+  }
+}
+
+/* ============================================
+   УЛУЧШЕННАЯ ЧИТАЕМОСТЬ - OVERLAY 55%
+   ============================================ */
+
+/* Desktop: нормальная прозрачность для видимости Mercedes фона */
+@media (min-width: 769px) {
+  .hero-overlay {
+    background: linear-gradient(
+      to bottom, 
+      rgba(0, 0, 0, 0.3) 0%, 
+      rgba(0, 0, 0, 0.45) 100%
+    ) !important;
+  }
+}
+
+/* Mobile: нормальная прозрачность для видимости Mercedes фона */
+@media (max-width: 768px) {
+  .hero.hero-section .hero-overlay {
+    background: linear-gradient(
+      to bottom, 
+      rgba(0, 0, 0, 0.3) 0%, 
+      rgba(0, 0, 0, 0.45) 100%
+    ) !important;
+  }
+  
+  /* Убираем лишние затемнения на mobile */
+  .hero.hero-section.premium-bg-overlay::before,
+  .hero.hero-section.premium-bg-overlay::after {
+    display: none !important;
+    background: none !important;
+  }
+  
+  .hero.hero-section.premium-processed::before,
+  .hero.hero-section.premium-processed::after {
+    display: none !important;
+    background: none !important;
+  }
+}
+
+/* Hero section: исключение - используем нормальную прозрачность */
+.hero.hero-section.premium-bg-overlay::before {
+  display: none !important;
+  background: none !important;
+}
+
+/* Другие секции: стандартное затемнение */
+.premium-bg-overlay::before {
+  background: rgba(0, 0, 0, 0.55) !important;
+}
+
+.premium-bg-overlay-strong::before {
+  background: rgba(0, 0, 0, 0.65) !important;
+}
+
+/* ============================================
+   УЛУЧШЕННЫЕ HIT-AREAS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Все интерактивные элементы минимум 48px */
+  button,
+  a.btn,
+  .mobile-chip,
+  .mobile-zone-item,
+  .mobile-package-card {
+    min-height: 48px;
+    min-width: 48px;
+    touch-action: manipulation;
+  }
+  
+  /* Улучшенные отступы для удобного нажатия */
+  .mobile-chip {
+    padding: 14px 24px !important;
+  }
+}
+
+/* ============================================
+   ПЛАВНЫЕ АНИМАЦИИ БЕЗ СКАЧКОВ
+   ============================================ */
+
+.mobile-wizard-step {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.mobile-wizard-step.active {
+  animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.mobile-wizard-step.slide-out {
+  animation: slideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+/* ============================================
+   SAFE-AREA ДЛЯ iOS
+   ============================================ */
+
+@supports (padding: max(0px)) {
+  .mobile-wizard-footer {
+    padding-bottom: max(var(--space-md), env(safe-area-inset-bottom)) !important;
+  }
+  
+  .container {
+    padding-left: max(var(--space-md), env(safe-area-inset-left));
+    padding-right: max(var(--space-md), env(safe-area-inset-right));
+  }
+  
+  section {
+    padding-bottom: max(var(--space-xl), env(safe-area-inset-bottom));
+  }
+}
+
+/* ============================================
+   УЛУЧШЕННАЯ ТИПОГРАФИКА
+   ============================================ */
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   УЛУЧШЕННЫЕ HOVER СОСТОЯНИЯ
+   ============================================ */
+
+@media (min-width: 769px) {
+  .benefit-card-glass:hover,
+  .service-card:hover,
+  .portfolio-item:hover {
+    transform: translateY(-8px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* ============================================
+   УЛУЧШЕННЫЕ CTA-КНОПКИ
+   ============================================ */
+
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-primary:hover::after {
+  opacity: 1;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(22, 132, 145, 0.5),
+              0 0 0 4px rgba(22, 132, 145, 0.2);
+}
+
+/* ============================================
+   УЛУЧШЕННЫЕ ОТСТУПЫ И ВОЗДУХ
+   ============================================ */
+
+@media (min-width: 769px) {
+  section {
+    padding: var(--space-2xl) 0;
+  }
+  
+  .container {
+    padding: 0 var(--space-xl);
+  }
+  
+  .benefits-grid,
+  .services-grid,
+  .portfolio-gallery {
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+  }
+}
+
+/* ============================================
+   УЛУЧШЕННАЯ ДОСТУПНОСТЬ
+   ============================================ */
+
+*:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible {
+  box-shadow: 0 0 0 4px rgba(22, 132, 145, 0.3);
+}
+
+/* Улучшенный контраст */
+.text-muted {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* ============================================
+   УЛУЧШЕННАЯ ПРОИЗВОДИТЕЛЬНОСТЬ
+   ============================================ */
+
+.parallax-image,
+.responsive-bg {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Оптимизация анимаций */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
