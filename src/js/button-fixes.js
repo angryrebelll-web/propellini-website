@@ -4,15 +4,25 @@
   'use strict';
 
   function initButtonFixes() {
-    // Исправление всех кнопок калькулятора
+    // Исправление всех кнопок калькулятора - делегирование событий
     document.addEventListener('click', (e) => {
       const target = e.target;
       
       // Кнопки открытия калькулятора - используем modal
-      if (target.matches('.calculator-open-btn') || 
-          target.closest('.calculator-open-btn') ||
-          target.matches('.open-calculator') ||
-          target.closest('.open-calculator')) {
+      if (target.matches('.calculator-open-btn, .open-calculator, [data-action="open-calculator"], #calculatorNavBtn') || 
+          target.closest('.calculator-open-btn, .open-calculator, [data-action="open-calculator"], #calculatorNavBtn')) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (window.openCalculatorModal) {
+          window.openCalculatorModal();
+        } else if (window.calculator && window.calculator.openModal) {
+          window.calculator.openModal();
+        }
+      }
+      
+      // Кнопки "Рассчитать стоимость"
+      if (target.matches('.btn-calculate, .calculate-btn, [data-action="calculate"]') ||
+          target.closest('.btn-calculate, .calculate-btn, [data-action="calculate"]')) {
         e.preventDefault();
         e.stopPropagation();
         if (window.openCalculatorModal) {
@@ -21,27 +31,36 @@
       }
       
       // Кнопки открытия модального окна скидки
-      if (target.matches('.discount-open-btn') || target.closest('.discount-open-btn')) {
+      if (target.matches('.discount-open-btn, .get-discount-btn') || 
+          target.closest('.discount-open-btn, .get-discount-btn')) {
         e.preventDefault();
         e.stopPropagation();
         const discountModal = document.getElementById('discountModal');
         if (discountModal) {
           discountModal.style.display = 'flex';
           document.body.classList.add('no-scroll');
+        } else if (window.openOrderForm) {
+          // Если нет модального окна скидки, открываем форму заказа
+          window.openOrderForm();
         }
       }
       
-      // Кнопки открытия формы заказа
-      if (target.matches('.application-open-btn') || target.closest('.application-open-btn')) {
+      // Кнопки открытия формы заказа / Записаться
+      if (target.matches('.application-open-btn, .order-btn, .book-btn, [data-action="order"]') || 
+          target.closest('.application-open-btn, .order-btn, .book-btn, [data-action="order"]')) {
         e.preventDefault();
         e.stopPropagation();
-        const orderModal = document.getElementById('orderModal');
-        if (orderModal) {
-          orderModal.style.display = 'flex';
-          document.body.classList.add('no-scroll');
+        if (window.openOrderForm) {
+          window.openOrderForm();
+        } else {
+          const orderModal = document.getElementById('orderModal');
+          if (orderModal) {
+            orderModal.style.display = 'flex';
+            document.body.classList.add('no-scroll');
+          }
         }
       }
-    });
+    }, true); // Используем capture phase
 
     // Исправление навигации на мобильных
     const navToggle = document.getElementById('navToggle');
