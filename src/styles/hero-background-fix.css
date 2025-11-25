@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url('/public/images/hero/hero-desktop.jpg') center/cover no-repeat;
+  background: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-2560x1440.jpg') center/cover no-repeat;
   background-attachment: fixed; /* Параллакс для desktop */
 }
 
@@ -38,7 +38,7 @@
 /* Мобильная версия */
 @media (max-width: 900px) {
   .hero.hero-section {
-    background-image: url('/public/images/hero/hero-mobile.jpg');
+    background-image: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-1080x1920.jpg');
     background-attachment: scroll; /* Отключаем fixed на mobile */
     background-size: cover;
     background-position: center center;

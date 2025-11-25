@@ -299,7 +299,17 @@
         e.stopPropagation();
         openOrderForm();
       }
-    });
+      
+      // Кнопки "Получить скидку" - открывают форму
+      if (target.matches('.discount-open-btn') || 
+          target.closest('.discount-open-btn') ||
+          target.matches('[data-action="open-discount"]') ||
+          target.closest('[data-action="open-discount"]')) {
+        e.preventDefault();
+        e.stopPropagation();
+        openOrderForm();
+      }
+    }, true); // Используем capture phase для надежности
 
     // Экспортируем функции для глобального доступа
     window.openOrderForm = openOrderForm;

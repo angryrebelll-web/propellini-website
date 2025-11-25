@@ -1,9 +1,9 @@
 /* Reviews Section - Horizontal Scroll */
 
 .reviews-slider {
-  display: flex;
-  overflow-x: auto;
-  overflow-y: hidden;
+  display: flex !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
   gap: var(--space-md);
   padding: var(--space-md) 0;
   margin-top: var(--space-lg);
@@ -11,6 +11,8 @@
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: rgba(22, 132, 145, 0.5) transparent;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .reviews-slider::-webkit-scrollbar {
@@ -36,19 +38,53 @@
   width: 320px;
   min-width: 280px;
   scroll-snap-align: start;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: rgba(15, 15, 15, 0.9) !important;
+  border: 1px solid rgba(22, 132, 145, 0.3) !important;
   border-radius: 12px;
   padding: var(--space-lg);
   position: relative;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: var(--text) !important;
 }
 
 .review-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(22, 132, 145, 0.2);
+}
+
+/* Убеждаемся что отзывы видны */
+.reviews {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.reviews .container {
+  display: block !important;
+  visibility: visible !important;
+}
+
+.review-stars,
+.review-text,
+.review-author {
+  color: var(--text) !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: block !important;
+}
+
+.review-link-hint {
+  color: rgba(22, 132, 145, 0.8) !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: block !important;
+  margin-top: var(--space-sm);
+  font-size: 14px;
 }
 
 /* Desktop - показываем больше карточек */
