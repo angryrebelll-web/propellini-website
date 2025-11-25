@@ -735,8 +735,8 @@
 
   <!-- 9. TEASER VIDEO SECTION -->
   <section class="video-section" id="video">
-    <!-- Desktop video - Rutube iframe -->
-    <div class="video-background video-desktop" id="videoDesktopContainer">
+    <!-- Desktop video - Rutube iframe - DISABLED, using YouTube instead -->
+    <div class="video-background video-desktop" id="videoDesktopContainer" style="display: none !important; visibility: hidden !important;">
       <div class="video-rutube-container" id="videoRutubeContainer" style="display: none;">
         <iframe 
           id="rutubeVideoFrame"
@@ -750,7 +750,7 @@
         </iframe>
       </div>
       <!-- Fallback для старых браузеров -->
-      <video id="desktopVideo" muted loop playsinline class="premium-processed" preload="metadata" webkit-playsinline style="display: none;">
+      <video id="desktopVideo" muted loop playsinline class="premium-processed" preload="metadata" webkit-playsinline style="display: none !important; visibility: hidden !important; opacity: 0 !important;">
         <source src="./public/images/video/teaser-desktop.mp4" type="video/mp4" />
         Ваш браузер не поддерживает видео.
       </video>

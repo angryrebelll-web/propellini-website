@@ -3938,7 +3938,25 @@ function initHeroVideo() {
   const desktopVideo = document.getElementById('heroVideoDesktop');
   const mobileVideo = document.getElementById('heroVideoMobile');
   
-  // Принудительно устанавливаем НОВОЕ видео для десктопа - полностью заменяем старое
+  // КРИТИЧНО: Отключаем старое видео и принудительно устанавливаем НОВОЕ YouTube видео для десктопа
+  // Отключаем старый video элемент
+  const oldDesktopVideo = document.getElementById('desktopVideo');
+  if (oldDesktopVideo) {
+    oldDesktopVideo.style.display = 'none';
+    oldDesktopVideo.style.visibility = 'hidden';
+    oldDesktopVideo.style.opacity = '0';
+    oldDesktopVideo.pause();
+    oldDesktopVideo.src = '';
+    oldDesktopVideo.removeAttribute('src');
+  }
+  
+  const oldVideoContainer = document.getElementById('videoDesktopContainer');
+  if (oldVideoContainer) {
+    oldVideoContainer.style.display = 'none';
+    oldVideoContainer.style.visibility = 'hidden';
+  }
+  
+  // Принудительно устанавливаем НОВОЕ YouTube видео для десктопа
   if (desktopVideo && window.innerWidth > 768) {
     const newDesktopVideoSrc = 'https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&si=r3ngGX13BomWWGXK&origin=https://angryrebelll-web.github.io';
     
@@ -3946,12 +3964,16 @@ function initHeroVideo() {
     desktopVideo.removeAttribute('src');
     desktopVideo.src = '';
     
-    // Принудительно устанавливаем новое видео
+    // Принудительно устанавливаем новое видео с задержкой для гарантии
     setTimeout(() => {
       desktopVideo.setAttribute('src', newDesktopVideoSrc);
       desktopVideo.src = newDesktopVideoSrc;
-      desktopVideo.load(); // Принудительно перезагружаем iframe
-    }, 100);
+      
+      // Принудительно перезагружаем iframe
+      setTimeout(() => {
+        desktopVideo.contentWindow?.location?.reload();
+      }, 200);
+    }, 150);
   }
   
   // Функция для обеспечения видимости и автовоспроизведения YouTube видео
