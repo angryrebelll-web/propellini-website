@@ -3926,21 +3926,60 @@ class CarWrappingCalculator {
 }
 
 // Инициализация калькулятора
+// КРИТИЧНО: Заменяем видео ДО загрузки DOM
+(function() {
+  'use strict';
+  
+  // Заменяем видео сразу, как только элемент появится
+  const replaceVideo = () => {
+    const heroSection = document.getElementById('hero') || document.querySelector('.hero');
+    if (!heroSection) return;
+    
+    const videoContainer = heroSection.querySelector('.hero-video-background');
+    if (!videoContainer) return;
+    
+    // Удаляем ВСЕ существующие iframe
+    const oldIframes = videoContainer.querySelectorAll('iframe');
+    oldIframes.forEach(iframe => iframe.remove());
+    
+    // Создаем новый iframe с новым видео и уникальным параметром для обхода кеша
+    const timestamp = Date.now();
+    const newVideoSrc = `https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&origin=https://angryrebelll-web.github.io&v=${timestamp}`;
+    
+    const newIframe = document.createElement('iframe');
+    newIframe.className = 'hero-video-iframe hero-video-element hero-video-desktop';
+    newIframe.id = 'heroVideoDesktop';
+    newIframe.width = '100%';
+    newIframe.height = '100%';
+    newIframe.src = newVideoSrc;
+    newIframe.setAttribute('frameborder', '0');
+    newIframe.setAttribute('scrolling', 'no');
+    newIframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+    newIframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    newIframe.setAttribute('allowfullscreen', '');
+    newIframe.setAttribute('title', '992 GT3RS Night Run | 4K - Фоновое видео');
+    
+    videoContainer.appendChild(newIframe);
+  };
+  
+  // Пытаемся заменить сразу
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', replaceVideo);
+  } else {
+    replaceVideo();
+  }
+  
+  // Также заменяем через небольшую задержку для гарантии
+  setTimeout(replaceVideo, 100);
+  setTimeout(replaceVideo, 500);
+  setTimeout(replaceVideo, 1000);
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
   window.calculator = new CarWrappingCalculator();
   
   // Управление автовоспроизведением фонового видео
   initHeroVideo();
-  
-  // ПРИНУДИТЕЛЬНАЯ перезагрузка видео через 1 секунду (на случай кеша)
-  setTimeout(() => {
-    initHeroVideo();
-  }, 1000);
-  
-  // ПРИНУДИТЕЛЬНАЯ перезагрузка видео через 3 секунды (для гарантии)
-  setTimeout(() => {
-    initHeroVideo();
-  }, 3000);
 });
 
 // Инициализация фонового видео из YouTube Shorts
