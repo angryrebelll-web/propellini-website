@@ -93,44 +93,45 @@
   
   /* Hero Full Wrap Banner - мобильная версия */
   .hero-full-wrap-banner {
-    flex: 1;
-    padding: var(--space-sm);
+    flex: 0.5;
+    max-width: 50%;
+    padding: var(--space-xs);
     min-height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, rgba(90, 60, 30, 0.98) 0%, rgba(70, 45, 25, 0.98) 100%);
-    border: 2px solid #FFD700;
-    border-radius: 12px;
-    box-shadow: 0 3px 15px rgba(255, 215, 0, 0.35), inset 0 0 15px rgba(255, 215, 0, 0.08);
+    border: 1.5px solid #FFD700;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(255, 215, 0, 0.35), inset 0 0 12px rgba(255, 215, 0, 0.08);
   }
   
   .gift-icon {
-    font-size: 28px;
-    margin-bottom: 6px;
-    filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.6));
+    font-size: 16px;
+    margin-bottom: 3px;
+    filter: drop-shadow(0 1px 5px rgba(255, 215, 0, 0.6));
   }
   
   .full-wrap-text {
-    gap: 3px;
+    gap: 1px;
   }
   
   .full-wrap-line1 {
-    font-size: 11px;
-    line-height: 1.3;
+    font-size: 9px;
+    line-height: 1.2;
     color: rgba(255, 255, 255, 0.95);
     font-weight: 400;
   }
   
   .full-wrap-line2,
   .full-wrap-line3 {
-    font-size: 14px;
-    line-height: 1.2;
+    font-size: 11px;
+    line-height: 1.1;
     font-weight: 700;
     color: #FFD700;
-    text-shadow: 0 1px 8px rgba(255, 215, 0, 0.5), 0 0 15px rgba(255, 215, 0, 0.3);
-    letter-spacing: 0.3px;
+    text-shadow: 0 1px 5px rgba(255, 215, 0, 0.5), 0 0 10px rgba(255, 215, 0, 0.3);
+    letter-spacing: 0.2px;
   }
   
   /* Hero Pricing - мобильная версия */
