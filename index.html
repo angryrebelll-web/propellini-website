@@ -21,29 +21,24 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500&family=Unbounded:wght@400;500;600;700;800;900&display=swap&subset=cyrillic,latin">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500&family=Unbounded:wght@400;500;600;700;800;900&display=swap&subset=cyrillic,latin" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500&family=Unbounded:wght@400;500;600;700;800;900&display=swap&subset=cyrillic,latin" rel="stylesheet"></noscript>
-  <!-- Global Styles -->
-  <link rel="stylesheet" href="src/styles/global.css" />
+  <!-- New Clean Architecture CSS -->
+  <link rel="stylesheet" href="src/css/base.css" />
+  <link rel="stylesheet" href="src/css/layout.css" />
+  <link rel="stylesheet" href="src/css/calculator.css" />
+  <link rel="stylesheet" href="src/css/modal.css" />
   
-  <!-- Module Styles -->
+  <!-- Legacy Module Styles (for compatibility) -->
   <link rel="stylesheet" href="src/modules/header/header.css" />
   <link rel="stylesheet" href="src/modules/hero/hero.css" />
   <link rel="stylesheet" href="src/modules/benefits/benefits.css" />
-  <link rel="stylesheet" href="src/modules/calculator/calculator.css" />
   <link rel="stylesheet" href="src/modules/gallery/gallery.css" />
   <link rel="stylesheet" href="src/modules/contacts/contacts.css" />
   <link rel="stylesheet" href="src/modules/footer/footer.css" />
   
-  <!-- Fixes -->
-  <link rel="stylesheet" href="src/styles/z-index-fix.css" />
-  <link rel="stylesheet" href="src/styles/performance-optimization.css" />
-  
   <!-- Legacy styles for compatibility -->
   <link rel="stylesheet" href="src/styles/responsive-bg.css" />
-  <link rel="stylesheet" href="src/styles/calculator-modal.css" />
-  <link rel="stylesheet" href="src/styles/unified-order-form.css" />
   <link rel="stylesheet" href="src/styles/hero-background-fix.css" />
   <link rel="stylesheet" href="src/styles/hero-background-fix-override.css" />
-  <link rel="stylesheet" href="src/styles/mobile-redesign.css" />
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -102,7 +97,7 @@
         <p class="hero-pricing-item">Оклейка кузова целиком от <strong>180 000 ₽</strong></p>
       </div>
       <div class="hero-cta">
-        <a href="#" class="btn btn-primary calculator-open-btn" id="heroCalculatorBtn" tabindex="0">Рассчитать стоимость</a>
+        <button class="cta-btn" id="openCalcBtn" tabindex="0">Рассчитать стоимость</button>
         <a href="#portfolio" class="btn btn-secondary" tabindex="0">Наши работы</a>
       </div>
       <div class="hero-contacts">
@@ -245,9 +240,45 @@
     </div>
   </section>
 
-  <!-- 5. CALCULATOR MODAL - Fullscreen Modal -->
-  <div class="calculator-modal-overlay" id="calculatorModalOverlay"></div>
-  <div class="calculator-modal" id="calculatorModal">
+  <!-- 5. CALCULATOR MODAL -->
+  <div id="calcModal" class="calc-modal hidden">
+    <div class="calc-overlay"></div>
+    <div class="calc-container">
+      <div class="calc-header">
+        <h2 id="calcStepTitle">Выберите марку автомобиля</h2>
+        <button id="closeCalcBtn" class="close-btn" aria-label="Закрыть">✕</button>
+      </div>
+      <div id="calcStepContent"></div>
+      <div class="calc-footer">
+        <button id="prevStepBtn" class="prev-btn" style="display: none;">Назад</button>
+        <div class="calc-total">
+          Итого: <span id="calcTotal">0 ₽</span>
+        </div>
+        <button id="nextStepBtn" class="next-btn" disabled>Далее</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Финальная форма заявки -->
+  <div id="requestModal" class="request-modal hidden">
+    <div class="req-overlay"></div>
+    <div class="req-container">
+      <button id="closeReqBtn" class="close-btn" aria-label="Закрыть">✕</button>
+      <h2>Запись на оклейку</h2>
+      <div id="reqSummary" class="req-summary"></div>
+      <form id="requestForm">
+        <input required type="text" name="name" placeholder="Ваше имя *" min-height="48">
+        <input required type="tel" name="phone" placeholder="+7 (___) ___-__-__ *" min-height="48">
+        <input type="email" name="email" placeholder="Email">
+        <textarea name="comment" placeholder="Комментарий"></textarea>
+        <button type="submit" class="send-btn">Отправить</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Legacy Calculator Modal (скрыт) -->
+  <div class="calculator-modal-overlay" id="calculatorModalOverlay" style="display: none;"></div>
+  <div class="calculator-modal" id="calculatorModal" style="display: none;">
     <button class="calculator-modal-close" id="calculatorModalClose" aria-label="Закрыть калькулятор" tabindex="0">&times;</button>
     <div class="calculator-modal-content">
       <section class="calculator-section" id="calculator">
@@ -1213,15 +1244,15 @@
   <!-- Utils -->
   <script src="src/utils/responsive-images.js"></script>
   
-  <!-- Core Scripts - Порядок важен! -->
+  <!-- New Clean Architecture JS -->
+  <script type="module" src="src/js/data.js"></script>
+  <script type="module" src="src/js/calculator.js"></script>
+  <script type="module" src="src/js/ui.js"></script>
+  <script type="module" src="src/js/modal.js"></script>
+  
+  <!-- Legacy Scripts (for compatibility) -->
   <script src="src/js/scroll-fix.js"></script>
   <script src="src/modules/header/header.js"></script>
-  <script src="src/modules/calculator/calculator-unified.js"></script>
-  
-  <!-- UI Scripts -->
-  <script src="src/js/calculator-modal.js"></script>
-  <script src="src/js/unified-order-form.js"></script>
-  <script src="src/js/button-fixes.js"></script>
   <script src="src/js/portfolio-lightbox.js"></script>
   <script src="src/js/mobile-gallery-swipe.js"></script>
   <script src="src/js/parallax-enhancements.js"></script>

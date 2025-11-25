@@ -1,0 +1,70 @@
+/* ============================================
+   BASE - Базовые стили, переменные, reset
+   ============================================ */
+
+:root {
+  --primary: #168491;
+  --primary-dark: #126d77;
+  --primary-light: #1fa5b5;
+  --bg: #0f0f0f;
+  --bg-2: #0a0a0a;
+  --bg-card: rgba(18, 18, 18, 0.7);
+  --border: rgba(22, 132, 145, 0.22);
+  --text: #ffffff;
+  --text-muted: #b3b3b3;
+  --text-dark: #666666;
+  
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  --space-2xl: 96px;
+  
+  --font-montserrat: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-roboto: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-unbounded: 'Unbounded', sans-serif;
+  
+  --transition-fast: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-base: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-roboto);
+  font-size: 16px;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-sm);
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
