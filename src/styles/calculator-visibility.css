@@ -1,0 +1,38 @@
+/* Calculator Visibility - Показ/скрытие desktop и mobile версий */
+
+/* Desktop версия - показываем на больших экранах */
+@media (min-width: 901px) {
+  .calculator-desktop {
+    display: block !important;
+  }
+  
+  .calculator-mobile {
+    display: none !important;
+  }
+}
+
+/* Mobile версия - показываем на маленьких экранах */
+@media (max-width: 900px) {
+  .calculator-desktop {
+    display: none !important;
+  }
+  
+  .calculator-mobile {
+    display: block !important;
+  }
+}
+
+/* Убеждаемся что калькулятор виден в модальном окне */
+.calculator-modal.active .calculator-section {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.calculator-modal.active .calculator-desktop,
+.calculator-modal.active .calculator-mobile {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
