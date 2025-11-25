@@ -215,6 +215,20 @@
     overflow-y: visible !important;
     box-sizing: border-box !important;
     position: relative !important;
+    background: transparent !important; /* Прозрачный фон для видео */
+  }
+
+  /* Скрываем фоновое изображение, когда есть видео */
+  .hero:has(.hero-video-background),
+  .hero.hero-section.responsive-bg:has(.hero-video-background) {
+    background-image: none !important;
+    background: transparent !important;
+  }
+
+  .hero:has(.hero-video-background)::before,
+  .hero:has(.hero-video-background)::after,
+  .hero-section.responsive-bg:has(.hero-video-background)::before {
+    display: none !important;
   }
 
   /* Фоновое видео для мобильной версии - как на icondetailing.ru */
@@ -272,11 +286,18 @@
   }
 
   /* Специальные стили для мобильного видео */
-  .hero-video-mobile {
+  .hero-video-mobile.hero-video-iframe {
     width: 100% !important;
     height: 100% !important;
     min-width: 100% !important;
     min-height: 100% !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 0 !important;
+    opacity: 1 !important;
+    display: block !important;
+    visibility: visible !important;
   }
 
   .hero-overlay {
