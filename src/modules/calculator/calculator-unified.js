@@ -216,6 +216,9 @@
       // Обновляем модели если выбрана марка
       if (this.selectedBrand) {
         this.renderModels();
+      }
+      // Обновляем зоны если выбран класс
+      if (this.selectedClass) {
         this.renderZones();
       }
     }
@@ -245,17 +248,30 @@
       if (!this.selectedClass) return;
       
       const zones = this.getZonesForClass(this.selectedClass);
+      // Ищем контейнер для зон в desktop калькуляторе
       const container = document.getElementById('zonesContainer') || 
-                       document.querySelector('.zones-list');
+                       document.querySelector('#zonesSelection .zones-list') ||
+                       document.querySelector('.zones-list') ||
+                       document.querySelector('#zonesSelection');
       if (!container) return;
       
-      container.innerHTML = '';
+      // Если контейнер - это сама секция, создаем список внутри
+      let zonesList = container.querySelector('.zones-list');
+      if (!zonesList && container.id === 'zonesSelection') {
+        zonesList = document.createElement('div');
+        zonesList.className = 'zones-list';
+        container.appendChild(zonesList);
+      }
+      const targetContainer = zonesList || container;
+      
+      targetContainer.innerHTML = '';
       
       zones.forEach(zone => {
         const item = document.createElement('label');
         item.className = 'zone-item';
+        const isChecked = this.selectedZones.has(zone.id);
         item.innerHTML = `
-          <input type="checkbox" value="${zone.id}" data-zone="${zone.id}">
+          <input type="checkbox" value="${zone.id}" data-zone="${zone.id}" ${isChecked ? 'checked' : ''}>
           <span>${zone.name}</span>
           <span class="zone-price">${zone.price.toLocaleString('ru-RU')} ₽</span>
         `;
@@ -268,7 +284,7 @@
           }
           this.updateTotal();
         });
-        container.appendChild(item);
+        targetContainer.appendChild(item);
       });
     }
 
