@@ -2,14 +2,27 @@
 
 /* Hero Section - Mobile Background */
 @media (max-width: 768px) {
+  /* Навигация - убеждаемся что не перекрывает контент */
+  .main-nav {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  /* Отступ сверху для hero, чтобы навигация не перекрывала */
   .hero.hero-section {
     background-image: url('/public/images/hero/hero-mobile.jpg') !important;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: scroll;
-    min-height: 100vh;
-    height: 100vh;
+    padding-top: 70px; /* Отступ для навигации */
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: calc(100vh - 70px);
   }
   
   /* Убеждаемся, что overlay правильно работает на мобильных */
@@ -20,68 +33,67 @@
     z-index: 4;
   }
   
-  /* Hero Content - мобильная оптимизация */
+  /* Hero Content - мобильная оптимизация (сохраняем выравнивание слева) */
   .hero-content {
-    padding: var(--space-md) var(--space-sm);
-    text-align: center;
+    padding: var(--space-lg) var(--space-md);
+    position: relative;
+    z-index: 5; /* Выше overlay */
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   
-  /* Hero Title - адаптивный размер */
+  /* Hero Title - адаптивный размер (сохраняем выравнивание слева) */
   .hero-title {
-    font-size: clamp(32px, 10vw, 56px);
-    margin-top: var(--space-lg);
-    margin-bottom: var(--space-md);
-    text-align: center;
+    font-size: clamp(32px, 8vw, 56px);
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-sm);
     line-height: 1.2;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: block;
+    width: 100%;
   }
   
   /* Hero Promo - мобильная версия */
   .hero-promo {
-    margin-bottom: var(--space-md);
-    text-align: center;
+    margin-bottom: var(--space-lg);
   }
   
   .hero-promo-text {
     font-size: 16px;
-    margin-bottom: var(--space-sm);
     line-height: 1.5;
   }
   
   /* Hero Pricing - мобильная версия */
   .hero-pricing {
-    margin-bottom: var(--space-md);
-    text-align: center;
+    margin-bottom: var(--space-lg);
   }
   
   .hero-pricing-item {
     font-size: 16px;
-    margin-bottom: var(--space-xs);
   }
   
   .hero-pricing-item strong {
     font-size: 18px;
   }
   
-  /* Hero CTA - мобильная версия */
+  /* Hero CTA - мобильная версия (вертикальное расположение только если нужно) */
   .hero-cta {
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: var(--space-sm);
-    margin-bottom: var(--space-md);
-    align-items: stretch;
   }
   
   .hero-cta .btn {
-    width: 100%;
+    flex: 1 1 auto;
+    min-width: 140px;
     padding: var(--space-md) var(--space-lg);
-    font-size: 16px;
+    font-size: 15px;
   }
   
   /* Hero Contacts - мобильная версия */
   .hero-contacts {
-    margin-top: var(--space-md);
-    text-align: center;
-    gap: var(--space-xs);
+    margin-top: var(--space-lg);
   }
   
   .hero-phone {
@@ -96,8 +108,441 @@
     font-size: 13px;
   }
   
-  /* Hero Scroll Indicator - скрываем на мобильных или уменьшаем */
-  .hero-scroll-indicator {
+  /* Services Section - горизонтальный скролл для пакетов услуг */
+  .services .container {
+    overflow: visible;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  .services-grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: var(--space-md);
+    padding: var(--space-md) 0;
+    margin-left: var(--space-md);
+    margin-right: var(--space-md);
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) rgba(255, 255, 255, 0.1);
+  }
+  
+  .services-grid::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .services-grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+  
+  .services-grid::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+  }
+  
+  .service-card {
+    flex: 0 0 85%;
+    max-width: 85%;
+    min-width: 280px;
+    scroll-snap-align: start;
+    margin: 0;
+  }
+  
+  .service-card:first-child {
+    margin-left: 0;
+  }
+  
+  .service-card:last-child {
+    margin-right: 0;
+  }
+  
+  /* Уменьшение отступов секций на мобильных */
+  .benefits {
+    padding: var(--space-lg) 0;
+  }
+  
+  .benefits-grid {
+    margin-top: var(--space-md);
+    gap: var(--space-xs);
+  }
+  
+  .about {
+    padding: var(--space-lg) 0;
+  }
+  
+  .services {
+    padding: var(--space-lg) 0;
+  }
+  
+  .services-grid {
+    margin-top: var(--space-md);
+  }
+  
+  .process {
+    padding: var(--space-lg) 0;
+  }
+  
+  .portfolio {
+    padding: var(--space-lg) 0;
+  }
+  
+  .reviews {
+    padding: var(--space-lg) 0;
+  }
+  
+  .contacts {
+    padding: var(--space-lg) 0;
+  }
+  
+  /* Уменьшение размеров заголовков секций */
+  .section-title {
+    font-size: clamp(32px, 8vw, 48px);
+    margin-bottom: var(--space-md);
+  }
+  
+  .section-subtitle {
+    font-size: 18px;
+    margin-bottom: var(--space-md);
+  }
+  
+  /* Уменьшение отступов в карточках */
+  .service-card {
+    padding: var(--space-md);
+  }
+  
+  .benefit-card-glass {
+    padding: var(--space-sm);
+  }
+  
+  /* Уменьшение высоты hero секции */
+  .hero {
+    min-height: calc(100vh - 70px); /* Учитываем высоту навигации */
+    height: auto;
+    padding-bottom: var(--space-lg);
+    overflow: visible; /* Убираем overflow: hidden на мобильных */
+    position: relative;
+  }
+  
+  /* Убеждаемся что все элементы hero видны */
+  .hero-promo,
+  .hero-pricing,
+  .hero-cta,
+  .hero-contacts {
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 5;
+  }
+  
+  .hero-promo-text,
+  .hero-pricing-item {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+  }
+  
+  /* Уменьшение отступов между элементами в hero */
+  .hero-promo {
+    margin-bottom: var(--space-md);
+  }
+  
+  .hero-pricing {
+    margin-bottom: var(--space-md);
+  }
+  
+  .hero-cta {
+    margin-bottom: var(--space-md);
+  }
+  
+  .hero-contacts {
+    margin-top: var(--space-md);
+  }
+  
+  /* Уменьшение отступов в about секции */
+  .about-content {
+    margin-bottom: var(--space-md);
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Исправление карточек достижений - мобильная версия */
+  .about-achievements {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    margin-top: var(--space-md);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .achievement-card {
+    padding: var(--space-md) var(--space-sm);
+    width: 100%;
+    box-sizing: border-box;
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .achievement-number {
+    font-size: 28px;
+    margin-bottom: var(--space-xs);
+    line-height: 1;
+    word-break: break-word;
+  }
+  
+  .achievement-label {
+    font-size: 11px;
+    line-height: 1.3;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+  }
+  
+  .about-promo {
+    margin-top: var(--space-md);
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Уменьшение отступов в process */
+  .process-steps {
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+  }
+  
+  /* Портфолио - убираем скролл, делаем обычный свайп картинок */
+  .portfolio-gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+    overflow: visible;
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+    scroll-snap-type: none;
+  }
+  
+  .portfolio-gallery::-webkit-scrollbar {
     display: none;
+  }
+  
+  .portfolio-item {
+    width: 100%;
+    max-width: 100%;
+    flex: none;
+    margin: 0;
+    scroll-snap-align: none;
+  }
+  
+  .portfolio-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+  }
+  
+  /* Уменьшение отступов в reviews */
+  .reviews-slider {
+    margin-top: var(--space-md);
+    gap: var(--space-md);
+  }
+  
+  /* Уменьшение отступов в contacts */
+  .contacts-content {
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+  }
+  
+  /* Уменьшение высоты video секции */
+  .video-section {
+    height: 300px;
+    padding: var(--space-md) 0;
+  }
+  
+  /* Уменьшение отступов в films */
+  .films {
+    padding: var(--space-md) 0;
+  }
+  
+  /* Исправление калькулятора - мобильная версия */
+  .calculator-section {
+    padding: var(--space-lg) var(--space-sm);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .calculator-mobile {
+    width: 100%;
+    max-width: 100%;
+    padding: var(--space-md);
+    box-sizing: border-box;
+  }
+  
+  .calculator-header {
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    box-sizing: border-box;
+  }
+  
+  .calculator-body {
+    padding: var(--space-md);
+    box-sizing: border-box;
+  }
+  
+  .calculator-step {
+    margin-bottom: var(--space-lg);
+    padding: var(--space-md);
+    box-sizing: border-box;
+    width: 100%;
+  }
+  
+  .calculator-step h3 {
+    font-size: 18px;
+    margin-bottom: var(--space-md);
+    word-wrap: break-word;
+  }
+  
+  .calculator-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    width: 100%;
+  }
+  
+  .calculator-option {
+    padding: var(--space-md);
+    margin-bottom: var(--space-sm);
+    box-sizing: border-box;
+    width: 100%;
+  }
+  
+  .calculator-summary {
+    padding: var(--space-md);
+    margin-top: var(--space-lg);
+    box-sizing: border-box;
+    width: 100%;
+  }
+  
+  .calculator-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    box-sizing: border-box;
+    width: 100%;
+  }
+  
+  .calculator-nav .btn {
+    flex: 1;
+    min-width: 0;
+    padding: var(--space-md);
+    font-size: 14px;
+  }
+  
+  /* Общее уменьшение отступов контейнера */
+  .container {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+    overflow: visible; /* Убираем возможные проблемы с overflow */
+  }
+  
+  /* Убеждаемся что секции не наезжают друг на друга */
+  section {
+    position: relative;
+    overflow: visible;
+  }
+  
+  /* Исправление для about секции */
+  .about {
+    overflow: visible;
+  }
+  
+  .about-background {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  .about .container {
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Исправление для benefits */
+  .benefits {
+    position: relative;
+    z-index: 5;
+  }
+  
+  /* Исправление для services */
+  .services {
+    position: relative;
+    z-index: 5;
+  }
+  
+  /* Исправление для process */
+  .process {
+    position: relative;
+    z-index: 5;
+  }
+  
+  /* Исправление для portfolio */
+  .portfolio {
+    position: relative;
+    z-index: 5;
+  }
+  
+  /* Исправление для reviews */
+  .reviews {
+    position: relative;
+    z-index: 5;
+  }
+  
+  /* Исправление для contacts */
+  .contacts {
+    position: relative;
+    z-index: 5;
+  }
+  
+  /* Убеждаемся что карточки не выходят за границы */
+  .service-card,
+  .benefit-card-glass,
+  .portfolio-item {
+    position: relative;
+    overflow: visible;
+  }
+  
+  /* Исправление для sticky bottom bar если есть */
+  .sticky-bottom-bar {
+    z-index: 999;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  /* Убеждаемся что калькулятор не перекрывает контент */
+  .calculator-section {
+    position: relative;
+    z-index: 100;
   }
 }
