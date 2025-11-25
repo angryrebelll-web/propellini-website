@@ -200,14 +200,25 @@
     }
 
     renderBrands(container) {
-      const brandsContainer = container.querySelector('.brands-container') || container;
+      // Ищем контейнер для брендов в desktop калькуляторе
+      const brandsContainer = container.querySelector('#brandChips') ||
+                             container.querySelector('.chips-wrapper') ||
+                             container.querySelector('.brands-container') || 
+                             container;
+      if (!brandsContainer) return;
+      
       brandsContainer.innerHTML = '';
       
       Object.keys(CALCULATOR_DATA.brands).forEach(brand => {
         const chip = document.createElement('button');
         chip.className = 'brand-chip';
         chip.textContent = brand;
-        chip.addEventListener('click', () => this.selectBrand(brand));
+        chip.dataset.brand = brand;
+        chip.addEventListener('click', () => {
+          this.selectBrand(brand);
+          document.querySelectorAll('.brand-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+        });
         brandsContainer.appendChild(chip);
       });
     }
