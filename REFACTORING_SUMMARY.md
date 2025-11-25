@@ -126,3 +126,4 @@ src/
 3. Lazy loading для изображений
 4. Оптимизация шрифтов (preload, subset)
 
+

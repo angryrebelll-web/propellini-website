@@ -1,0 +1,536 @@
+/* ============================================
+   PROPELLINI - Единый стиль
+   ============================================ */
+
+:root {
+  --primary: #168491;
+  --primary-light: #1fa5b5;
+  --primary-dark: #0f5d66;
+  --text: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --bg-dark: #0f0f0f;
+  --bg-card: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.1);
+  --font-unbounded: 'Unbounded', sans-serif;
+  --font-roboto: 'Roboto', sans-serif;
+  --font-montserrat: 'Montserrat', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-roboto);
+  color: var(--text);
+  background: var(--bg-dark);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Исправление мобильного скролла */
+@media (max-width: 768px) {
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+  }
+  
+  * {
+    max-width: 100%;
+  }
+}
+
+/* Навигация */
+.main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-logo-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.nav-logo-text {
+  font-family: var(--font-unbounded);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--bg-dark);
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 24px;
+  align-items: center;
+}
+
+.nav-menu a {
+  color: var(--bg-dark);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-menu a:hover {
+  color: var(--primary);
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.nav-toggle span {
+  width: 24px;
+  height: 2px;
+  background: var(--bg-dark);
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
+  }
+  
+  .nav-menu {
+    position: fixed;
+    top: 73px;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    padding: 24px;
+    gap: 16px;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-menu.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* HERO секция */
+.hero,
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform;
+}
+
+/* Desktop фоновое изображение */
+@media (min-width: 769px) {
+  .hero-bg {
+    background-image: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-2560x1440.jpg');
+  }
+}
+
+/* Mobile фоновое изображение */
+@media (max-width: 768px) {
+  .hero-bg {
+    background-image: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-1080x1920.jpg');
+  }
+}
+
+/* Параллакс эффект (только на desktop) */
+@media (min-width: 769px) {
+  .hero-bg {
+    transform: translateZ(0);
+    transition: transform 0.1s ease-out;
+  }
+  
+  body.scrolling .hero-bg {
+    transform: translateY(calc(var(--scroll-y, 0) * 0.5px));
+  }
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 120px 24px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-title {
+  font-family: var(--font-unbounded);
+  font-size: clamp(36px, 8vw, 72px);
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 32px;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  line-height: 1.1;
+}
+
+.hero-promo-wrapper {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.hero-promo {
+  background: rgba(22, 132, 145, 0.2);
+  border: 1px solid rgba(22, 132, 145, 0.4);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.hero-promo-text {
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.hero-pricing {
+  margin-bottom: 32px;
+}
+
+.hero-pricing-item {
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.hero-pricing-item strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.cta-btn,
+.btn {
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.btn-primary,
+.cta-btn {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-primary:hover,
+.cta-btn:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--text);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: var(--text);
+  color: var(--bg-dark);
+}
+
+.hero-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.hero-phone,
+.hero-email {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.2s ease;
+}
+
+.hero-phone:hover,
+.hero-email:hover {
+  color: var(--primary);
+}
+
+.hero-address {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    padding: 100px 20px 60px;
+  }
+  
+  .hero-title {
+    font-size: 32px;
+    margin-bottom: 24px;
+  }
+  
+  .hero-promo-wrapper {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .hero-cta {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .cta-btn,
+  .btn {
+    width: 100%;
+  }
+}
+
+/* Модальное окно формы заявки */
+.request-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.request-modal:not(.hidden) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.req-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.req-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  background: var(--bg-dark);
+  border-radius: 24px;
+  padding: 32px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.request-modal:not(.hidden) .req-container {
+  transform: scale(1);
+}
+
+.req-container h2 {
+  font-family: var(--font-unbounded);
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.req-summary {
+  background: rgba(22, 132, 145, 0.1);
+  border: 1px solid rgba(22, 132, 145, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.req-summary p {
+  margin-bottom: 8px;
+}
+
+.req-summary p:last-child {
+  margin-bottom: 0;
+}
+
+.req-summary strong {
+  color: var(--primary);
+}
+
+#requestForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#requestForm input,
+#requestForm textarea {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: var(--font-roboto);
+  font-size: 16px;
+  transition: all 0.2s ease;
+  min-height: 48px;
+}
+
+#requestForm input:focus,
+#requestForm textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+#requestForm textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.send-btn {
+  padding: 14px 24px;
+  border-radius: 12px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 48px;
+  margin-top: 8px;
+}
+
+.send-btn:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .req-container {
+    max-width: 100%;
+    margin: 20px;
+    padding: 24px 20px;
+    border-radius: 24px 24px 0 0;
+  }
+}
+
+/* Утилиты */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section-title {
+  font-family: var(--font-unbounded);
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 400;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+/* Отключение background-blend-mode для изображений */
+img {
+  background-blend-mode: normal !important;
+}
+
+/* Исправление overflow на мобильных */
+@media (max-width: 768px) {
+  section,
+  .container {
+    overflow-x: hidden;
+  }
+  
+  * {
+    max-width: 100vw;
+  }
+}
+

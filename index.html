@@ -21,11 +21,10 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500&family=Unbounded:wght@400;500;600;700;800;900&display=swap&subset=cyrillic,latin">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500&family=Unbounded:wght@400;500;600;700;800;900&display=swap&subset=cyrillic,latin" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@400;500&family=Unbounded:wght@400;500;600;700;800;900&display=swap&subset=cyrillic,latin" rel="stylesheet"></noscript>
-  <!-- New Clean Architecture CSS -->
-  <link rel="stylesheet" href="src/css/base.css" />
-  <link rel="stylesheet" href="src/css/layout.css" />
-  <link rel="stylesheet" href="src/css/calculator.css" />
-  <link rel="stylesheet" href="src/css/modal.css" />
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/calculator.css" />
+  <link rel="stylesheet" href="css/cards.css" />
   
   <!-- Legacy Module Styles (for compatibility) -->
   <link rel="stylesheet" href="src/modules/header/header.css" />
@@ -74,7 +73,8 @@
   </nav>
 
   <!-- 1. HERO SECTION -->
-  <section class="hero hero-section responsive-bg premium-bg-overlay premium-processed parallax-image" id="hero" data-bg-desktop="/public/images/hero/hero-desktop.jpg" data-bg-mobile="/public/images/hero/hero-mobile.jpg">
+  <section class="hero hero-section" id="hero">
+    <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1 class="hero-title">Оклейка<br>автомобиля<br>защитной пленкой</h1>
@@ -93,8 +93,8 @@
         </div>
       </div>
       <div class="hero-pricing">
-        <p class="hero-pricing-item">Оклейка зон риска от <strong>25 000 ₽</strong></p>
-        <p class="hero-pricing-item">Оклейка кузова целиком от <strong>180 000 ₽</strong></p>
+        <p class="hero-pricing-item">Оклейка зон риска от <strong>35 000 ₽</strong></p>
+        <p class="hero-pricing-item">Оклейка кузова целиком от <strong>120 000 ₽</strong></p>
       </div>
       <div class="hero-cta">
         <button class="cta-btn" id="openCalcBtn" tabindex="0">Рассчитать стоимость</button>
@@ -109,45 +109,39 @@
   </section>
 
   <!-- 2. UTP / BENEFITS SECTION -->
-  <section class="benefits" id="benefits">
+  <section class="benefits-section" id="benefits">
     <div class="container">
       <h2 class="section-title">Почему выбирают PROPELLINI</h2>
-      <div class="benefits-grid">
-        <div class="benefit-card-glass" data-animate="fade-up">
-          <div class="benefit-glass-content">
-            <h3 class="benefit-glass-title">Премиум материалы</h3>
-            <p class="benefit-glass-text">Только сертифицированные пленки мировых брендов</p>
-          </div>
+      <div class="benefits-cards-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">✨</div>
+          <h3>Премиум материалы</h3>
+          <p>Только сертифицированные пленки мировых брендов</p>
         </div>
-        <div class="benefit-card-glass" data-animate="fade-up">
-          <div class="benefit-glass-content">
-            <h3 class="benefit-glass-title">Гарантия качества</h3>
-            <p class="benefit-glass-text">Официальная гарантия на все виды работ</p>
-          </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🛡️</div>
+          <h3>Гарантия качества</h3>
+          <p>Официальная гарантия на все виды работ</p>
         </div>
-        <div class="benefit-card-glass" data-animate="fade-up">
-          <div class="benefit-glass-content">
-            <h3 class="benefit-glass-title">Опытные мастера</h3>
-            <p class="benefit-glass-text">Команда профессионалов с многолетним опытом</p>
-          </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">👨‍🔧</div>
+          <h3>Опытные мастера</h3>
+          <p>Команда профессионалов с многолетним опытом</p>
         </div>
-        <div class="benefit-card-glass" data-animate="fade-up">
-          <div class="benefit-glass-content">
-            <h3 class="benefit-glass-title">Современное оборудование</h3>
-            <p class="benefit-glass-text">Используем передовые технологии и инструменты</p>
-          </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">⚙️</div>
+          <h3>Современное оборудование</h3>
+          <p>Используем передовые технологии и инструменты</p>
         </div>
-        <div class="benefit-card-glass" data-animate="fade-up">
-          <div class="benefit-glass-content">
-            <h3 class="benefit-glass-title">Быстрые сроки</h3>
-            <p class="benefit-glass-text">Выполняем работы в оговоренные сроки</p>
-          </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">⚡</div>
+          <h3>Быстрые сроки</h3>
+          <p>Выполняем работы в оговоренные сроки</p>
         </div>
-        <div class="benefit-card-glass" data-animate="fade-up">
-          <div class="benefit-glass-content">
-            <h3 class="benefit-glass-title">Индивидуальный подход</h3>
-            <p class="benefit-glass-text">Учитываем все пожелания клиента</p>
-          </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🎯</div>
+          <h3>Индивидуальный подход</h3>
+          <p>Учитываем все пожелания клиента</p>
         </div>
       </div>
     </div>
@@ -196,45 +190,27 @@
   </section>
 
   <!-- 4. SERVICE PACKAGES SECTION -->
-  <section class="services" id="services">
+  <section class="services-section" id="services">
     <div class="container">
-      <h2 class="section-title">Пакеты услуг</h2>
-      <div class="services-grid">
-        <div class="service-card" data-animate="fade-up">
-          <div class="service-badge">Базовый</div>
-          <h3>Зоны риска</h3>
-          <p>Защита наиболее уязвимых элементов кузова</p>
-          <ul class="service-features">
-            <li>Капот</li>
-            <li>Бамперы</li>
-            <li>Зеркала</li>
-            <li>Пороги</li>
-          </ul>
-          <a href="#" class="btn btn-primary calculator-open-btn" tabindex="0">Рассчитать</a>
+      <h2 class="section-title">Пакеты оклейки плёнкой</h2>
+      <div class="cards-grid">
+        <div class="service-card">
+          <h3>Базовый</h3>
+          <p class="desc">Защита зон риска. Передний бампер, капот частично, зеркала, фары.</p>
+          <span class="price">от 35 000 ₽</span>
+          <button class="cta-btn" data-open-calculator>Рассчитать</button>
         </div>
-        <div class="service-card service-card-featured" data-animate="fade-up">
-          <div class="service-badge">Премиум</div>
-          <h3>Полная оклейка</h3>
-          <p>Комплексная защита всего кузова автомобиля</p>
-          <ul class="service-features">
-            <li>Все элементы кузова</li>
-            <li>Премиум материалы</li>
-            <li>Гарантия 5 лет</li>
-            <li>Бесплатная диагностика</li>
-          </ul>
-          <a href="#" class="btn btn-primary calculator-open-btn" tabindex="0">Рассчитать</a>
+        <div class="service-card premium">
+          <h3>Премиум</h3>
+          <p class="desc">Большая площадь покрытия. Высокоглянцевая полиуретановая плёнка.</p>
+          <span class="price">от 120 000 ₽</span>
+          <button class="cta-btn" data-open-calculator>Рассчитать</button>
         </div>
-        <div class="service-card" data-animate="fade-up">
-          <div class="service-badge">Люкс</div>
-          <h3>Премиум пакет</h3>
-          <p>Максимальная защита с дополнительными услугами</p>
-          <ul class="service-features">
-            <li>Полная оклейка</li>
-            <li>Керамическое покрытие</li>
-            <li>Гарантия 7 лет</li>
-            <li>Пожизненная поддержка</li>
-          </ul>
-          <a href="#" class="btn btn-primary calculator-open-btn" tabindex="0">Рассчитать</a>
+        <div class="service-card luxe">
+          <h3>Люкс</h3>
+          <p class="desc">Полная оклейка кузова. Глянец/мат. Антихром, расширенная защита.</p>
+          <span class="price">от 200 000 ₽</span>
+          <button class="cta-btn" data-open-calculator>Рассчитать</button>
         </div>
       </div>
     </div>
@@ -269,7 +245,8 @@
       <form id="requestForm">
         <input required type="text" name="name" placeholder="Ваше имя *" min-height="48">
         <input required type="tel" name="phone" placeholder="+7 (___) ___-__-__ *" min-height="48">
-        <input type="email" name="email" placeholder="Email">
+        <input type="text" name="auto" placeholder="Автомобиль">
+        <input type="text" name="service" placeholder="Услуга">
         <textarea name="comment" placeholder="Комментарий"></textarea>
         <button type="submit" class="send-btn">Отправить</button>
       </form>
@@ -675,33 +652,36 @@
   </section>
 
   <!-- 8. PORTFOLIO / GALLERY SECTION -->
-  <section class="portfolio" id="portfolio">
+  <section class="gallery-section" id="portfolio">
     <div class="container">
       <h2 class="section-title">Наши работы</h2>
-      <div class="portfolio-gallery" id="portfolioGallery">
-        <div class="portfolio-item tilt-3d">
-          <img src="https://i.pinimg.com/736x/1c/9c/9a/1c9c9aff8afe692321467ca5f1d97f32.jpg" alt="Работа 1" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+      <div class="gallery-cards-grid" id="portfolioGallery">
+        <div class="gallery-card">
+          <img src="https://i.pinimg.com/736x/1c/9c/9a/1c9c9aff8afe692321467ca5f1d97f32.jpg" alt="Работа 1" loading="lazy" />
         </div>
-        <div class="portfolio-item tilt-3d">
-          <img src="https://i.pinimg.com/1200x/5e/4c/e7/5e4ce70476d2dd1567d432680cc4462a.jpg" alt="Работа 2" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        <div class="gallery-card">
+          <img src="https://i.pinimg.com/1200x/5e/4c/e7/5e4ce70476d2dd1567d432680cc4462a.jpg" alt="Работа 2" loading="lazy" />
         </div>
-        <div class="portfolio-item tilt-3d">
-          <img src="https://i.pinimg.com/736x/7c/c5/dd/7cc5ddc8d2833edc1ad6f3510c7df3d6.jpg" alt="Работа 3" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        <div class="gallery-card">
+          <img src="https://i.pinimg.com/736x/7c/c5/dd/7cc5ddc8d2833edc1ad6f3510c7df3d6.jpg" alt="Работа 3" loading="lazy" />
         </div>
-        <div class="portfolio-item tilt-3d">
-          <img src="https://i.pinimg.com/736x/72/96/1b/72961bc9ff271e5c385c60aa58e22c4b.jpg" alt="Работа 4" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        <div class="gallery-card">
+          <img src="https://i.pinimg.com/736x/72/96/1b/72961bc9ff271e5c385c60aa58e22c4b.jpg" alt="Работа 4" loading="lazy" />
         </div>
-        <div class="portfolio-item tilt-3d">
-          <img src="https://i.pinimg.com/736x/bb/92/82/bb9282a24a432e16a8362c5c62c8c2f8.jpg" alt="Работа 5" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        <div class="gallery-card">
+          <img src="https://i.pinimg.com/736x/bb/92/82/bb9282a24a432e16a8362c5c62c8c2f8.jpg" alt="Работа 5" loading="lazy" />
         </div>
-        <div class="portfolio-item tilt-3d">
-          <img src="https://i.pinimg.com/736x/92/20/03/9220033bd92d57ab5a371f0bead58dbb.jpg" alt="Работа 6" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        <div class="gallery-card">
+          <img src="https://i.pinimg.com/736x/92/20/03/9220033bd92d57ab5a371f0bead58dbb.jpg" alt="Работа 6" loading="lazy" />
         </div>
-        <div class="portfolio-item tilt-3d">
-          <img src="https://i.pinimg.com/736x/8c/c1/23/8cc12382dd904e89e24dfd9216f8180b.jpg" alt="Работа 7" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        <div class="gallery-card">
+          <img src="https://i.pinimg.com/736x/8c/c1/23/8cc12382dd904e89e24dfd9216f8180b.jpg" alt="Работа 7" loading="lazy" />
         </div>
-        <div class="portfolio-item tilt-3d">
-          <img src="https://i.pinimg.com/736x/40/98/39/409839f150de67d23e274ebea1369bab.jpg" alt="Работа 8" class="gallery-image gallery-image-processed premium-processed" loading="lazy" />
+        <div class="gallery-card">
+          <img src="https://i.pinimg.com/736x/40/98/39/409839f150de67d23e274ebea1369bab.jpg" alt="Работа 8" loading="lazy" />
+        </div>
+        <div class="gallery-card">
+          <img src="https://i.pinimg.com/736x/1c/9c/9a/1c9c9aff8afe692321467ca5f1d97f32.jpg" alt="Работа 9" loading="lazy" />
         </div>
       </div>
     </div>
@@ -752,81 +732,81 @@
   </section>
 
   <!-- 10. REVIEWS SECTION -->
-  <section class="reviews" id="reviews">
+  <section class="reviews-section" id="reviews">
     <div class="container">
       <h2 class="section-title">Отзывы клиентов</h2>
-      <div class="reviews-slider" id="reviewsSlider">
-        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Оклеивали полностью кузов защитной пленкой. Работа выполнена на высшем уровне, без единого пузыря. Мастера очень внимательные, все объяснили по процессу. Автомобиль выглядит как новый!"</p>
-          <div class="review-author">
-            <strong>Александр М.</strong>
-            <span>BMW X5</span>
+      <div class="reviews-cards-grid">
+        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">АМ</div>
+            <div class="review-author">
+              <div class="review-author-name">Александр М.</div>
+              <div class="review-author-car">BMW X5</div>
+            </div>
+            <div class="review-rating">★★★★★</div>
           </div>
-          <div class="review-link-hint">Читать на Яндекс →</div>
+          <p class="review-text">"Оклеивали полностью кузов защитной пленкой. Работа выполнена на высшем уровне, без единого пузыря. Мастера очень внимательные, все объяснили по процессу."</p>
+          <div class="review-date">2 недели назад</div>
         </a>
-        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Обратился в Propellini по рекомендации. Не пожалел ни секунды! Качество материалов отличное, установка идеальная. Прошло уже полгода - пленка как новая, никаких дефектов."</p>
-          <div class="review-author">
-            <strong>Дмитрий К.</strong>
-            <span>Mercedes-Benz S-Class</span>
+        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">ДК</div>
+            <div class="review-author">
+              <div class="review-author-name">Дмитрий К.</div>
+              <div class="review-author-car">Mercedes-Benz S-Class</div>
+            </div>
+            <div class="review-rating">★★★★★</div>
           </div>
-          <div class="review-link-hint">Читать на Яндекс →</div>
+          <p class="review-text">"Обратился в Propellini по рекомендации. Не пожалел ни секунды! Качество материалов отличное, установка идеальная. Прошло уже полгода - пленка как новая."</p>
+          <div class="review-date">1 месяц назад</div>
         </a>
-        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Премиум сервис! От консультации до готового результата - все на высоте. Использовали пленку Quantum, результат превзошел ожидания. Студия чистая, оборудование современное. Рекомендую!"</p>
-          <div class="review-author">
-            <strong>Игорь В.</strong>
-            <span>Audi Q7</span>
+        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">ИВ</div>
+            <div class="review-author">
+              <div class="review-author-name">Игорь В.</div>
+              <div class="review-author-car">Audi Q7</div>
+            </div>
+            <div class="review-rating">★★★★★</div>
           </div>
-          <div class="review-link-hint">Читать на Яндекс →</div>
+          <p class="review-text">"Премиум сервис! От консультации до готового результата - все на высоте. Использовали пленку Quantum, результат превзошел ожидания."</p>
+          <div class="review-date">3 недели назад</div>
         </a>
-        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Оклеивали капот и передние крылья. Работали аккуратно, все детали защитили. Пленка LLUMAR установлена безупречно. Цена соответствует качеству. Обязательно вернусь для полной оклейки."</p>
-          <div class="review-author">
-            <strong>Сергей П.</strong>
-            <span>Porsche 911</span>
+        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">СП</div>
+            <div class="review-author">
+              <div class="review-author-name">Сергей П.</div>
+              <div class="review-author-car">Porsche 911</div>
+            </div>
+            <div class="review-rating">★★★★★</div>
           </div>
-          <div class="review-link-hint">Читать на Яндекс →</div>
+          <p class="review-text">"Оклеивали капот и передние крылья. Работали аккуратно, все детали защитили. Пленка LLUMAR установлена безупречно. Цена соответствует качеству."</p>
+          <div class="review-date">2 недели назад</div>
         </a>
-        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Лучшая студия в Москве! Мастера с большим опытом, работают только с премиум материалами. Оклеили полностью кузов, результат просто потрясающий. Гарантия 10 лет - это говорит о качестве!"</p>
-          <div class="review-author">
-            <strong>Михаил Р.</strong>
-            <span>Range Rover</span>
+        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">МР</div>
+            <div class="review-author">
+              <div class="review-author-name">Михаил Р.</div>
+              <div class="review-author-car">Range Rover</div>
+            </div>
+            <div class="review-rating">★★★★★</div>
           </div>
-          <div class="review-link-hint">Читать на Яндекс →</div>
+          <p class="review-text">"Лучшая студия в Москве! Мастера с большим опытом, работают только с премиум материалами. Оклеили полностью кузов, результат просто потрясающий."</p>
+          <div class="review-date">2 месяца назад</div>
         </a>
-        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Оклеивали защитной пленкой весь кузов. Процесс занял 3 дня, но результат того стоил. Никаких подрезов, все идеально. Пленка STEK премиум качества. Спасибо команде Propellini!"</p>
-          <div class="review-author">
-            <strong>Владимир С.</strong>
-            <span>Lexus LX</span>
+        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">ВС</div>
+            <div class="review-author">
+              <div class="review-author-name">Владимир С.</div>
+              <div class="review-author-car">Lexus LX</div>
+            </div>
+            <div class="review-rating">★★★★★</div>
           </div>
-          <div class="review-link-hint">Читать на Яндекс →</div>
-        </a>
-        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Заезжал на оклейку машины защитной пленкой. Оказанной услугой остался доволен, ребята профессионалы своего дела. Работа выполнена качественно, все детали на месте. Буду заезжать к ним еще, рекомендую!"</p>
-          <div class="review-author">
-            <strong>Сергей А.</strong>
-            <span>BMW 5 Series</span>
-          </div>
-          <div class="review-link-hint">Читать на Яндекс →</div>
-        </a>
-        <a href="https://yandex.by/maps/org/propellini/67952230417/reviews/?ll=37.448465%2C55.807461&utm_source=review&z=17" target="_blank" rel="noopener noreferrer" class="review-card review-card-link">
-          <div class="review-stars">★★★★★</div>
-          <p class="review-text">"Отличная работа! Оклеили зоны риска на новом автомобиле. Мастера внимательные, все объяснили, показали материалы. Пленка установлена идеально, без единого дефекта. Цены адекватные, качество на высоте!"</p>
-          <div class="review-author">
-            <strong>Андрей Г.</strong>
-            <span>Mercedes-Benz GLE</span>
-          </div>
-          <div class="review-link-hint">Читать на Яндекс →</div>
+          <p class="review-text">"Оклеивали защитной пленкой весь кузов. Процесс занял 3 дня, но результат того стоил. Никаких подрезов, все идеально. Пленка STEK премиум качества."</p>
+          <div class="review-date">1 месяц назад</div>
         </a>
       </div>
     </div>
@@ -1244,11 +1224,8 @@
   <!-- Utils -->
   <script src="src/utils/responsive-images.js"></script>
   
-  <!-- New Clean Architecture JS -->
-  <script type="module" src="src/js/data.js"></script>
-  <script type="module" src="src/js/calculator.js"></script>
-  <script type="module" src="src/js/ui.js"></script>
-  <script type="module" src="src/js/modal.js"></script>
+  <!-- Calculator -->
+  <script type="module" src="js/calculator.js"></script>
   
   <!-- Legacy Scripts (for compatibility) -->
   <script src="src/js/scroll-fix.js"></script>
