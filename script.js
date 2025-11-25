@@ -3938,28 +3938,20 @@ function initHeroVideo() {
   const desktopVideo = document.getElementById('heroVideoDesktop');
   const mobileVideo = document.getElementById('heroVideoMobile');
   
-  // Принудительно обновляем src для десктопного видео - ВСЕГДА заменяем для обхода кеша
-  if (desktopVideo) {
-    const correctDesktopSrc = 'https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&si=r3ngGX13BomWWGXK';
-    const currentSrc = desktopVideo.src || desktopVideo.getAttribute('src') || '';
+  // Принудительно устанавливаем НОВОЕ видео для десктопа - полностью заменяем старое
+  if (desktopVideo && window.innerWidth > 768) {
+    const newDesktopVideoSrc = 'https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&si=r3ngGX13BomWWGXK&origin=https://angryrebelll-web.github.io';
     
-    // ВСЕГДА заменяем видео для десктопа, чтобы обойти кеш
-    if (!currentSrc.includes('CqoG-pyVSFM') || 
-        currentSrc.includes('0VrUMUsRmp4') || 
-        currentSrc.includes('bkrNmo92Xzg') || 
-        currentSrc === '' || 
-        currentSrc === window.location.href ||
-        !currentSrc.includes('si=r3ngGX13BomWWGXK')) {
-      // Полностью очищаем и заменяем видео
-      desktopVideo.removeAttribute('src');
-      desktopVideo.src = '';
-      
-      // Принудительно устанавливаем новое видео через небольшую задержку
-      setTimeout(() => {
-        desktopVideo.setAttribute('src', correctDesktopSrc);
-        desktopVideo.src = correctDesktopSrc;
-      }, 50);
-    }
+    // ВСЕГДА полностью заменяем видео для десктопа
+    desktopVideo.removeAttribute('src');
+    desktopVideo.src = '';
+    
+    // Принудительно устанавливаем новое видео
+    setTimeout(() => {
+      desktopVideo.setAttribute('src', newDesktopVideoSrc);
+      desktopVideo.src = newDesktopVideoSrc;
+      desktopVideo.load(); // Принудительно перезагружаем iframe
+    }, 100);
   }
   
   // Функция для обеспечения видимости и автовоспроизведения YouTube видео
