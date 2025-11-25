@@ -232,12 +232,34 @@ body {
   padding-top: 80px;
   padding-bottom: var(--space-xl);
   /* scroll-snap-align: start; - отключено */
+  background: transparent !important; /* Прозрачный фон для видео */
+}
+
+/* Скрываем все фоновые изображения, когда есть видео */
+.hero:has(.hero-video-background),
+.hero.hero-section.responsive-bg:has(.hero-video-background) {
+  background-image: none !important;
+  background: transparent !important;
+}
+
+.hero:has(.hero-video-background)::before,
+.hero:has(.hero-video-background)::after,
+.hero-section.responsive-bg:has(.hero-video-background)::before {
+  display: none !important;
 }
 
 .hero-parallax {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 0; /* Под видео, если видео есть */
+  display: none; /* Скрываем, если есть видео */
+}
+
+/* Скрываем параллакс слои, когда есть видео */
+.hero:has(.hero-video-background) .hero-parallax,
+.hero:has(.hero-video-background) .hero-layer {
+  display: none !important;
+  visibility: hidden !important;
 }
 
 .hero-layer {
@@ -281,36 +303,46 @@ body {
 
 /* Фоновое видео из YouTube Shorts */
 .hero-video-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0 !important; /* Самый нижний слой - фон */
+  position: fixed !important; /* Используем fixed для полного покрытия */
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: -1 !important; /* За всем контентом */
   overflow: hidden;
   pointer-events: none;
   background: rgba(0, 0, 0, 0.3);
 }
 
+/* Альтернатива: absolute внутри hero секции */
+.hero .hero-video-background {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 0 !important; /* Самый нижний слой */
+}
+
 .hero-video-iframe,
 .hero-video-element {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
   border: none;
   pointer-events: none;
   opacity: 1 !important;
-  width: 100vw;
-  height: 100vh;
-  min-width: 100vw;
-  min-height: 100vh;
   object-fit: cover;
-  filter: brightness(0.7) contrast(1.1);
+  filter: brightness(0.6) contrast(1.2);
   transition: opacity 0.3s ease;
   z-index: 0 !important;
   visibility: visible !important;
   display: block !important;
+  transform: scale(1.1); /* Небольшое увеличение для покрытия краев */
 }
 
 /* Адаптация для десктопа - правильное масштабирование */
