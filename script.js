@@ -3938,65 +3938,61 @@ function initHeroVideo() {
   const desktopVideo = document.getElementById('heroVideoDesktop');
   const mobileVideo = document.getElementById('heroVideoMobile');
   
-  // Функция для обеспечения постоянного воспроизведения
-  const ensureVideoPlayback = (iframe) => {
+  // Функция для попытки извлечения прямого видео из Pinterest
+  const tryExtractVideo = async (pinId) => {
+    try {
+      // Попытка получить данные пина через Pinterest API
+      // Однако это может не работать из-за CORS
+      const response = await fetch(`https://www.pinterest.com/pin/${pinId}/`, {
+        mode: 'no-cors'
+      });
+      
+      // Альтернативный подход: использовать Pinterest embed с правильными параметрами
+      console.log('Attempting to load Pinterest video for pin:', pinId);
+    } catch (e) {
+      console.log('Pinterest video extraction:', e);
+    }
+  };
+  
+  // Функция для обеспечения видимости iframe
+  const ensureVideoVisibility = (iframe) => {
     if (!iframe) return;
     
-    // Попытка автоматического воспроизведения при загрузке
     iframe.addEventListener('load', () => {
-      try {
-        // Попытка отправить сообщение для автовоспроизведения
-        iframe.contentWindow.postMessage({
-          method: 'play',
-          value: true
-        }, '*');
-      } catch (e) {
-        console.log('Video autoplay attempt:', e);
-      }
+      // Попытка сделать iframe видимым
+      iframe.style.opacity = '0.8';
+      iframe.style.visibility = 'visible';
+      iframe.style.display = 'block';
     });
     
-    // Периодическая проверка и перезапуск видео
-    setInterval(() => {
-      try {
-        if (iframe.contentWindow) {
-          iframe.contentWindow.postMessage({
-            method: 'play',
-            value: true
-          }, '*');
-        }
-      } catch (e) {
-        // Игнорируем ошибки CORS
+    // Принудительно показываем iframe через небольшую задержку
+    setTimeout(() => {
+      if (iframe.style.display === 'none') {
+        iframe.style.display = 'block';
+        iframe.style.visibility = 'visible';
+        iframe.style.opacity = '0.8';
       }
-    }, 5000);
+    }, 1000);
   };
   
   if (desktopVideo) {
-    ensureVideoPlayback(desktopVideo);
+    ensureVideoVisibility(desktopVideo);
+    tryExtractVideo('45247171249303388');
   }
   
   if (mobileVideo) {
-    ensureVideoPlayback(mobileVideo);
+    ensureVideoVisibility(mobileVideo);
   }
   
-  // Обработка видимости страницы для возобновления воспроизведения
+  // Обработка видимости страницы
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) {
-      // Возобновить воспроизведение при возврате на страницу
+      // Перезагружаем iframe при возврате на страницу
       if (desktopVideo && window.innerWidth > 768) {
-        try {
-          desktopVideo.contentWindow.postMessage({
-            method: 'play',
-            value: true
-          }, '*');
-        } catch (e) {}
+        desktopVideo.src = desktopVideo.src;
       }
       if (mobileVideo && window.innerWidth <= 768) {
-        try {
-          mobileVideo.contentWindow.postMessage({
-            method: 'play',
-            value: true
-          }, '*');
-        } catch (e) {}
+        mobileVideo.src = mobileVideo.src;
       }
     }
   });

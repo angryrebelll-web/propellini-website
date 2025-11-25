@@ -53,37 +53,26 @@
   <section class="hero hero-section responsive-bg premium-bg-overlay premium-processed parallax-image" id="hero" data-bg-desktop="/public/images/hero/hero-desktop.jpg" data-bg-mobile="/public/images/hero/hero-mobile.jpg">
     <!-- Фоновое видео из Pinterest -->
     <div class="hero-video-background">
+      <!-- Используем iframe с правильными параметрами для Pinterest видео -->
       <iframe 
-        class="hero-video-iframe hero-video-desktop" 
+        class="hero-video-iframe hero-video-element hero-video-desktop" 
         id="heroVideoDesktop"
-        src="https://assets.pinterest.com/ext/embed.html?id=45247171249303388&autoplay=1&loop=1&muted=1" 
-        height="1167" 
-        width="600" 
-        frameborder="0" 
+        src="https://www.pinterest.com/pin/45247171249303388/embed/" 
+        frameborder="0"
         scrolling="no"
-        allow="autoplay; encrypted-media; fullscreen"
+        allow="autoplay"
         allowfullscreen
-        autoplay
-        muted
-        loop
-        playsinline
-        title="Фоновое видео">
+        title="Фоновое видео Mercedes G63">
       </iframe>
       <iframe 
-        class="hero-video-iframe hero-video-mobile" 
+        class="hero-video-iframe hero-video-element hero-video-mobile" 
         id="heroVideoMobile"
-        src="https://assets.pinterest.com/ext/embed.html?id=45247171249303388&autoplay=1&loop=1&muted=1" 
-        height="714" 
-        width="345" 
-        frameborder="0" 
+        src="https://www.pinterest.com/pin/45247171249303388/embed/" 
+        frameborder="0"
         scrolling="no"
-        allow="autoplay; encrypted-media; fullscreen"
+        allow="autoplay"
         allowfullscreen
-        autoplay
-        muted
-        loop
-        playsinline
-        title="Фоновое видео">
+        title="Фоновое видео Mercedes G63">
       </iframe>
     </div>
     <div class="hero-overlay"></div>
