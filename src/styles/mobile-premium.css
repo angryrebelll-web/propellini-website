@@ -8,6 +8,8 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: scroll;
+    min-height: 100vh;
+    height: 100vh;
   }
   
   /* Убеждаемся, что overlay правильно работает на мобильных */
@@ -18,9 +20,84 @@
     z-index: 4;
   }
   
-  /* Оптимизация для мобильных устройств */
-  .hero.hero-section {
-    min-height: 100vh;
-    height: 100vh;
+  /* Hero Content - мобильная оптимизация */
+  .hero-content {
+    padding: var(--space-md) var(--space-sm);
+    text-align: center;
+    width: 100%;
+  }
+  
+  /* Hero Title - адаптивный размер */
+  .hero-title {
+    font-size: clamp(32px, 10vw, 56px);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-md);
+    text-align: center;
+    line-height: 1.2;
+  }
+  
+  /* Hero Promo - мобильная версия */
+  .hero-promo {
+    margin-bottom: var(--space-md);
+    text-align: center;
+  }
+  
+  .hero-promo-text {
+    font-size: 16px;
+    margin-bottom: var(--space-sm);
+    line-height: 1.5;
+  }
+  
+  /* Hero Pricing - мобильная версия */
+  .hero-pricing {
+    margin-bottom: var(--space-md);
+    text-align: center;
+  }
+  
+  .hero-pricing-item {
+    font-size: 16px;
+    margin-bottom: var(--space-xs);
+  }
+  
+  .hero-pricing-item strong {
+    font-size: 18px;
+  }
+  
+  /* Hero CTA - мобильная версия */
+  .hero-cta {
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    align-items: stretch;
+  }
+  
+  .hero-cta .btn {
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    font-size: 16px;
+  }
+  
+  /* Hero Contacts - мобильная версия */
+  .hero-contacts {
+    margin-top: var(--space-md);
+    text-align: center;
+    gap: var(--space-xs);
+  }
+  
+  .hero-phone {
+    font-size: 20px;
+  }
+  
+  .hero-email {
+    font-size: 14px;
+  }
+  
+  .hero-address {
+    font-size: 13px;
+  }
+  
+  /* Hero Scroll Indicator - скрываем на мобильных или уменьшаем */
+  .hero-scroll-indicator {
+    display: none;
   }
 }
