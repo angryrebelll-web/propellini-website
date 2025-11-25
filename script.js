@@ -1152,12 +1152,12 @@ class CarWrappingCalculator {
     });
   }
 
-  // Переключение зоны
+  // Переключение зоны (упрощенная логика из рабочего калькулятора)
   toggleZone(checkbox) {
     const zoneItem = checkbox.closest('.zone-item');
     const zoneId = zoneItem.dataset.zone;
     const isPackage = zoneItem.dataset.type === 'package';
-    
+
     if (isPackage && checkbox.checked) {
       // Очищаем все выбранные зоны и пакеты
       const zonesToRemove = Array.from(this.selectedZones);
@@ -1165,18 +1165,6 @@ class CarWrappingCalculator {
         this.selectedZones.delete(id);
         const cb = document.querySelector(`#zone-${id}`);
         if (cb) cb.checked = false;
-      });
-      
-      // Снимаем все radio buttons пакетов
-      document.querySelectorAll('input[name="package"]').forEach(radio => {
-        if (radio.id !== `zone-${zoneId}`) {
-          radio.checked = false;
-        }
-      });
-      
-      // Снимаем все checkboxes обычных зон
-      document.querySelectorAll('input[name="zone"]').forEach(cb => {
-        cb.checked = false;
       });
       
       // Добавляем пакет и его зоны
@@ -1197,11 +1185,9 @@ class CarWrappingCalculator {
         if (cb) cb.checked = false;
       });
     } else {
-      // Проверяем, является ли это элементом "Полная оклейка"
-      const isFullWrap = zoneId === 'full-glossy' || zoneId === 'full-matte' || zoneId === 'full-vinyl';
-      
+      // Обычная зона
       if (checkbox.checked) {
-        // Снимаем все пакеты
+        // Снимаем все пакеты при выборе обычной зоны
         document.querySelectorAll('input[name="package"]').forEach(radio => {
           radio.checked = false;
           const packageItem = radio.closest('.zone-item');
@@ -1217,44 +1203,7 @@ class CarWrappingCalculator {
           }
         });
         
-        // Если это "Полная оклейка", снимаем все остальные зоны и другие варианты полной оклейки
-        if (isFullWrap) {
-          // Сначала снимаем все варианты полной оклейки (кроме текущей)
-          ['full-glossy', 'full-matte', 'full-vinyl'].forEach(fullId => {
-            if (fullId !== zoneId) {
-              this.selectedZones.delete(fullId);
-              const cb = document.querySelector(`#zone-${fullId}`);
-              if (cb) cb.checked = false;
-            }
-          });
-          
-          // Снимаем все обычные зоны (не полную оклейку)
-          document.querySelectorAll('input[name="zone"]').forEach(cb => {
-            const item = cb.closest('.zone-item');
-            if (item) {
-              const itemId = item.dataset.zone;
-              // Пропускаем варианты полной оклейки, но снимаем остальные
-              if (itemId !== 'full-glossy' && itemId !== 'full-matte' && itemId !== 'full-vinyl') {
-                cb.checked = false;
-                this.selectedZones.delete(itemId);
-              }
-            }
-          });
-          
-          // Добавляем выбранную полную оклейку и ставим галочку
-          this.selectedZones.add(zoneId);
-          checkbox.checked = true;
-        } else {
-          // Если выбираем обычную зону, снимаем все варианты полной оклейки
-          ['full-glossy', 'full-matte', 'full-vinyl'].forEach(fullId => {
-            this.selectedZones.delete(fullId);
-            const cb = document.querySelector(`#zone-${fullId}`);
-            if (cb) cb.checked = false;
-          });
-          
-          // Добавляем выбранную зону
-          this.selectedZones.add(zoneId);
-        }
+        this.selectedZones.add(zoneId);
       } else {
         this.selectedZones.delete(zoneId);
       }

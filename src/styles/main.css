@@ -3516,6 +3516,110 @@ body {
   margin-bottom: var(--space-md);
 }
 
+/* Стили для зон оклейки (из рабочего калькулятора) */
+.zone-category {
+  margin-top: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.zone-category.package-category {
+  background: rgba(22, 132, 145, 0.08);
+  border-color: var(--primary);
+}
+
+.zone-category h3 {
+  margin: 0 0 10px 0;
+  color: var(--text-muted);
+  font-size: 14px;
+  border-left: 3px solid var(--primary);
+  padding-left: 8px;
+  font-family: var(--font-roboto);
+  font-weight: 500;
+}
+
+.package-category h3 {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.zone-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.package-items {
+  grid-template-columns: 1fr;
+}
+
+.zone-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.03);
+  transition: all 0.2s ease;
+}
+
+.zone-item:hover {
+  background: rgba(22, 132, 145, 0.1);
+  border-color: var(--primary);
+}
+
+.zone-item.package-item {
+  background: rgba(22, 132, 145, 0.1);
+  border-color: var(--primary);
+  padding: 14px;
+  font-weight: 500;
+}
+
+.zone-item.package-item:hover {
+  background: rgba(22, 132, 145, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(22, 132, 145, 0.2);
+}
+
+.zone-item input {
+  accent-color: var(--primary);
+  transform: scale(1.15);
+  cursor: pointer;
+}
+
+.zone-item input[type="radio"] {
+  transform: scale(1.2);
+}
+
+.zone-item label {
+  flex: 1;
+  cursor: pointer;
+}
+
+.zone-item span:first-of-type {
+  flex: 1;
+  font-family: var(--font-roboto);
+  font-size: 14px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.zone-price {
+  color: var(--primary);
+  font-weight: 700;
+  white-space: nowrap;
+  font-family: var(--font-roboto);
+  font-size: 14px;
+}
+
+.package-item .zone-price {
+  font-size: 1.1em;
+}
+
 /* Блок с примерами моделей для класса */
 .class-examples-box {
   margin-top: var(--space-md);
@@ -3589,6 +3693,10 @@ body {
   .class-example-tag {
     font-size: 11px;
     padding: 5px 10px;
+  }
+  
+  .zone-items {
+    grid-template-columns: 1fr;
   }
 }
 
