@@ -3958,7 +3958,7 @@ function initHeroVideo() {
   
   // Принудительно устанавливаем НОВОЕ YouTube видео для десктопа
   if (desktopVideo && window.innerWidth > 768) {
-    const newDesktopVideoSrc = 'https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&si=r3ngGX13BomWWGXK&origin=https://angryrebelll-web.github.io';
+    const newDesktopVideoSrc = 'https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&origin=https://angryrebelll-web.github.io';
     
     // ВСЕГДА полностью заменяем видео для десктопа
     desktopVideo.removeAttribute('src');
@@ -3982,7 +3982,7 @@ function initHeroVideo() {
     
     // Для десктопного видео проверяем правильность видео
     if (isDesktop) {
-      const newVideoSrc = 'https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&si=r3ngGX13BomWWGXK&origin=https://angryrebelll-web.github.io';
+      const newVideoSrc = 'https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&origin=https://angryrebelll-web.github.io';
       const currentSrc = iframe.src || '';
       
       // ВСЕГДА заменяем на новое видео для десктопа
