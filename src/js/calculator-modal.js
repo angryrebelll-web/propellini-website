@@ -142,56 +142,7 @@
   setTimeout(initCalculatorModal, 500);
   setTimeout(initCalculatorModal, 1000);
 
-  // Обработка формы заявки внутри калькулятора
-  document.addEventListener('click', (e) => {
-    // Кнопка "Записаться на оклейку"
-    if (e.target.matches('#orderBtn') || e.target.closest('#orderBtn')) {
-      e.preventDefault();
-      e.stopPropagation();
-      const form = document.getElementById('calculatorApplicationForm');
-      if (form) {
-        form.style.display = 'flex';
-        form.classList.add('active');
-        
-        // Заполняем данные из калькулятора
-        if (window.calculator) {
-          const orderCar = document.getElementById('calcOrderCar');
-          const orderZones = document.getElementById('calcOrderZones');
-          const orderTotal = document.getElementById('calcOrderTotal');
-          
-          if (orderCar && window.calculator.selectedBrand && window.calculator.selectedModel) {
-            orderCar.value = `${window.calculator.selectedBrand} ${window.calculator.selectedModel}`;
-          }
-          
-          if (orderZones && window.calculator.selectedZones) {
-            const zones = Array.from(window.calculator.selectedZones).map(zoneId => {
-              const zone = window.calculator.zonesDatabase?.find(z => z.id === zoneId);
-              return zone ? zone.name : zoneId;
-            }).join(', ');
-            orderZones.value = zones || 'Не выбраны';
-          }
-          
-          if (orderTotal) {
-            const totalEl = document.getElementById('totalAmount');
-            if (totalEl) {
-              orderTotal.value = totalEl.textContent || '0 ₽';
-            }
-          }
-        }
-      }
-    }
-    
-    // Закрытие формы заявки
-    if (e.target.matches('#calculatorFormClose, #calcOrderCancel') || 
-        e.target.closest('#calculatorFormClose, #calcOrderCancel')) {
-      e.preventDefault();
-      e.stopPropagation();
-      const form = document.getElementById('calculatorApplicationForm');
-      if (form) {
-        form.style.display = 'none';
-        form.classList.remove('active');
-      }
-    }
-  });
+  // Кнопка "Записаться" в калькуляторе теперь открывает unified-order-form
+  // Обработка перенесена в unified-order-form.js
 })();
 
