@@ -22,6 +22,12 @@
   pointer-events: none;
 }
 
+/* Убираем конфликтующие псевдоэлементы */
+.hero.hero-section.premium-bg-overlay::before,
+.hero.hero-section.premium-processed::before {
+  display: none !important;
+}
+
 .hero-overlay {
   position: absolute;
   inset: 0;
