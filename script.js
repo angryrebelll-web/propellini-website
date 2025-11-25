@@ -3966,24 +3966,35 @@ function initHeroVideo() {
     oldVideoContainer.style.visibility = 'hidden';
   }
   
-  // Принудительно устанавливаем НОВОЕ YouTube видео для десктопа
-  if (desktopVideo && window.innerWidth > 768) {
-    const newDesktopVideoSrc = 'https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&origin=https://angryrebelll-web.github.io';
-    
-    // ВСЕГДА полностью заменяем видео для десктопа
-    desktopVideo.removeAttribute('src');
-    desktopVideo.src = '';
-    
-    // Принудительно устанавливаем новое видео с задержкой для гарантии
-    setTimeout(() => {
-      desktopVideo.setAttribute('src', newDesktopVideoSrc);
-      desktopVideo.src = newDesktopVideoSrc;
+  // РАДИКАЛЬНО: Полностью пересоздаем iframe с новым видео для десктопа
+  if (window.innerWidth > 768) {
+    const videoContainer = desktopVideo?.parentElement;
+    if (videoContainer && desktopVideo) {
+      const newDesktopVideoSrc = 'https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&origin=https://angryrebelll-web.github.io';
       
-      // Принудительно перезагружаем iframe
-      setTimeout(() => {
-        desktopVideo.contentWindow?.location?.reload();
-      }, 200);
-    }, 150);
+      // Полностью удаляем старый iframe
+      desktopVideo.remove();
+      
+      // Создаем новый iframe с нуля
+      const newIframe = document.createElement('iframe');
+      newIframe.className = 'hero-video-iframe hero-video-element hero-video-desktop';
+      newIframe.id = 'heroVideoDesktop';
+      newIframe.width = '100%';
+      newIframe.height = '100%';
+      newIframe.src = newDesktopVideoSrc;
+      newIframe.setAttribute('frameborder', '0');
+      newIframe.setAttribute('scrolling', 'no');
+      newIframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      newIframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      newIframe.setAttribute('allowfullscreen', '');
+      newIframe.setAttribute('title', '992 GT3RS Night Run | 4K - Фоновое видео');
+      
+      // Вставляем новый iframe в контейнер
+      videoContainer.appendChild(newIframe);
+      
+      // Обновляем ссылку на элемент
+      window.heroVideoDesktopElement = newIframe;
+    }
   }
   
   // Функция для обеспечения видимости и автовоспроизведения YouTube видео
