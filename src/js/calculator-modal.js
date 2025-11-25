@@ -40,49 +40,23 @@
           
           // Инициализируем мобильный визард
           if (window.calculator.initMobileWizard) {
-            try {
-              window.calculator.initMobileWizard();
-              
-              // Дополнительная инициализация для надежности
-              setTimeout(() => {
-                if (window.calculator.renderWizardBrands) {
-                  window.calculator.renderWizardBrands();
-                }
-                if (window.calculator.bindWizardEvents) {
-                  window.calculator.bindWizardEvents();
-                }
-              }, 200);
-            } catch (e) {
-              console.error('Ошибка инициализации мобильного визарда:', e);
-            }
+            window.calculator.initMobileWizard();
+          } else if (window.calculator.setupMobileWizard) {
+            window.calculator.setupMobileWizard();
           }
         } else {
           if (desktopCalc) desktopCalc.style.display = 'block';
           if (mobileCalc) mobileCalc.style.display = 'none';
           
           // Инициализируем desktop версию
-          if (window.calculator.renderBrandChips) {
-            window.calculator.renderBrandChips();
-          }
-          if (window.calculator.renderZones) {
-            window.calculator.renderZones();
-          }
-          if (window.calculator.bindClassSelection) {
-            window.calculator.bindClassSelection();
-          }
-          if (window.calculator.initCarZones) {
-            window.calculator.initCarZones();
+          if (window.calculator.renderDesktop) {
+            window.calculator.renderDesktop();
           }
         }
         
         // Обновляем итоговую стоимость
         if (window.calculator.updateTotal) {
           window.calculator.updateTotal();
-        }
-        
-        // Обновляем footer для mobile
-        if (window.calculator.updateMobileFooter) {
-          window.calculator.updateMobileFooter();
         }
       }, 100);
     } else {
