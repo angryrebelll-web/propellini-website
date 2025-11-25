@@ -320,6 +320,7 @@ body {
 
 .hero-promo {
   flex: 1;
+  max-width: 50%;
   background: transparent;
   border: none;
   border-radius: 0;
