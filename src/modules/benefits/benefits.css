@@ -1,0 +1,104 @@
+/* ============================================
+   BENEFITS MODULE
+   Блок преимуществ
+   ============================================ */
+
+.benefits {
+  padding: var(--space-xl) 0;
+  background: var(--bg);
+  position: relative;
+  z-index: 5;
+}
+
+.benefits::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(22, 132, 145, 0.05) 50%, transparent 100%);
+  pointer-events: none;
+}
+
+.benefits-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+  justify-content: center;
+  align-items: stretch;
+}
+
+.benefit-card-glass {
+  background: rgba(18, 18, 18, 0.6);
+  border: 1px solid rgba(22, 132, 145, 0.3);
+  border-radius: 16px;
+  padding: var(--space-md) var(--space-sm);
+  text-align: center;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.benefit-card-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(22, 132, 145, 0.1) 0%,
+    transparent 50%,
+    rgba(22, 132, 145, 0.05) 100%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.benefit-card-glass:hover::before {
+  opacity: 1;
+}
+
+.benefit-card-glass:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-teal);
+}
+
+.benefit-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto var(--space-sm);
+  color: var(--primary);
+}
+
+.benefit-title {
+  font-family: var(--font-montserrat);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: var(--space-xs);
+}
+
+.benefit-text {
+  font-family: var(--font-roboto);
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .benefits-grid {
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+  
+  .benefit-card-glass {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
+

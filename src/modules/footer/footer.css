@@ -1,0 +1,72 @@
+/* ============================================
+   FOOTER MODULE
+   Подвал сайта
+   ============================================ */
+
+.footer {
+  padding: var(--space-xl) 0 var(--space-md);
+  background: var(--bg-2);
+  border-top: 1px solid rgba(22, 132, 145, 0.2);
+  position: relative;
+  z-index: 10;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.footer-title {
+  font-family: var(--font-montserrat);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--space-xs);
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.footer-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color var(--transition-fast);
+}
+
+.footer-link:hover {
+  color: var(--primary);
+}
+
+.footer-copyright {
+  text-align: center;
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(22, 132, 145, 0.1);
+  font-size: 12px;
+  color: var(--text-dark);
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    text-align: center;
+  }
+  
+  .footer-links {
+    align-items: center;
+  }
+}
+
