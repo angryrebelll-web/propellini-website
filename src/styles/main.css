@@ -2480,11 +2480,9 @@ body {
   background: var(--bg-2);
 }
 
+/* Reviews slider - теперь горизонтальный скролл, стили в reviews-scroll.css */
 .reviews-slider {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-sm);
-  margin-top: var(--space-lg);
+  /* Стили перенесены в reviews-scroll.css для горизонтального скролла */
 }
 
 .review-card {

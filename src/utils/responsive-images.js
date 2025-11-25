@@ -28,13 +28,13 @@ const setResponsiveVideo = (el, desktop, mobile) => {
 };
 
 const initResponsiveBackgrounds = () => {
-  // Hero section
+  // Hero section - используем изображение из секции "О нас"
   const heroSection = document.querySelector('.hero-section');
   if (heroSection) {
     setResponsiveImage(
       heroSection,
-      '/public/images/hero/hero-desktop.jpg',
-      '/public/images/hero/hero-mobile.jpg'
+      '/public/images/about/about-desktop.jpg',
+      '/public/images/about/about-mobile.jpg'
     );
   }
 
