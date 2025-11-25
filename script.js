@@ -3960,12 +3960,17 @@ function initHeroVideo() {
     
     // Для десктопного видео проверяем правильность видео
     if (isDesktop) {
-      const correctSrc = 'https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1';
+      const newVideoSrc = 'https://www.youtube.com/embed/CqoG-pyVSFM?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&playsinline=1&playlist=CqoG-pyVSFM&start=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&enablejsapi=1&si=r3ngGX13BomWWGXK&origin=https://angryrebelll-web.github.io';
       const currentSrc = iframe.src || '';
       
-      if (!currentSrc.includes('CqoG-pyVSFM')) {
-        iframe.src = correctSrc;
-        iframe.setAttribute('src', correctSrc);
+      // ВСЕГДА заменяем на новое видео для десктопа
+      if (!currentSrc.includes('CqoG-pyVSFM') || !currentSrc.includes('si=r3ngGX13BomWWGXK')) {
+        iframe.removeAttribute('src');
+        iframe.src = '';
+        setTimeout(() => {
+          iframe.setAttribute('src', newVideoSrc);
+          iframe.src = newVideoSrc;
+        }, 150);
       }
     }
     
