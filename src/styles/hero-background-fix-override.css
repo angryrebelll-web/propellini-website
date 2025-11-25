@@ -2,20 +2,36 @@
 
 /* Отключаем все изменения фона через JavaScript и другие стили */
 .hero.hero-section,
-.hero-section {
+.hero-section,
+section.hero,
+section#hero,
+.hero.hero-section.responsive-bg,
+.hero.hero-section.premium-bg-overlay,
+.hero.hero-section.premium-processed,
+.hero.hero-section.parallax-image {
   background-image: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-2560x1440.jpg') !important;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
   background-attachment: fixed !important;
+  background-color: transparent !important;
 }
 
-/* Отключаем responsive-bg для hero */
+/* Отключаем responsive-bg для hero - все возможные комбинации классов */
 .hero.hero-section.responsive-bg,
 .hero-section.responsive-bg,
 .hero.hero-section[data-bg-desktop],
-.hero-section[data-bg-desktop] {
+.hero-section[data-bg-desktop],
+.hero.hero-section.responsive-bg.premium-bg-overlay,
+.hero.hero-section.responsive-bg.premium-processed,
+.hero.hero-section.responsive-bg.parallax-image,
+section.hero.responsive-bg,
+section#hero.responsive-bg {
   background-image: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-2560x1440.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
 }
 
 /* Мобильная версия */

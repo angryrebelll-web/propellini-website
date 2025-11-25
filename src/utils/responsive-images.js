@@ -6,6 +6,11 @@
 const setResponsiveImage = (el, desktop, mobile) => {
   if (!el) return;
   
+  // НЕ изменяем hero-section - используем CSS стили
+  if (el.classList.contains('hero-section') || el.classList.contains('hero')) {
+    return;
+  }
+  
   const isMobile = window.innerWidth <= 768;
   const imagePath = isMobile ? mobile : desktop;
   
