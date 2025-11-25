@@ -86,9 +86,9 @@
   
   .hero-cta .btn {
     flex: 1 1 auto;
-    min-width: 140px;
-    padding: var(--space-md) var(--space-lg);
-    font-size: 15px;
+    min-width: 120px;
+    padding: 10px 16px;
+    font-size: 14px;
   }
   
   /* Hero Contacts - мобильная версия */
@@ -168,6 +168,34 @@
   .benefits-grid {
     margin-top: var(--space-md);
     gap: var(--space-xs);
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--space-sm);
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) transparent;
+  }
+  
+  .benefits-grid::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .benefits-grid::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .benefits-grid::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+  }
+  
+  .benefit-card-glass {
+    flex: 0 0 85%;
+    max-width: 85%;
+    scroll-snap-align: start;
+    min-height: auto;
   }
   
   .about {
@@ -309,9 +337,24 @@
   }
   
   .about-promo {
-    margin-top: var(--space-md);
+    margin-top: var(--space-sm);
     width: 100%;
     box-sizing: border-box;
+    padding: var(--space-md);
+    background: rgba(22, 132, 145, 0.1);
+    border: 1px solid rgba(22, 132, 145, 0.3);
+    border-radius: 12px;
+  }
+  
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  
+  .about-promo .promo-btn {
+    padding: 10px 16px;
+    font-size: 14px;
   }
   
   /* Уменьшение отступов в process */
@@ -323,14 +366,16 @@
   /* Портфолио - убираем скролл, делаем обычный свайп картинок */
   .portfolio-gallery {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
     margin-top: var(--space-md);
     overflow: visible;
     padding: 0;
     margin-left: 0;
     margin-right: 0;
     scroll-snap-type: none;
+    max-height: 600px;
+    overflow-y: auto;
   }
   
   .portfolio-gallery::-webkit-scrollbar {
@@ -347,7 +392,7 @@
   
   .portfolio-item img {
     width: 100%;
-    height: auto;
+    height: 200px;
     object-fit: cover;
     display: block;
   }
@@ -360,8 +405,24 @@
   
   /* Уменьшение отступов в contacts */
   .contacts-content {
-    gap: var(--space-md);
-    margin-top: var(--space-md);
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+    max-width: 100%;
+  }
+  
+  .contacts-form,
+  .contacts-info {
+    padding: var(--space-md);
+    font-size: 14px;
+  }
+  
+  .studio-section-bg {
+    padding: var(--space-lg) 0;
+    min-height: auto;
+  }
+  
+  .studio-content {
+    padding: var(--space-md);
   }
   
   /* Уменьшение высоты video секции - только для мобильных */
