@@ -3663,15 +3663,16 @@ class CarWrappingCalculator {
   }
 }
 
-// Инициализация калькулятора
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    if (!window.calculator) {
-      window.calculator = new CarWrappingCalculator();
-    }
-  });
-} else {
-  if (!window.calculator) {
-    window.calculator = new CarWrappingCalculator();
-  }
-}
+// Инициализация калькулятора - ОТКЛЮЧЕНО в пользу calculator-unified.js
+// Старый калькулятор оставлен для совместимости, но не инициализируется
+// if (document.readyState === 'loading') {
+//   document.addEventListener('DOMContentLoaded', () => {
+//     if (!window.calculator) {
+//       window.calculator = new CarWrappingCalculator();
+//     }
+//   });
+// } else {
+//   if (!window.calculator) {
+//     window.calculator = new CarWrappingCalculator();
+//   }
+// }
