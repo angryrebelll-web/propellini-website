@@ -3173,7 +3173,10 @@ body:has(.portfolio-lightbox[style*="block"]) .nav-menu {
   transition: transform 0.1s ease-out; /* Плавный переход */
 }
 
+/* Старое видео полностью отключено - используем только YouTube */
 .video-background {
+  display: none !important;
+  visibility: hidden !important;
   position: absolute;
   inset: 0;
   z-index: 1;
