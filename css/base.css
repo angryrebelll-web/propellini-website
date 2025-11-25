@@ -1,0 +1,98 @@
+/* ============================================
+   BASE - Reset и типографика
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-roboto);
+  color: var(--text);
+  background: var(--bg);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Исправление мобильного скролла */
+@media (max-width: 768px) {
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+  }
+  
+  * {
+    max-width: 100%;
+  }
+}
+
+/* Типографика */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-unbounded);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+h1 {
+  font-size: clamp(36px, 8vw, 72px);
+}
+
+h2 {
+  font-size: clamp(28px, 5vw, 48px);
+}
+
+h3 {
+  font-size: clamp(20px, 4vw, 32px);
+}
+
+p {
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+a {
+  color: var(--text);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--brand);
+}
+
+/* Утилиты */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.section {
+  padding: var(--spacing-4xl) var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: var(--spacing-3xl) var(--spacing-md);
+  }
+}
+
+.section-title {
+  font-family: var(--font-unbounded);
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 400;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+

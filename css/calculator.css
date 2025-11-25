@@ -2,16 +2,6 @@
    CALCULATOR - Стили калькулятора
    ============================================ */
 
-:root {
-  --primary: #168491;
-  --primary-light: #1fa5b5;
-  --text: #ffffff;
-  --text-muted: rgba(255, 255, 255, 0.7);
-  --bg-dark: #0f0f0f;
-  --bg-card: rgba(255, 255, 255, 0.05);
-  --border: rgba(255, 255, 255, 0.1);
-}
-
 /* Модальное окно калькулятора */
 .calc-modal {
   position: fixed;
@@ -25,7 +15,7 @@
   z-index: 1000;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--transition);
 }
 
 .calc-modal:not(.hidden) {
@@ -45,13 +35,13 @@
   width: 100%;
   max-width: 600px;
   max-height: 95vh;
-  background: var(--bg-dark);
-  border-radius: 24px 24px 0 0;
-  padding: 24px;
+  background: var(--bg);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: var(--spacing-lg);
   display: flex;
   flex-direction: column;
   transform: translateY(100%);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform var(--transition);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -64,11 +54,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-lg);
 }
 
 .calc-header h2 {
-  font-family: 'Unbounded', sans-serif;
+  font-family: var(--font-unbounded);
   font-size: 24px;
   font-weight: 400;
   color: var(--text);
@@ -79,7 +69,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--bg-card);
+  background: var(--card);
   border: 1px solid var(--border);
   color: var(--text);
   font-size: 24px;
@@ -88,14 +78,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
   min-height: 48px;
   padding: 0;
 }
 
 .close-btn:hover {
   background: rgba(255, 255, 255, 0.1);
-  border-color: var(--primary);
+  border-color: var(--brand);
   transform: rotate(90deg);
 }
 
@@ -110,13 +100,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 16px;
+  padding-top: var(--spacing-md);
   border-top: 1px solid var(--border);
   position: sticky;
   bottom: 0;
-  background: var(--bg-dark);
+  background: var(--bg);
   z-index: 10;
-  gap: 12px;
+  gap: var(--spacing-sm);
 }
 
 .calc-total {
@@ -128,22 +118,22 @@
 }
 
 .calc-total span {
-  color: var(--primary);
+  color: var(--brand);
   font-size: 24px;
   font-weight: 700;
 }
 
 .next-btn,
 .prev-btn {
-  padding: 12px 24px;
-  border-radius: 14px;
-  background: var(--primary);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius);
+  background: var(--brand);
   color: #fff;
   border: none;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
   min-height: 48px;
   display: inline-flex;
   align-items: center;
@@ -152,7 +142,7 @@
 }
 
 .next-btn:hover:not(:disabled) {
-  background: var(--primary-light);
+  background: var(--brand-light);
   transform: translateY(-2px);
 }
 
@@ -169,15 +159,15 @@
 }
 
 .prev-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
+  border-color: var(--brand);
+  color: var(--brand);
 }
 
 /* Контент шагов */
 .step-content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--spacing-md);
 }
 
 .step-subtitle {
@@ -190,20 +180,20 @@
 /* Поиск */
 .search-input {
   width: 100%;
-  padding: 14px 16px;
-  background: var(--bg-card);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--card);
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius);
   color: var(--text);
   font-size: 16px;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
   min-height: 48px;
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
 }
 
 .search-input:focus {
   outline: none;
-  border-color: var(--primary);
+  border-color: var(--brand);
   background: rgba(255, 255, 255, 0.08);
 }
 
@@ -216,20 +206,20 @@
 .models-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: var(--spacing-sm);
 }
 
 .class-chip,
 .model-chip {
-  padding: 12px 18px;
-  border-radius: 14px;
-  background: var(--bg-card);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius);
+  background: var(--card);
   border: 1px solid var(--border);
   color: var(--text);
   font-size: 15px;
   white-space: nowrap;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
   min-height: 48px;
   display: inline-flex;
   align-items: center;
@@ -245,21 +235,21 @@
 
 .class-chip.active,
 .model-chip.active {
-  background: var(--primary);
-  border-color: var(--primary);
+  background: var(--brand);
+  border-color: var(--brand);
   font-weight: 600;
 }
 
 .class-badge {
   display: inline-block;
-  padding: 8px 16px;
+  padding: var(--spacing-xs) var(--spacing-md);
   background: rgba(22, 132, 145, 0.2);
   border: 1px solid rgba(22, 132, 145, 0.4);
-  border-radius: 12px;
-  color: var(--primary);
+  border-radius: var(--radius);
+  color: var(--brand);
   font-size: 14px;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
   align-self: flex-start;
 }
 
@@ -267,17 +257,17 @@
 .packages-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
 }
 
 .package-card {
-  padding: 20px;
-  border-radius: 16px;
-  background: var(--bg-card);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  background: var(--card);
   border: 1px solid var(--border);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
   text-align: center;
 }
 
@@ -289,27 +279,27 @@
 
 .package-card.active {
   background: rgba(22, 132, 145, 0.2);
-  border-color: var(--primary);
+  border-color: var(--brand);
 }
 
 .package-name {
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-xs);
   color: var(--text);
 }
 
 .package-desc {
   font-size: 14px;
   color: var(--text-muted);
-  margin-bottom: 12px;
+  margin-bottom: var(--spacing-sm);
   line-height: 1.5;
 }
 
 .package-price {
   font-size: 20px;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--brand);
 }
 
 /* Разделитель */
@@ -329,7 +319,7 @@
 }
 
 .divider span {
-  padding: 0 16px;
+  padding: 0 var(--spacing-md);
   font-size: 14px;
 }
 
@@ -337,19 +327,19 @@
 .zones-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--spacing-sm);
 }
 
 .zone-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
-  border-radius: 12px;
-  background: var(--bg-card);
+  padding: var(--spacing-md);
+  border-radius: var(--radius);
+  background: var(--card);
   border: 1px solid var(--border);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
   min-height: 48px;
 }
 
@@ -359,7 +349,7 @@
 }
 
 .zone-item input[type="checkbox"] {
-  margin-right: 12px;
+  margin-right: var(--spacing-sm);
   width: 20px;
   height: 20px;
   cursor: pointer;
@@ -373,31 +363,31 @@
 }
 
 .zone-item input[type="checkbox"]:checked ~ .zone-name {
-  color: var(--primary);
+  color: var(--brand);
   font-weight: 600;
 }
 
 .zone-price {
-  color: var(--primary);
+  color: var(--brand);
   font-weight: 600;
   font-size: 16px;
-  margin-left: 12px;
+  margin-left: var(--spacing-sm);
 }
 
 /* Итоговая информация */
 .summary-content {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--spacing-md);
 }
 
 .summary-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  border-radius: 12px;
-  background: var(--bg-card);
+  padding: var(--spacing-md);
+  border-radius: var(--radius);
+  background: var(--card);
   border: 1px solid var(--border);
 }
 
@@ -415,11 +405,11 @@
 
 .summary-total {
   background: rgba(22, 132, 145, 0.2);
-  border-color: var(--primary);
+  border-color: var(--brand);
 }
 
 .summary-total .summary-value {
-  color: var(--primary);
+  color: var(--brand);
   font-size: 24px;
   font-weight: 700;
 }
@@ -427,7 +417,7 @@
 /* Desktop версия */
 @media (min-width: 769px) {
   .calc-container {
-    border-radius: 24px;
+    border-radius: var(--radius-xl);
     max-height: 90vh;
   }
   
@@ -444,7 +434,7 @@
 @media (max-width: 768px) {
   .calc-container {
     max-height: 95vh;
-    padding: 20px 18px;
+    padding: var(--spacing-md) var(--spacing-md);
     border-radius: 24px 24px 0 0;
   }
   
@@ -453,14 +443,14 @@
   }
   
   .calc-footer {
-    padding-top: 12px;
+    padding-top: var(--spacing-sm);
     flex-wrap: wrap;
   }
   
   .calc-total {
     order: 2;
     width: 100%;
-    margin-top: 8px;
+    margin-top: var(--spacing-xs);
     font-size: 16px;
   }
   
@@ -470,7 +460,7 @@
   
   .next-btn,
   .prev-btn {
-    padding: 10px 20px;
+    padding: var(--spacing-sm) var(--spacing-md);
     font-size: 15px;
     flex: 1;
   }

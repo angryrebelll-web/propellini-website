@@ -1,0 +1,217 @@
+/* ============================================
+   HERO - Главная секция
+   ============================================ */
+
+.hero,
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform;
+}
+
+/* Desktop фоновое изображение */
+@media (min-width: 769px) {
+  .hero-bg {
+    background-image: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-2560x1440.jpg');
+  }
+}
+
+/* Mobile фоновое изображение */
+@media (max-width: 768px) {
+  .hero-bg {
+    background-image: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-1080x1920.jpg');
+  }
+}
+
+/* Параллакс эффект (только на desktop) */
+@media (min-width: 769px) {
+  .hero-bg {
+    transform: translateZ(0);
+    transition: transform 0.1s ease-out;
+  }
+  
+  body.scrolling .hero-bg {
+    transform: translateY(calc(var(--scroll-y, 0) * 0.5px));
+  }
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: var(--spacing-4xl) var(--spacing-lg) var(--spacing-3xl);
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-title {
+  font-family: var(--font-unbounded);
+  font-size: clamp(36px, 8vw, 72px);
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: var(--spacing-xl);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.8);
+  line-height: 1.1;
+}
+
+.hero-promo-wrapper {
+  display: flex;
+  gap: var(--spacing-lg);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-xl);
+}
+
+.hero-promo {
+  background: rgba(22, 132, 145, 0.2);
+  border: 1px solid rgba(22, 132, 145, 0.4);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  text-align: center;
+}
+
+.hero-promo-text {
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: var(--spacing-md);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.hero-pricing {
+  margin-bottom: var(--spacing-xl);
+}
+
+.hero-pricing-item {
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: var(--spacing-xs);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.hero-pricing-item strong {
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.hero-cta {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-xl);
+}
+
+.cta-btn,
+.btn {
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.btn-primary,
+.cta-btn {
+  background: var(--brand);
+  color: #fff;
+}
+
+.btn-primary:hover,
+.cta-btn:hover {
+  background: var(--brand-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--text);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.hero-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  align-items: center;
+}
+
+.hero-phone,
+.hero-email {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 18px;
+  transition: color var(--transition-fast);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.hero-phone:hover,
+.hero-email:hover {
+  color: var(--brand);
+}
+
+.hero-address {
+  font-size: 14px;
+  color: var(--text-muted);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    padding: var(--spacing-3xl) var(--spacing-md) var(--spacing-2xl);
+  }
+  
+  .hero-title {
+    font-size: 32px;
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .hero-promo-wrapper {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .hero-cta {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .cta-btn,
+  .btn {
+    width: 100%;
+  }
+}
+
