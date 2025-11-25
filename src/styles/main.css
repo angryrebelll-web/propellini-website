@@ -3210,9 +3210,10 @@ body:has(.portfolio-lightbox[style*="block"]) .nav-menu {
   border-radius: 12px;
 }
 
-/* Desktop video - скрыт на мобильных */
+/* Desktop video - ПОЛНОСТЬЮ ОТКЛЮЧЕН, используем только YouTube в hero */
 .video-desktop {
-  display: block;
+  display: none !important;
+  visibility: hidden !important;
 }
 
 .video-mobile {
