@@ -1,0 +1,82 @@
+/* ============================================
+   RESPONSIVE - Адаптивность для всех разрешений
+   ============================================ */
+
+/* Минимальное разрешение 360px */
+@media (min-width: 360px) {
+  .container {
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
+  
+  .section {
+    padding: var(--spacing-3xl) var(--spacing-md);
+  }
+}
+
+/* Планшеты 768px+ */
+@media (min-width: 768px) {
+  .container {
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+  }
+  
+  .section {
+    padding: var(--spacing-4xl) var(--spacing-lg);
+  }
+  
+  .cards-grid,
+  .benefits-cards-grid,
+  .reviews-cards-grid {
+    display: grid;
+    overflow-x: visible;
+  }
+  
+  .service-card,
+  .benefit-card,
+  .review-card {
+    flex: none;
+    max-width: 100%;
+  }
+}
+
+/* Desktop 1024px+ */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1200px;
+  }
+  
+  .gallery-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Большие экраны 1920px+ */
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1400px;
+  }
+  
+  .section {
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+}
+
+/* Исправление прыжков на границах breakpoints */
+@media (min-width: 360px) and (max-width: 767px) {
+  * {
+    min-width: 0;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+

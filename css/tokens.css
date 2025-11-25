@@ -1,0 +1,53 @@
+/* ============================================
+   TOKENS - Дизайн-система Propellini
+   ============================================ */
+
+:root {
+  /* Brand Colors */
+  --brand: #168491;
+  --brand-dark: #0e4f56;
+  --brand-light: #1fa5b5;
+  
+  /* Background */
+  --bg: #0f0f0f;
+  --bg-2: #121212;
+  
+  /* Text */
+  --text: #ffffff;
+  --text-muted: #b3b3b3;
+  
+  /* Cards */
+  --card: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.08);
+  
+  /* Radius */
+  --radius: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  
+  /* Shadows */
+  --shadow: 0 0 40px rgba(22, 132, 145, 0.25);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 12px 32px rgba(22, 132, 145, 0.15);
+  
+  /* Spacing */
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 60px;
+  --spacing-4xl: 120px;
+  
+  /* Typography */
+  --font-unbounded: 'Unbounded', sans-serif;
+  --font-roboto: 'Roboto', sans-serif;
+  --font-montserrat: 'Montserrat', sans-serif;
+  
+  /* Transitions */
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.2s ease;
+}
+
