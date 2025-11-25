@@ -3317,6 +3317,182 @@ body {
   z-index: 1;
 }
 
+/* Плавающие кнопки из рабочего лендинга */
+/* Круглая плавающая кнопка "Записаться" */
+.floating-book-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), rgba(22, 132, 145, 0.9));
+  border: none;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(22, 132, 145, 0.4), 0 0 0 0 rgba(22, 132, 145, 0.7);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.floating-book-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(22, 132, 145, 0.6), 0 0 0 4px rgba(22, 132, 145, 0.3);
+}
+
+.floating-book-btn:active {
+  transform: scale(0.95);
+}
+
+.floating-book-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Плавающая кнопка "Рассчитать стоимость" */
+.floating-calculate-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  opacity: 0;
+  transform: translateY(100px) scale(0.8);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  z-index: 998;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, var(--primary), rgba(22, 132, 145, 0.9));
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-roboto);
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(22, 132, 145, 0.4), 0 0 0 0 rgba(22, 132, 145, 0.7);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.floating-calculate-btn.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.floating-calculate-btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(22, 132, 145, 0.6), 0 0 0 4px rgba(22, 132, 145, 0.3);
+  background: linear-gradient(135deg, rgba(22, 132, 145, 1), var(--primary));
+}
+
+.floating-calculate-btn:active {
+  transform: translateY(-2px) scale(0.98);
+}
+
+.floating-calculate-btn svg {
+  flex-shrink: 0;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 8px 24px rgba(22, 132, 145, 0.4), 0 0 0 0 rgba(22, 132, 145, 0.7);
+  }
+  50% {
+    box-shadow: 0 8px 24px rgba(22, 132, 145, 0.6), 0 0 0 8px rgba(22, 132, 145, 0);
+  }
+}
+
+/* Sticky кнопка на мобильной версии */
+.mobile-sticky-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .floating-book-btn {
+    top: 16px;
+    right: 16px;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .floating-book-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .floating-calculate-btn {
+    bottom: 20px;
+    right: 20px;
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+  
+  .floating-calculate-btn span {
+    display: none;
+  }
+  
+  .floating-calculate-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    padding: 0;
+    justify-content: center;
+  }
+  
+  .mobile-sticky-btn {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    padding: 16px;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(22, 132, 145, 0.3);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  .mobile-sticky-btn button {
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 18px;
+    font-family: var(--font-roboto);
+    font-weight: 500;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(22, 132, 145, 0.4);
+    transition: all 0.2s ease;
+  }
+  
+  .mobile-sticky-btn button:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(22, 132, 145, 0.3);
+  }
+  
+  /* Отступ снизу для контента, чтобы не перекрывался sticky-кнопкой */
+  body {
+    padding-bottom: 90px;
+  }
+}
+
+/* Анимации для появления элементов */
+.fade-in-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
 /* Calculator Styles - улучшения из calculator.html */
 .calculator {
   max-width: 1400px;
@@ -3441,5 +3617,29 @@ body {
     font-size: 11px;
     padding: 5px 10px;
   }
+}
+
+/* Анимации для появления элементов */
+.fade-in-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Slide-up анимации для карточек */
+.benefit-card-glass,
+.service-card,
+.portfolio-item,
+.review-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.benefit-card-glass.fade-in-visible,
+.service-card.fade-in-visible,
+.portfolio-item.fade-in-visible,
+.review-card.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 

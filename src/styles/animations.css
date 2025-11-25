@@ -94,6 +94,58 @@
   transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) scale(1.02);
 }
 
+/* Slide-up анимации с задержками (из рабочего лендинга) */
+.slide-up {
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+  transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-up.visible,
+.slide-up.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Анимация для карточек с задержками */
+.benefit-card-glass,
+.service-card,
+.portfolio-item,
+.review-card {
+  animation-delay: 0s;
+}
+
+.benefit-card-glass:nth-child(1),
+.service-card:nth-child(1),
+.portfolio-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.benefit-card-glass:nth-child(2),
+.service-card:nth-child(2),
+.portfolio-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.benefit-card-glass:nth-child(3),
+.service-card:nth-child(3),
+.portfolio-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.benefit-card-glass:nth-child(4),
+.service-card:nth-child(4),
+.portfolio-item:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.benefit-card-glass:nth-child(5),
+.service-card:nth-child(5),
+.portfolio-item:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
 /* Scroll Animations */
 .scale-on-scroll {
   will-change: transform;
