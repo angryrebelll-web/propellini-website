@@ -67,6 +67,7 @@
   /* Hero Promo - мобильная версия */
   .hero-promo {
     flex: 1;
+    max-width: 50%;
     margin-bottom: 0;
     padding: var(--space-sm);
     background: rgba(22, 132, 145, 0.1);
