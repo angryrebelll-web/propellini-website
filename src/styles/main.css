@@ -372,13 +372,21 @@ body {
   pointer-events: none;
 }
 
-/* Скрываем фоновое изображение, когда есть видео */
-.hero:has(.hero-video-background) {
+/* ПОЛНОСТЬЮ УДАЛЯЕМ фоновое изображение - используем только видео */
+.hero,
+.hero.hero-section,
+.hero.responsive-bg {
   background-image: none !important;
+  background: transparent !important;
 }
 
-.hero:has(.hero-video-background)::before {
+.hero::before,
+.hero::after,
+.hero.hero-section::before,
+.hero.hero-section::after,
+.hero.responsive-bg::before {
   display: none !important;
+  content: none !important;
 }
 
 /* Обеспечиваем, что видео всегда видимо и играет */
