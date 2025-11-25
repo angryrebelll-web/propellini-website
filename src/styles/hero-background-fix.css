@@ -75,3 +75,31 @@
   z-index: 6;
 }
 
+/* Дополнительные селекторы для надежности */
+.hero-section,
+.banner-section, 
+.main-banner,
+.hero-block,
+section:first-of-type {
+  background: linear-gradient(rgba(10, 10, 10, 0.7), rgba(5, 5, 5, 0.8)), 
+              url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-2560x1440.jpg') center/cover;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+  .hero-section,
+  .banner-section, 
+  .main-banner,
+  .hero-block,
+  section:first-of-type {
+    background: linear-gradient(rgba(10, 10, 10, 0.7), rgba(5, 5, 5, 0.8)), 
+                url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-1080x1920.jpg') center/cover;
+    background-attachment: scroll;
+  }
+}
+
