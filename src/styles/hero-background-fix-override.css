@@ -1,0 +1,48 @@
+/* Hero Background Fix Override - Приоритетные стили для hero блока */
+
+/* Отключаем все изменения фона через JavaScript и другие стили */
+.hero.hero-section,
+.hero-section {
+  background-image: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-2560x1440.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+/* Отключаем responsive-bg для hero */
+.hero.hero-section.responsive-bg,
+.hero-section.responsive-bg,
+.hero.hero-section[data-bg-desktop],
+.hero-section[data-bg-desktop] {
+  background-image: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-2560x1440.jpg') !important;
+}
+
+/* Мобильная версия */
+@media (max-width: 900px) {
+  .hero.hero-section,
+  .hero-section {
+    background-image: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-1080x1920.jpg') !important;
+    background-attachment: scroll !important;
+  }
+  
+  .hero.hero-section.responsive-bg,
+  .hero-section.responsive-bg,
+  .hero.hero-section[data-bg-mobile],
+  .hero-section[data-bg-mobile] {
+    background-image: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-1080x1920.jpg') !important;
+  }
+}
+
+/* Убираем все псевдоэлементы, которые могут перекрывать фон */
+.hero.hero-section.premium-bg-overlay::before,
+.hero.hero-section.premium-bg-overlay::after,
+.hero.hero-section.premium-processed::before,
+.hero.hero-section.premium-processed::after,
+.hero.hero-section.responsive-bg::before,
+.hero.hero-section.responsive-bg::after {
+  display: none !important;
+  background: none !important;
+  opacity: 0 !important;
+}
+

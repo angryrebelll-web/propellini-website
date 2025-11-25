@@ -28,15 +28,16 @@ const setResponsiveVideo = (el, desktop, mobile) => {
 };
 
 const initResponsiveBackgrounds = () => {
-  // Hero section - новые изображения
-  const heroSection = document.querySelector('.hero-section');
-  if (heroSection) {
-    setResponsiveImage(
-      heroSection,
-      '/public/images/hero/hero-desktop.jpg',
-      '/public/images/hero/hero-mobile.jpg'
-    );
-  }
+  // Hero section - НЕ изменяем, используем CSS стили из hero-background-fix.css
+  // Фон устанавливается через CSS для надежности
+  // const heroSection = document.querySelector('.hero-section');
+  // if (heroSection) {
+  //   setResponsiveImage(
+  //     heroSection,
+  //     '/public/images/hero/hero-desktop.jpg',
+  //     '/public/images/hero/hero-mobile.jpg'
+  //   );
+  // }
 
   // About section
   const aboutSection = document.querySelector('.about-section');

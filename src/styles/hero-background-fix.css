@@ -8,8 +8,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-2560x1440.jpg') center/cover no-repeat;
-  background-attachment: fixed; /* Параллакс для desktop */
+  background: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-2560x1440.jpg') center/cover no-repeat !important;
+  background-attachment: fixed !important; /* Параллакс для desktop */
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
 }
 
 /* Overlay 55% затемнения через ::after */
@@ -82,12 +85,18 @@
 .hero-block,
 section:first-of-type {
   background: linear-gradient(rgba(10, 10, 10, 0.7), rgba(5, 5, 5, 0.8)), 
-              url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-2560x1440.jpg') center/cover;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+              url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-2560x1440.jpg') center/cover !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-attachment: fixed !important;
   min-height: 100vh;
   position: relative;
+}
+
+/* Отключаем responsive-bg для hero */
+.hero.hero-section.responsive-bg,
+.hero-section.responsive-bg {
+  background-image: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-2560x1440.jpg') !important;
 }
 
 /* Мобильная версия */
