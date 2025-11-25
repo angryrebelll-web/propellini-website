@@ -217,7 +217,7 @@
     position: relative !important;
   }
 
-  /* Фоновое видео для мобильной версии */
+  /* Фоновое видео для мобильной версии - как на icondetailing.ru */
   .hero-video-background {
     position: absolute !important;
     top: 0 !important;
@@ -227,6 +227,7 @@
     z-index: 0 !important; /* Фоновый слой */
     overflow: hidden !important;
     pointer-events: none !important;
+    background: transparent !important;
   }
 
   .hero-video-iframe,
@@ -234,19 +235,28 @@
     position: absolute !important;
     top: 50% !important;
     left: 50% !important;
-    transform: translate(-50%, -50%) scale(1.2) !important;
+    transform: translate(-50%, -50%) scale(1.3) !important;
     border: none !important;
     pointer-events: none !important;
     opacity: 1 !important;
     width: 100vw !important;
-    height: 100vh !important;
+    height: 56.25vw !important; /* 16:9 для мобильных */
     min-width: 100vw !important;
     min-height: 100vh !important;
     object-fit: cover !important;
-    filter: brightness(0.7) contrast(1.1) !important;
+    filter: brightness(0.5) contrast(1.1) !important;
     visibility: visible !important;
     display: block !important;
     z-index: 0 !important;
+  }
+
+  /* Для вертикальных мобильных экранов */
+  @media (max-aspect-ratio: 9/16) {
+    .hero-video-iframe,
+    .hero-video-element {
+      width: 177.77vh !important;
+      height: 100vh !important;
+    }
   }
 
   .hero-overlay {
