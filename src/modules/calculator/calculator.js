@@ -3663,6 +3663,14 @@ class CarWrappingCalculator {
 }
 
 // Инициализация калькулятора
-document.addEventListener('DOMContentLoaded', () => {
-  window.calculator = new CarWrappingCalculator();
-});
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!window.calculator) {
+      window.calculator = new CarWrappingCalculator();
+    }
+  });
+} else {
+  if (!window.calculator) {
+    window.calculator = new CarWrappingCalculator();
+  }
+}
