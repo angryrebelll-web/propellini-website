@@ -397,7 +397,9 @@ body {
 
 /* Десктоп версия видео */
 .hero-video-desktop {
-  display: block;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 /* Мобильная версия видео */
