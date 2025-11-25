@@ -399,33 +399,6 @@ body {
   animation: fade-up-in 1s ease-out 1.2s forwards;
 }
 
-.hero-scroll-indicator {
-  position: absolute;
-  bottom: var(--space-lg);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 12px;
-  opacity: 0;
-  animation: fade-up-in 1s ease-out 1.5s forwards;
-}
-
-.scroll-arrow {
-  width: 20px;
-  height: 20px;
-  border-right: 2px solid var(--primary);
-  border-bottom: 2px solid var(--primary);
-  transform: rotate(45deg);
-  margin: var(--space-xs) auto 0;
-  animation: bounce-arrow 2s infinite;
-}
-
-@keyframes bounce-arrow {
-  0%, 100% { transform: rotate(45deg) translateY(0); }
-  50% { transform: rotate(45deg) translateY(10px); }
-}
 
 @keyframes fade-up-in {
   to {
