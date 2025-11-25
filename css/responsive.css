@@ -2,15 +2,15 @@
    RESPONSIVE - Адаптивность для всех разрешений
    ============================================ */
 
-/* Минимальное разрешение 360px */
+/* Минимальное разрешение 360px - нормальные отступы */
 @media (min-width: 360px) {
   .container {
-    padding-left: var(--spacing-md);
-    padding-right: var(--spacing-md);
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
   }
   
   .section {
-    padding: var(--spacing-3xl) var(--spacing-md);
+    padding: var(--spacing-3xl) var(--spacing-lg);
   }
 }
 

@@ -325,6 +325,8 @@ const initMobileWizard = () => {
       card.addEventListener('click', () => {
         calculatorState.selectedPackage = pkgName;
         calculatorState.selectedZones = [];
+        updateTotal();
+        updateButtons();
         renderStep();
       });
       packagesGrid.appendChild(card);

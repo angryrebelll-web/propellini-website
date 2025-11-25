@@ -22,16 +22,36 @@ body {
   line-height: 1.6;
 }
 
-/* Исправление мобильного скролла */
+/* Исправление мобильного скролла - убираем дёргание */
+html {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+}
+
+body {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+}
+
 @media (max-width: 768px) {
   html, body {
     width: 100%;
     overflow-x: hidden;
     position: relative;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
   }
   
   * {
-    max-width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  
+  /* Убираем горизонтальный скролл */
+  section, .section {
+    overflow-x: hidden;
+    width: 100%;
   }
 }
 
