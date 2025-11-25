@@ -189,6 +189,8 @@ body {
   background: transparent;
   border: none;
   cursor: pointer;
+  z-index: 1001;
+  cursor: pointer;
   padding: 8px;
 }
 

@@ -1,0 +1,356 @@
+/* Critical Fixes - Исправление критических проблем */
+
+/* ============================================
+   1. ФОНОВЫЕ ИЗОБРАЖЕНИЯ - УБРАТЬ ВСЕ ЗАТЕМНЕНИЯ
+   ============================================ */
+
+/* Hero section - минимальная прозрачность для видимости Mercedes */
+.hero.hero-section .hero-overlay {
+  background: linear-gradient(
+    to bottom, 
+    rgba(0, 0, 0, 0.1) 0%, 
+    rgba(0, 0, 0, 0.2) 100%
+  ) !important;
+}
+
+/* Desktop - еще меньше затемнения */
+@media (min-width: 769px) {
+  .hero.hero-section .hero-overlay {
+    background: linear-gradient(
+      to bottom, 
+      rgba(0, 0, 0, 0.05) 0%, 
+      rgba(0, 0, 0, 0.15) 100%
+    ) !important;
+  }
+}
+
+/* Mobile - чуть больше для читаемости текста */
+@media (max-width: 768px) {
+  .hero.hero-section .hero-overlay {
+    background: linear-gradient(
+      to bottom, 
+      rgba(0, 0, 0, 0.15) 0%, 
+      rgba(0, 0, 0, 0.25) 100%
+    ) !important;
+  }
+}
+
+/* Убираем ВСЕ дополнительные затемнения */
+.hero.hero-section.premium-bg-overlay::before,
+.hero.hero-section.premium-bg-overlay::after,
+.hero.hero-section.premium-processed::before,
+.hero.hero-section.premium-processed::after {
+  display: none !important;
+  background: none !important;
+  opacity: 0 !important;
+}
+
+/* Убеждаемся что фоновое изображение видно */
+.hero.hero-section {
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Другие секции - убираем лишние затемнения */
+.studio-section-bg,
+.about-section,
+.portfolio-item,
+.portfolio-gallery img {
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+.studio-section-bg .premium-bg-overlay::before,
+.about-section .premium-bg-overlay::before {
+  background: rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ============================================
+   2. НАВИГАЦИЯ - СВЕТЛО-СЕРАЯ ВМЕСТО ТЕМНОЙ
+   ============================================ */
+
+.main-nav {
+  background: rgba(240, 240, 240, 0.95) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.main-nav.scrolled {
+  background: rgba(250, 250, 250, 0.98) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-menu a {
+  color: #1a1a1a !important;
+}
+
+.nav-menu a:hover {
+  color: var(--primary) !important;
+}
+
+.nav-logo-text {
+  color: #1a1a1a !important;
+}
+
+/* Мобильная навигация */
+@media (max-width: 768px) {
+  .main-nav {
+    background: rgba(250, 250, 250, 0.98) !important;
+  }
+  
+  .nav-toggle {
+    display: flex !important;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    z-index: 1001;
+    background: transparent;
+    border: none;
+    padding: 8px;
+  }
+  
+  .nav-menu {
+    display: none !important;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.98) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: var(--space-md);
+    z-index: 999;
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+  }
+  
+  .nav-menu.active {
+    display: flex !important;
+  }
+  
+  .nav-menu li {
+    width: 100%;
+    text-align: center;
+    padding: var(--space-sm) 0;
+  }
+  
+  .nav-menu a {
+    color: #1a1a1a !important;
+    display: block;
+    padding: var(--space-sm);
+    font-size: 16px;
+  }
+  
+  .nav-toggle span {
+    background: #1a1a1a !important;
+    width: 25px;
+    height: 3px;
+    transition: all 0.3s ease;
+    display: block;
+  }
+  
+  .nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  
+  .nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+}
+
+/* Планшеты - адаптация навигации */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .main-nav {
+    background: rgba(245, 245, 245, 0.95) !important;
+  }
+  
+  .nav-toggle {
+    display: flex !important;
+  }
+  
+  .nav-menu {
+    display: none !important;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.98) !important;
+    padding: var(--space-md);
+  }
+  
+  .nav-menu.active {
+    display: flex !important;
+  }
+}
+
+/* Планшеты */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .main-nav {
+    background: rgba(245, 245, 245, 0.95) !important;
+  }
+}
+
+/* ============================================
+   3. ЛОГОТИП - ПРАВИЛЬНЫЕ ЦВЕТА
+   ============================================ */
+
+.nav-logo-icon {
+  filter: brightness(0) !important;
+}
+
+/* ============================================
+   4. КНОПКИ - ИСПРАВЛЕНИЕ РАБОТЫ
+   ============================================ */
+
+.btn,
+.calculator-open-btn,
+.discount-open-btn,
+button,
+a.btn {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  z-index: 10 !important;
+  position: relative;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+
+/* ============================================
+   5. КАЛЬКУЛЯТОР - ИСПРАВЛЕНИЕ
+   ============================================ */
+
+#calculator,
+#calculatorMobile,
+.calculator-mobile,
+.desktop-calculator {
+  position: relative;
+  z-index: 100;
+}
+
+.calculator-modal,
+.modal {
+  z-index: 10000 !important;
+}
+
+/* ============================================
+   6. КАРТИНКИ В СЕКЦИЯХ
+   ============================================ */
+
+.portfolio-item img,
+.studio-gallery img,
+.studio-gallery-item img,
+.about-gallery img,
+.gallery-image {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  background: transparent !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.portfolio-item,
+.studio-gallery-item,
+.studio-gallery-image {
+  background: transparent !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.portfolio-item::before,
+.portfolio-item::after,
+.studio-gallery-item::before,
+.studio-gallery-item::after {
+  display: none !important;
+  background: none !important;
+}
+
+/* Убираем темные фоны */
+.portfolio-gallery,
+.studio-gallery,
+.about-gallery {
+  background: transparent !important;
+}
+
+/* Убираем затемнения от premium-processed */
+.gallery-image-processed,
+.premium-processed {
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+.gallery-image-processed::before,
+.gallery-image-processed::after,
+.premium-processed::before,
+.premium-processed::after {
+  display: none !important;
+  background: none !important;
+}
+
+/* ============================================
+   7. МОБИЛЬНАЯ АДАПТАЦИЯ НАВИГАЦИИ
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .nav-menu {
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.98);
+    padding: var(--space-md);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-menu.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .nav-menu li {
+    width: 100%;
+    text-align: center;
+    padding: var(--space-sm) 0;
+  }
+  
+  .nav-menu a {
+    display: block;
+    padding: var(--space-sm);
+    font-size: 16px;
+  }
+}
+
+/* ============================================
+   8. ИСПРАВЛЕНИЕ Z-INDEX
+   ============================================ */
+
+.hero-content {
+  z-index: 10 !important;
+  position: relative;
+}
+
+.hero-overlay {
+  z-index: 2 !important;
+}
+
+.hero.hero-section {
+  z-index: 1;
+}
+
