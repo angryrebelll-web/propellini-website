@@ -230,6 +230,18 @@
     background: transparent !important;
   }
 
+  /* Скрываем десктопную версию видео на мобильных */
+  .hero-video-desktop {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Показываем мобильную версию видео */
+  .hero-video-mobile {
+    display: block !important;
+    visibility: visible !important;
+  }
+
   .hero-video-iframe,
   .hero-video-element {
     position: absolute !important;
@@ -252,6 +264,15 @@
 
   /* Убеждаемся, что iframe растянут полностью на мобильных */
   .hero-video-background iframe {
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  /* Специальные стили для мобильного видео */
+  .hero-video-mobile {
     width: 100% !important;
     height: 100% !important;
     min-width: 100% !important;

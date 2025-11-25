@@ -407,11 +407,23 @@ body {
 
 @media (max-width: 768px) {
   .hero-video-desktop {
-    display: none;
+    display: none !important;
+    visibility: hidden !important;
   }
   
   .hero-video-mobile {
-    display: block;
+    display: block !important;
+    visibility: visible !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* Убеждаемся, что мобильное видео полностью растянуто */
+  .hero-video-mobile.hero-video-iframe {
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
   }
 }
 
