@@ -1033,6 +1033,33 @@
         calculatorSection.classList.add('active');
         body.style.overflow = 'hidden';
         calculatorSection.scrollTop = 0;
+        
+        // Повторная инициализация калькулятора при открытии
+        if (window.calculator) {
+          setTimeout(() => {
+            // Переинициализируем для надежности
+            const isMobile = window.innerWidth <= 900;
+            if (isMobile) {
+              if (window.calculator.initMobileWizard) {
+                window.calculator.initMobileWizard();
+              }
+            } else {
+              // Десктоп версия
+              if (window.calculator.renderBrandChips) {
+                window.calculator.renderBrandChips();
+              }
+              if (window.calculator.renderZones) {
+                window.calculator.renderZones();
+              }
+              if (window.calculator.bindClassSelection) {
+                window.calculator.bindClassSelection();
+              }
+            }
+            if (window.calculator.updateTotal) {
+              window.calculator.updateTotal();
+            }
+          }, 100);
+        }
       };
 
       // Close calculator

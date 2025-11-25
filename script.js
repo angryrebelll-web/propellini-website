@@ -1009,10 +1009,10 @@ class CarWrappingCalculator {
     // Инициализируем кнопку "Записаться" в верхней панели для всех версий
     this.bindOrderButton();
     
-    // Всегда инициализируем десктопную версию калькулятора (она используется и на мобильных)
+    // Всегда инициализируем десктопную версию калькулятора
     this.bindClassSelection();
     this.bindSearch();
-      this.bindQuickButtons();
+    this.bindQuickButtons();
     this.renderZones();
     this.initCarZones();
     
@@ -1023,18 +1023,20 @@ class CarWrappingCalculator {
       if (this.selectedClass) {
         this.showClassExamples(this.selectedClass);
       }
-    this.updateTotal();
+      this.updateTotal();
     }, 50);
     
     // Дополнительно инициализируем мобильный визард если нужно
     if (this.isMobile) {
-      this.initMobileWizard();
-  }
+      setTimeout(() => {
+        this.initMobileWizard();
+      }, 100);
+    }
       
     // Обновляем итоговую стоимость после инициализации
     setTimeout(() => {
       this.updateTotal();
-    }, 100);
+    }, 200);
 
     // Обработчик изменения размера окна
     window.addEventListener('resize', () => {
@@ -2590,8 +2592,13 @@ class CarWrappingCalculator {
   
   // Рендер брендов для визарда
   renderWizardBrands() {
-    const container = document.getElementById('wizardBrandsContainer');
-    if (!container) return;
+    const container = document.getElementById('wizardBrandsContainer') || 
+                      document.getElementById('mobileBrandsChips') || 
+                      document.getElementById('mobileBrandChips');
+    if (!container) {
+      console.warn('Контейнер для брендов не найден');
+      return;
+    }
     
     let brands = this.getAllBrands();
     
@@ -2602,13 +2609,23 @@ class CarWrappingCalculator {
       );
     }
     
+    const chipClass = container.id === 'mobileBrandsChips' || container.id === 'mobileBrandChips' 
+      ? 'mobile-chip' 
+      : 'wizard-brand-chip';
+    
     container.innerHTML = brands.map(brand => 
-      `<div class="wizard-brand-chip ${this.selectedBrand === brand ? 'active' : ''}" 
-            data-brand="${brand}" 
-            onclick="window.calculator?.selectWizardBrand('${brand}')">
+      `<button class="${chipClass} ${this.selectedBrand === brand ? 'active' : ''}" 
+            data-brand="${brand}">
         ${brand}
-      </div>`
+      </button>`
     ).join('');
+    
+    // Добавляем обработчики для кнопок
+    container.querySelectorAll(`.${chipClass}`).forEach(chip => {
+      chip.addEventListener('click', () => {
+        this.selectWizardBrand(chip.dataset.brand);
+      });
+    });
   }
   
   // Выбор бренда в визарде
@@ -2622,23 +2639,34 @@ class CarWrappingCalculator {
   
   // Инициализация шага 2: Выбор модели
   initWizardStep2() {
+    // Используем также старый метод для совместимости
+    this.renderMobileModelChips();
+    this.renderWizardModels();
+    
     // Показываем выбранный бренд
-    const selectedBrandEl = document.getElementById('wizardSelectedBrand');
-    if (selectedBrandEl) {
-      this.updateWizardSelectedBrand();
+    const selectedBrandEl = document.getElementById('wizardSelectedBrand') || 
+                            document.getElementById('mobileSelectedBrand');
+    if (selectedBrandEl && this.selectedBrand) {
+      selectedBrandEl.textContent = this.selectedBrand;
+      selectedBrandEl.style.display = 'block';
     }
     
     // Поиск по моделям с debounce
-    const searchInput = document.getElementById('wizardModelSearch');
+    const searchInput = document.getElementById('wizardModelSearch') || 
+                        document.getElementById('mobileModelSearch');
     if (searchInput) {
       const debouncedSearch = this.debounce((e) => {
         this.wizardModelSearchQuery = e.target.value.toLowerCase().trim();
         requestAnimationFrame(() => {
           this.renderWizardModels();
+          this.renderMobileModelChips();
         });
       }, 300);
       
-      searchInput.addEventListener('input', debouncedSearch);
+      // Удаляем старые обработчики
+      const newInput = searchInput.cloneNode(true);
+      searchInput.parentNode.replaceChild(newInput, searchInput);
+      newInput.addEventListener('input', debouncedSearch);
     }
   }
   
@@ -2652,8 +2680,13 @@ class CarWrappingCalculator {
   
   // Рендер моделей для визарда
   renderWizardModels() {
-    const container = document.getElementById('wizardModelsContainer');
-    if (!container || !this.selectedBrand) return;
+    const container = document.getElementById('wizardModelsContainer') || 
+                      document.getElementById('mobileModelsChips') || 
+                      document.getElementById('mobileModelChips');
+    if (!container || !this.selectedBrand) {
+      if (!container) console.warn('Контейнер для моделей не найден');
+      return;
+    }
     
     let models = this.getAllModelsForBrand(this.selectedBrand);
     
@@ -2664,20 +2697,35 @@ class CarWrappingCalculator {
       );
     }
     
+    const chipClass = container.id === 'mobileModelsChips' || container.id === 'mobileModelChips' 
+      ? 'mobile-chip' 
+      : 'wizard-model-chip';
+    
     container.innerHTML = models.map(model => 
-      `<div class="wizard-model-chip ${this.selectedModel === model ? 'active' : ''}" 
-            data-model="${model}" 
-            onclick="window.calculator?.selectWizardModel('${model}')">
+      `<button class="${chipClass} ${this.selectedModel === model ? 'active' : ''}" 
+            data-model="${model}">
         ${model}
-      </div>`
+      </button>`
     ).join('');
+    
+    // Добавляем обработчики для кнопок
+    container.querySelectorAll(`.${chipClass}`).forEach(chip => {
+      chip.addEventListener('click', () => {
+        this.selectWizardModel(chip.dataset.model);
+      });
+    });
   }
   
   // Выбор модели в визарде
   selectWizardModel(model) {
     this.selectModel(this.selectedBrand, model);
     this.renderWizardModels();
-    this.nextStep();
+    this.renderMobileModelChips();
+    if (this.nextStep) {
+      this.nextStep();
+    } else if (this.updateMobileStep) {
+      this.updateMobileStep(3);
+    }
   }
   
   // Инициализация шага 3: Определение класса
@@ -2967,6 +3015,8 @@ class CarWrappingCalculator {
   
   // Показать шаг визарда
   showWizardStep(step) {
+    this.currentStep = step;
+    
     // Скрываем все шаги
     document.querySelectorAll('.wizard-step').forEach(stepEl => {
       stepEl.classList.remove('active', 'slide-out', 'slide-in');
@@ -2984,9 +3034,17 @@ class CarWrappingCalculator {
                    document.querySelector(`.mobile-wizard-step[data-step="${step}"]`);
     if (stepEl) {
       stepEl.style.display = 'flex';
-    setTimeout(() => {
+      setTimeout(() => {
         stepEl.classList.add('active', 'slide-in');
-    }, 10);
+        stepEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 10);
+    } else {
+      console.warn(`Шаг ${step} не найден`);
+    }
+    
+    // Обновляем индикаторы шагов
+    this.updateMobileStepIndicator();
+    this.updateMobileButtons();
     }
     
     // Обновляем кнопку "Назад"
@@ -3194,8 +3252,11 @@ class CarWrappingCalculator {
   }
 
   renderMobileBrandChips() {
-    const container = document.getElementById('mobileBrandChips');
-    if (!container) return;
+    const container = document.getElementById('mobileBrandsChips') || document.getElementById('mobileBrandChips');
+    if (!container) {
+      console.warn('Контейнер mobileBrandsChips не найден');
+      return;
+    }
     
     const brands = this.getAllBrands();
     
@@ -3312,8 +3373,11 @@ class CarWrappingCalculator {
   }
 
   renderMobileModelChips() {
-    const container = document.getElementById('mobileModelChips');
-    if (!container || !this.selectedBrand) return;
+    const container = document.getElementById('mobileModelsChips') || document.getElementById('mobileModelChips');
+    if (!container || !this.selectedBrand) {
+      if (!container) console.warn('Контейнер mobileModelsChips не найден');
+      return;
+    }
     
     const popularModels = this.getPopularModelsForBrand(this.selectedBrand);
     
