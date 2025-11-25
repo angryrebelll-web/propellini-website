@@ -122,9 +122,11 @@
           (target.id === 'calculatorNavBtn' || target.closest('#calculatorNavBtn'))) {
         e.preventDefault();
         e.stopPropagation();
+        e.stopImmediatePropagation();
         openCalculatorModal();
+        return false;
       }
-    });
+    }, true); // Используем capture phase для надежности
 
     // Экспортируем функции для глобального доступа
     window.openCalculatorModal = openCalculatorModal;
