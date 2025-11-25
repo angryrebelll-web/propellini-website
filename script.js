@@ -3933,67 +3933,84 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroVideo();
 });
 
-// Инициализация фонового видео из Pinterest
+// Инициализация фонового видео из YouTube Shorts
 function initHeroVideo() {
   const desktopVideo = document.getElementById('heroVideoDesktop');
   const mobileVideo = document.getElementById('heroVideoMobile');
   
-  // Функция для попытки извлечения прямого видео из Pinterest
-  const tryExtractVideo = async (pinId) => {
-    try {
-      // Попытка получить данные пина через Pinterest API
-      // Однако это может не работать из-за CORS
-      const response = await fetch(`https://www.pinterest.com/pin/${pinId}/`, {
-        mode: 'no-cors'
-      });
-      
-      // Альтернативный подход: использовать Pinterest embed с правильными параметрами
-      console.log('Attempting to load Pinterest video for pin:', pinId);
-    } catch (e) {
-      console.log('Pinterest video extraction:', e);
-    }
-  };
-  
-  // Функция для обеспечения видимости iframe
-  const ensureVideoVisibility = (iframe) => {
+  // Функция для обеспечения видимости и автовоспроизведения YouTube видео
+  const ensureVideoPlayback = (iframe) => {
     if (!iframe) return;
     
+    // Принудительно показываем iframe
+    iframe.style.opacity = '0.9';
+    iframe.style.visibility = 'visible';
+    iframe.style.display = 'block';
+    
     iframe.addEventListener('load', () => {
-      // Попытка сделать iframe видимым
-      iframe.style.opacity = '0.8';
-      iframe.style.visibility = 'visible';
-      iframe.style.display = 'block';
+      // Видео загружено, делаем его видимым
+      iframe.style.opacity = '0.9';
+      
+      // Попытка запустить воспроизведение через YouTube API
+      try {
+        if (iframe.contentWindow) {
+          iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        }
+      } catch (e) {
+        console.log('YouTube video autoplay:', e);
+      }
     });
     
-    // Принудительно показываем iframe через небольшую задержку
+    // Принудительное отображение через небольшую задержку
     setTimeout(() => {
-      if (iframe.style.display === 'none') {
-        iframe.style.display = 'block';
-        iframe.style.visibility = 'visible';
-        iframe.style.opacity = '0.8';
-      }
-    }, 1000);
+      iframe.style.display = 'block';
+      iframe.style.visibility = 'visible';
+      iframe.style.opacity = '0.9';
+    }, 500);
   };
   
   if (desktopVideo) {
-    ensureVideoVisibility(desktopVideo);
-    tryExtractVideo('45247171249303388');
+    ensureVideoPlayback(desktopVideo);
   }
   
   if (mobileVideo) {
-    ensureVideoVisibility(mobileVideo);
+    ensureVideoPlayback(mobileVideo);
   }
   
-  // Обработка видимости страницы
+  // Обработка видимости страницы для возобновления воспроизведения
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) {
-      // Перезагружаем iframe при возврате на страницу
+      // Возобновить воспроизведение при возврате на страницу
       if (desktopVideo && window.innerWidth > 768) {
-        desktopVideo.src = desktopVideo.src;
+        try {
+          desktopVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        } catch (e) {}
       }
       if (mobileVideo && window.innerWidth <= 768) {
-        mobileVideo.src = mobileVideo.src;
+        try {
+          mobileVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        } catch (e) {}
       }
+    }
+  });
+  
+  // Обработка сообщений от YouTube iframe
+  window.addEventListener('message', (event) => {
+    if (event.origin !== 'https://www.youtube.com') return;
+    
+    try {
+      const data = JSON.parse(event.data);
+      if (data.event === 'onStateChange' && data.info === 0) {
+        // Видео закончилось, перезапускаем для зацикливания
+        if (desktopVideo && window.innerWidth > 768) {
+          desktopVideo.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[0, true]}', '*');
+        }
+        if (mobileVideo && window.innerWidth <= 768) {
+          mobileVideo.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[0, true]}', '*');
+        }
+      }
+    } catch (e) {
+      // Игнорируем ошибки парсинга
     }
   });
 }
