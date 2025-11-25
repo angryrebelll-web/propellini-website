@@ -1,0 +1,1029 @@
+/* ============================================
+   PROPELLINI MOBILE REDESIGN
+   Полный редизайн мобильной версии
+   ============================================ */
+
+/* Базовые исправления - запрет overflow-x, layout shift */
+@media (max-width: 900px) {
+  html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    position: relative;
+  }
+  
+  * {
+    max-width: 100%;
+  }
+  
+  /* Предотвращение layout shift */
+  img, video, iframe {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+/* ============================================
+   1. ШАПКА / МЕНЮ - Propellini Style
+   ============================================ */
+@media (max-width: 900px) {
+  .main-nav {
+    background: rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
+    padding: 14px 18px !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+  
+  .nav-container {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+  
+  .nav-logo {
+    height: auto !important;
+    gap: 8px !important;
+  }
+  
+  .nav-logo-icon {
+    height: 28px !important;
+    width: auto !important;
+  }
+  
+  .nav-logo-text {
+    font-size: 18px !important;
+    letter-spacing: 0.15em !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+  }
+  
+  /* Кнопка меню - правильные отступы */
+  .nav-toggle {
+    width: 44px !important;
+    height: 44px !important;
+    padding: 12px !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+    z-index: 1001;
+  }
+  
+  .nav-toggle span {
+    width: 24px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    display: block;
+  }
+  
+  .nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(7px, 7px);
+  }
+  
+  .nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+  }
+  
+  /* Мобильное меню - fullscreen overlay */
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 15, 15, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    padding: 80px 24px 24px;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+    overflow-y: auto;
+  }
+  
+  .nav-menu.active {
+    transform: translateX(0);
+  }
+  
+  .nav-menu li {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .nav-menu a {
+    display: block;
+    padding: 16px 24px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: rgba(22, 132, 145, 0.1);
+    border: 1px solid rgba(22, 132, 145, 0.2);
+  }
+  
+  .nav-menu a:active {
+    background: rgba(22, 132, 145, 0.3);
+    transform: scale(0.98);
+  }
+}
+
+/* ============================================
+   2. HERO-БЛОК - Mobile Optimized
+   ============================================ */
+@media (max-width: 900px) {
+  .hero.hero-section {
+    min-height: 100vh;
+    height: 100vh;
+    max-height: 100vh;
+    padding-top: 70px;
+    background-image: url('https://images.hdqwalls.com/download/mercedes-amg-gt63-the-beast-unleashed-yh-1080x1920.jpg') !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: scroll !important;
+    aspect-ratio: 9/16;
+    overflow: hidden;
+  }
+  
+  .hero-content {
+    padding: 24px 18px !important;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 5;
+  }
+  
+  .hero-title {
+    font-size: clamp(28px, 7vw, 42px) !important;
+    line-height: 1.2 !important;
+    margin-bottom: 20px !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .hero-promo-wrapper {
+    flex-direction: column !important;
+    gap: 16px !important;
+    margin-bottom: 24px !important;
+  }
+  
+  .hero-promo {
+    max-width: 100% !important;
+    flex: 1 !important;
+    padding: 16px !important;
+  }
+  
+  .hero-full-wrap-banner {
+    max-width: 100% !important;
+    padding: 16px !important;
+  }
+  
+  /* CTA кнопки - премиальные, 56px высота */
+  .btn, .btn-primary, .discount-open-btn {
+    min-height: 56px !important;
+    height: 56px !important;
+    padding: 16px 32px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  .hero-pricing {
+    margin-top: 24px;
+    font-size: 14px;
+  }
+  
+  .hero-pricing-item {
+    margin-bottom: 8px;
+  }
+}
+
+/* ============================================
+   3. ПРЕИМУЩЕСТВА / УТП - Иерархия
+   ============================================ */
+@media (max-width: 900px) {
+  .benefits-grid,
+  .benefits-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 24px 18px;
+  }
+  
+  .benefit-card,
+  .benefit-item {
+    padding: 24px 20px;
+    background: rgba(22, 132, 145, 0.08);
+    border: 1px solid rgba(22, 132, 145, 0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .benefit-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+  }
+  
+  .benefit-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #ffffff;
+  }
+  
+  .benefit-text {
+    font-size: 15px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* ============================================
+   4. БЛОК "О PROPELLINI" - Карточный стиль
+   ============================================ */
+@media (max-width: 900px) {
+  .about-section {
+    padding: 40px 18px;
+  }
+  
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .about-image,
+  .about-photo {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 16px;
+    object-fit: cover;
+    aspect-ratio: 16/9;
+  }
+  
+  .about-text {
+    padding: 24px;
+    background: rgba(22, 132, 145, 0.08);
+    border: 1px solid rgba(22, 132, 145, 0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .about-title {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  
+  .about-description {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+}
+
+/* ============================================
+   5. КАЛЬКУЛЯТОР - Fullscreen Modal Wizard
+   ============================================ */
+@media (max-width: 900px) {
+  /* Модальное окно калькулятора */
+  .calculator-modal,
+  .mobile-calculator-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    background: #0f0f0f;
+    z-index: 10000;
+    overflow: hidden;
+    display: none;
+  }
+  
+  .calculator-modal.active,
+  .mobile-calculator-modal.active {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Контент калькулятора */
+  .calculator-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 18px 140px; /* Отступ снизу для фиксированной панели */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Шаги wizard */
+  .calculator-step {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .calculator-step.active {
+    display: block;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* Заголовок шага */
+  .step-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #ffffff;
+  }
+  
+  /* Чипсы марок/моделей */
+  .brand-chips,
+  .model-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  
+  .brand-chip,
+  .model-chip {
+    min-height: 48px;
+    padding: 12px 20px;
+    background: rgba(22, 132, 145, 0.1);
+    border: 2px solid rgba(22, 132, 145, 0.3);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .brand-chip.active,
+  .model-chip.active {
+    background: #168491;
+    border-color: #168491;
+    color: #ffffff;
+  }
+  
+  /* Пакеты услуг */
+  .package-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .package-card {
+    padding: 20px;
+    background: rgba(22, 132, 145, 0.08);
+    border: 2px solid rgba(22, 132, 145, 0.2);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .package-card.active {
+    border-color: #168491;
+    background: rgba(22, 132, 145, 0.2);
+  }
+  
+  /* Зоны риска - список чекбоксов */
+  .zones-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  
+  .zone-item {
+    min-height: 56px;
+    padding: 16px;
+    background: rgba(22, 132, 145, 0.08);
+    border: 2px solid rgba(22, 132, 145, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+  
+  .zone-item input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    accent-color: #168491;
+  }
+  
+  /* Кнопки навигации */
+  .calculator-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  
+  .btn-next,
+  .btn-back {
+    flex: 1;
+    min-height: 56px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-next {
+    background: #168491;
+    color: #ffffff;
+  }
+  
+  .btn-back {
+    background: rgba(22, 132, 145, 0.2);
+    color: #ffffff;
+    border: 2px solid rgba(22, 132, 145, 0.3);
+  }
+  
+  /* ФИКСИРОВАННАЯ ПАНЕЛЬ "ИТОГО" */
+  .calculator-total-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(22, 132, 145, 0.3);
+    padding: 20px 18px;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+    z-index: 10001;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  .total-price {
+    font-size: 32px;
+    font-weight: 700;
+    color: #168491;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  
+  .total-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  
+  .btn-calculate-final {
+    width: 100%;
+    min-height: 56px;
+    background: #168491;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-calculate-final:active {
+    transform: scale(0.98);
+    background: #126d77;
+  }
+}
+
+/* ============================================
+   6. ГАЛЕРЕЯ - Swipe, Zoom, Close
+   ============================================ */
+@media (max-width: 900px) {
+  .portfolio-grid,
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 24px 18px;
+  }
+  
+  .portfolio-item,
+  .gallery-item {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  .portfolio-item img,
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .portfolio-item:active img,
+  .gallery-item:active img {
+    transform: scale(1.05);
+  }
+  
+  /* Fullscreen lightbox */
+  .lightbox,
+  .mobile-gallery-lightbox,
+  .portfolio-lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.98);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .lightbox.active,
+  .mobile-gallery-lightbox.active,
+  .portfolio-lightbox.active {
+    display: flex;
+  }
+  
+  .lightbox-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+  
+  .lightbox-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  
+  .lightbox-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    touch-action: pan-x pan-y pinch-zoom;
+  }
+  
+  .lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10001;
+    transition: all 0.3s ease;
+  }
+  
+  .lightbox-close:active {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0.95);
+  }
+  
+  /* Swipe navigation */
+  .lightbox-nav {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10001;
+  }
+  
+  .lightbox-nav-btn {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .lightbox-nav-btn:active {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0.95);
+  }
+  
+  .lightbox-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+/* ============================================
+   7. ПАРТНЁРСКИЕ ПЛЁНКИ - Карусель
+   ============================================ */
+@media (max-width: 900px) {
+  .films-grid,
+  .partners-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 24px 18px;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .films-grid::-webkit-scrollbar,
+  .partners-grid::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .film-card,
+  .partner-card {
+    min-width: 280px;
+    scroll-snap-align: start;
+    padding: 20px;
+    background: rgba(22, 132, 145, 0.08);
+    border: 1px solid rgba(22, 132, 145, 0.2);
+    border-radius: 16px;
+    text-align: center;
+  }
+  
+  .film-logo,
+  .partner-logo {
+    width: 120px;
+    height: auto;
+    margin: 0 auto 16px;
+    object-fit: contain;
+  }
+}
+
+/* ============================================
+   8. ОТЗЫВЫ - Mobile Optimized
+   ============================================ */
+@media (max-width: 900px) {
+  .reviews-section {
+    padding: 40px 18px;
+  }
+  
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .review-card {
+    padding: 24px;
+    background: rgba(22, 132, 145, 0.08);
+    border: 1px solid rgba(22, 132, 145, 0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .review-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .review-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .review-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+  
+  .review-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 12px;
+  }
+  
+  .review-rating {
+    display: flex;
+    gap: 4px;
+  }
+  
+  .star {
+    width: 16px;
+    height: 16px;
+    color: #ffd700;
+  }
+}
+
+/* ============================================
+   9. НАША СТУДИЯ - Мобильная сетка
+   ============================================ */
+@media (max-width: 900px) {
+  .studio-section {
+    padding: 40px 18px;
+  }
+  
+  .studio-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .studio-card {
+    background: rgba(22, 132, 145, 0.08);
+    border: 1px solid rgba(22, 132, 145, 0.2);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .studio-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+  
+  .studio-info {
+    padding: 20px;
+  }
+  
+  .studio-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #ffffff;
+  }
+  
+  .studio-description {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* ============================================
+   10. КОНТАКТЫ - Компактная форма + карта
+   ============================================ */
+@media (max-width: 900px) {
+  .contacts-section {
+    padding: 40px 18px;
+  }
+  
+  .contacts-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .contacts-form {
+    order: 1;
+    padding: 24px;
+    background: rgba(22, 132, 145, 0.08);
+    border: 1px solid rgba(22, 132, 145, 0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-input,
+  .form-textarea {
+    width: 100%;
+    min-height: 56px;
+    padding: 16px;
+    background: rgba(15, 15, 15, 0.5);
+    border: 2px solid rgba(22, 132, 145, 0.3);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  .form-textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: #168491;
+  }
+  
+  .btn-submit {
+    width: 100%;
+    min-height: 56px;
+    background: #168491;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-submit:active {
+    transform: scale(0.98);
+    background: #126d77;
+  }
+  
+  /* Карта снизу */
+  .contacts-map {
+    order: 2;
+    width: 100%;
+    height: 280px;
+    min-height: 280px;
+    max-height: 320px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(22, 132, 145, 0.2);
+  }
+  
+  .contacts-map iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+}
+
+/* ============================================
+   11. ФУТЕР - Компактный
+   ============================================ */
+@media (max-width: 900px) {
+  .footer {
+    padding: 32px 18px 24px;
+    background: rgba(10, 10, 10, 0.8);
+    border-top: 1px solid rgba(22, 132, 145, 0.2);
+  }
+  
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+  
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .footer-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-link:active {
+    color: #168491;
+  }
+  
+  .footer-copyright {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 16px;
+  }
+}
+
+/* ============================================
+   АДАПТИВ ДЛЯ РАЗНЫХ ЭКРАНОВ
+   ============================================ */
+@media (max-width: 428px) {
+  .hero-title {
+    font-size: clamp(24px, 6.5vw, 36px) !important;
+  }
+  
+  .btn, .btn-primary {
+    font-size: 15px !important;
+    padding: 14px 24px !important;
+  }
+}
+
+@media (max-width: 414px) {
+  .hero-content {
+    padding: 20px 16px !important;
+  }
+  
+  .calculator-content {
+    padding: 18px 16px 140px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .nav-logo-text {
+    font-size: 16px !important;
+  }
+  
+  .hero-title {
+    font-size: clamp(22px, 6vw, 32px) !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-content {
+    padding: 18px 14px !important;
+  }
+  
+  .calculator-content {
+    padding: 16px 14px 140px !important;
+  }
+  
+  .btn, .btn-primary {
+    font-size: 14px !important;
+    padding: 12px 20px !important;
+  }
+}
+
