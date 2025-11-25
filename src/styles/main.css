@@ -316,14 +316,13 @@ body {
 
 .hero-video-iframe,
 .hero-video-element {
-  position: absolute;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) scale(1.1) !important;
-  width: 100vw !important;
-  height: 56.25vw !important; /* 16:9 соотношение */
-  min-width: 100vw !important;
-  min-height: 100vh !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
   border: none !important;
   pointer-events: none !important;
   opacity: 1 !important;
@@ -333,27 +332,24 @@ body {
   z-index: 0 !important;
   visibility: visible !important;
   display: block !important;
+  transform: none !important;
 }
 
-/* Для вертикальных экранов */
-@media (min-aspect-ratio: 16/9) {
-  .hero-video-iframe,
-  .hero-video-element {
-    width: 177.77vh !important;
-    height: 100vh !important;
-  }
+/* Для YouTube iframe - растягиваем на весь блок */
+.hero-video-iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  object-fit: cover !important;
 }
 
-/* Адаптация для десктопа - правильное масштабирование */
-@media (min-width: 769px) {
-  .hero-video-iframe,
-  .hero-video-element {
-    width: 177.77vh; /* 16:9 соотношение для YouTube */
-    height: 56.25vw;
-    min-width: 100vw;
-    min-height: 100vh;
-    transform: translate(-50%, -50%) scale(1.1);
-  }
+/* Убеждаемся, что iframe растянут полностью */
+.hero-video-background iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
 }
 
 /* Стили для HTML5 video элемента (если будет использован) */

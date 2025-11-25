@@ -233,30 +233,29 @@
   .hero-video-iframe,
   .hero-video-element {
     position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) scale(1.3) !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
     border: none !important;
     pointer-events: none !important;
     opacity: 1 !important;
-    width: 100vw !important;
-    height: 56.25vw !important; /* 16:9 для мобильных */
-    min-width: 100vw !important;
-    min-height: 100vh !important;
     object-fit: cover !important;
     filter: brightness(0.5) contrast(1.1) !important;
     visibility: visible !important;
     display: block !important;
     z-index: 0 !important;
+    transform: none !important;
   }
 
-  /* Для вертикальных мобильных экранов */
-  @media (max-aspect-ratio: 9/16) {
-    .hero-video-iframe,
-    .hero-video-element {
-      width: 177.77vh !important;
-      height: 100vh !important;
-    }
+  /* Убеждаемся, что iframe растянут полностью на мобильных */
+  .hero-video-background iframe {
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
   }
 
   .hero-overlay {
